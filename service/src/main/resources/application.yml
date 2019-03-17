@@ -1,0 +1,83 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:123456@${spring.cloud.client.ip-address}:9000/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    status-page-url-path: /swagger-ui.html
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+
+server:
+  port: 9010
+
+mybatis:
+  mapper-locations: classpath:com/joker/mapper/*Mapper.xml
+
+pagehelper:
+  helper-dialect: mysql
+
+spring:
+  application:
+    name: demo
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 19930913
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 0
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: root
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/demo
+  servlet:
+    multipart:
+      max-file-size: 10MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mail:
+    host: smtp.163.com
+    username: j150714101@163.com
+    password: jm19930913
+
+ftp:
+  host: pc-jing
+  port: 21
+  username: 761878367@qq.com
+  password: jm19930913.
+  controlEncoding: utf-8
+  passiveMode: false
+  bufferSize: 1048576
+  connectTimeOut: 10000
+  dataTimeOut: 60000
+  keepAliveTimeOut: 0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+info:
+  name: ${spring.application.name}
+  version : 0.5
+
+logging:
+  level:
+    com.demo.dao: debug
+    org.mongodb.driver: off
+  pattern:
+    dateformat: 'yyyy-MM-dd HH:mm:ss'
