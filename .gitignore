@@ -1,4 +1,5 @@
 /target/
+*/target/
 .mvn/
 
 ### STS ###
@@ -13,3 +14,5 @@
 *.iws
 *.iml
 *.ipr
+
+
