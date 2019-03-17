@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
 
 @RestController("test")
 public class TestController {
@@ -29,7 +27,7 @@ public class TestController {
 
     @GetMapping("down")
     public Result down() throws FileNotFoundException {
-        ftpTemplate.upload("test","1.xlsx",new FileInputStream("D:/Temp/1.xlsx"));
+        ftpTemplate.upload("test","1.xlsx",new FileInputStream("D:/Temp/2.xlsx"));
         return new Result();
     }
 }
