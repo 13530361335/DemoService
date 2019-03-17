@@ -2,26 +2,25 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <!-- 去除注释 -->
     <properties resource="jdbc.properties"></properties>
     <context id="default" targetRuntime="MyBatis3">
+        <!-- remove comment -->
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
-        <!-- 数据库链接URL、用户名、密码 -->
+        <!-- DB Config -->
         <jdbcConnection driverClass="${jdbc.driverClassName}" connectionURL="${jdbc.url}"
                         userId="${jdbc.username}" password="${jdbc.password}">
         </jdbcConnection>
-        <!-- 实体 -->
-        <javaModelGenerator  targetPackage="${entity}"     targetProject="./src/main/java"/>
-        <!-- XML -->
+        <!-- DO -->
+        <javaModelGenerator  targetPackage="${entity}" targetProject="./src/main/java"/>
+        <!-- MAPPER -->
         <sqlMapGenerator     targetPackage="${mapper}" targetProject="./src/main/java"/>
-        <!-- 接口 -->
+        <!-- DAO -->
         <javaClientGenerator targetPackage="${dao}"    targetProject="./src/main/java" type="XMLMAPPER"/>
-        <!-- 表/实体 -->
+        <!-- Table/DO -->
         <table  tableName="%"
                 enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
                 enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>
-    <!-- https://github.com/GreedyStar/generator -->
 </generatorConfiguration>

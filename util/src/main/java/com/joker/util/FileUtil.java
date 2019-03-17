@@ -7,18 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.Enumeration;
 
 /**
  * 文件操作工具类
  */
 public class FileUtil {
-
     private final static Logger logger = LoggerFactory.getLogger(FileUtil.class);
-
-    public static InputStream getResourcesFileInputStream(String fileName) {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream("" + fileName);
-    }
 
     /**
      * 解压缩ZIP文件，将ZIP文件里的内容解压到descFileName目录下
@@ -53,21 +52,8 @@ public class FileUtil {
                 if (isDirectory) {
                     continue;
                 }
-                File file = new File(unFile);
-                OutputStream os = null;
-                InputStream is = null;
-                try {
-                    os = new FileOutputStream(file);
-                    is = zipFile.getInputStream(entry);
-                    while ((len = is.read(bytes)) != -1) {
-                        os.write(bytes, 0, len);
-                    }
-                } catch (IOException e) {
-                    logger.error(e.getMessage(), e);
-                    return false;
-                } finally {
-                    IOUtils.closeQuietly(os);
-                    IOUtils.closeQuietly(is);
+                try (InputStream in = zipFile.getInputStream(entry); OutputStream out = new FileOutputStream(new File(unFile))) {
+                    transport(in, out);
                 }
             }
             logger.info("unZipFile success");
@@ -110,5 +96,90 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 下载文件
+     *
+     * @param url
+     * @param savePath
+     */
+    public static void downLoad(String url, String savePath) {
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            URLConnection conn = new URL(url).openConnection();
+            conn.setRequestProperty("referer", getReferer(url));
+            conn.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36");
+            conn.connect();
+
+            String contentDisposition = conn.getHeaderField("Content-Disposition");
+            String fileName = contentDisposition == null ? url.substring(url.lastIndexOf("/") + 1) :
+                    contentDisposition.substring(contentDisposition.indexOf('"') + 1, contentDisposition.lastIndexOf('"'));
+            String contentType = conn.getContentType();
+            long contentLength = conn.getContentLengthLong();
+            logger.info("文件名:[" + fileName + "], 类型:[" + contentType + "], 大小:[" + contentLength + "]");
+
+            in = conn.getInputStream();
+            out = new FileOutputStream(new File((savePath + fileName)));
+            transport(in, out);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    private static String getReferer(String url) {
+        String[] urls = url.split("://");
+        String protocol = urls[0];
+        String uri = urls[1];
+        uri = uri.substring(0, uri.indexOf("/"));
+        String referer = protocol + "://" + uri;
+        return referer;
+    }
+
+    public static void transport(InputStream in, OutputStream out) throws IOException {
+        transport(in, out, 4096);
+    }
+
+    public static void transport(FileInputStream fileInputStream, OutputStream out) throws IOException {
+        transport(fileInputStream, out, 4096);
+    }
+
+    // IO 实现
+    public static void transport(InputStream in, OutputStream out, int buffer) throws IOException {
+        byte[] bytes = new byte[buffer];
+        int len;
+        while ((len = in.read(bytes)) != -1) {
+            out.write(bytes, 0, len);
+        }
+    }
+
+    // NIO 实现,使用系统内存
+    public static void transport(FileInputStream fileInputStream, OutputStream out, int buffer) throws IOException {
+        try (FileChannel channel = fileInputStream.getChannel()) {
+            ByteBuffer buff = ByteBuffer.allocateDirect(786432);  // 系统内存 1024 * 128 * 6
+            byte[] bytes = new byte[buffer];
+            int capacity, len;
+            while ((capacity = channel.read(buff)) != -1) {
+                buff.position(0);
+                buff.limit(capacity);
+                while (buff.hasRemaining()) {
+                    len = Math.min(buff.remaining(), buffer);
+                    buff.get(bytes, 0, len);
+                    out.write(bytes);
+                }
+                buff.clear();
+            }
+        }
+    }
 
 }

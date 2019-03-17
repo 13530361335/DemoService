@@ -16,9 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ExcelUtil {
-
     private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
-
 
     /**
      * @param inputStream
@@ -149,8 +147,11 @@ public class ExcelUtil {
     }
 
     private static void setValue(Cell cell, Object value) {
-        if (null == cell || null == value) {
+        if (null == cell) {
+            return;
+        } else if (null == value) {
             cell.setCellValue("");
+            return;
         }
         if (value instanceof String) {
             cell.setCellValue(value.toString());
