@@ -1,18 +1,9 @@
 /target/
 */target/
-.mvn/
-
-### STS ###
-.classpath
-.project
-.settings
-.springBeans
-.sts4-cache
 
 ### IDEA ###
-.idea
-*.iws
+.idea/
+.mvn/
 *.iml
-*.ipr
 
 
