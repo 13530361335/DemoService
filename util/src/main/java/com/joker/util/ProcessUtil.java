@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class ShellUtil {
+public class ProcessUtil {
 
-    private final static String DEFAULT_CHARSET = getDefaultCharset();
+    private final static String DEFAULT_CHARSET = System.getProperty("os.name").toUpperCase().startsWith("WIN") ? "GBK" : "UTF-8";
 
-    private final static Logger logger = LoggerFactory.getLogger(ShellUtil.class);
+    private final static Logger logger = LoggerFactory.getLogger(ProcessUtil.class);
 
     public static void execute(String... command) throws IOException {
         Process process = new ProcessBuilder(command).redirectErrorStream(true).start();
@@ -22,11 +22,6 @@ public class ShellUtil {
                 logger.info(line);
             }
         }
-        process.destroy();
-    }
-
-    public static String getDefaultCharset() {
-        return System.getProperty("os.name").toUpperCase().startsWith("WIN") ? "GBK" : "UTF-8";
     }
 
 }
