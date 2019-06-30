@@ -8,6 +8,7 @@ import com.joker.util.FileUtil;
 import com.joker.util.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-@RestController("test")
+@RestController
+@RequestMapping("test")
 public class TestController {
 
     @Autowired

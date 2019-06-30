@@ -83,17 +83,6 @@ logging:
   level:
     com.demo.dao: debug
     org.mongodb.driver: off
-  pattern:
-    dateformat: 'yyyy-MM-dd HH:mm:ss'
-  file: C:\Download\test.log
-
-
-#"关闭缓存, 即时刷新"
-#spring.freemarker.cache=false
-#spring.thymeleaf.cache=true  如果开启此处会导致每次输入删除都会自动刷新哪怕你没保存
-
-#热部署生效
-#  spring.devtools.restart.enabled=true
-#  #设置重启的目录,添加那个目录的文件需要restart
-#  spring.devtools.restart.additional-paths=src/main/java
-#  spring.devtools.restart.exclude=WEB-INF/**
+#  pattern:
+#    dateformat: 'yyyy-MM-dd HH:mm:ss'
+  file: C:\Download\run.log
