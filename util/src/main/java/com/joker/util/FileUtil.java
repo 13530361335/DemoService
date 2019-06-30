@@ -1,6 +1,5 @@
 package com.joker.util;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
 import org.slf4j.Logger;

@@ -55,10 +55,10 @@ spring:
 #      exclude: WEB-INF/**
 
 ftp:
-  host: pc-jing
+  host: 127.0.0.1
   port: 21
-  username: 761878367@qq.com
-  password: jm19930913.
+  username: ftpuser
+  password: ftpuser
   controlEncoding: utf-8
   passiveMode: false
   bufferSize: 1048576

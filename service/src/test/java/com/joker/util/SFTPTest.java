@@ -12,13 +12,12 @@ public class SFTPTest {
         ChannelSftp sftp = null;
         Session session = null;
         try {
-            session = SFTPUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
-
+            session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
 
             Channel channel = session.openChannel("sftp");
             channel.connect();
             sftp = (ChannelSftp) channel;
-            SFTPUtil.upload(sftp, "C:\\Download\\", "/xq/test/");
+            SSHUtil.upload(sftp, "C:\\Download\\", "/xq/test/");
         } catch (Exception e) {
             System.out.println(e);
             System.out.println("备份文件到远程主机发生错误");
@@ -33,11 +32,11 @@ public class SFTPTest {
         ChannelSftp sftp = null;
         Session session = null;
         try {
-            session = SFTPUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
+            session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
             Channel channel = session.openChannel("sftp");
             channel.connect();
             sftp = (ChannelSftp) channel;
-            SFTPUtil.download(sftp,"C:\\Download\\xq","/xq/Download","/xq/Download");
+            SSHUtil.download(sftp,"C:\\Download\\xq","/xq/Download","/xq/Download");
         } catch (Exception e) {
             System.out.println(e);
         } finally {
