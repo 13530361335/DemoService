@@ -11,6 +11,11 @@
 
     <artifactId>service</artifactId>
 
+    <!-- 打包跳过测试类 -->
+    <properties>
+        <skipTests>true</skipTests>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.joker</groupId>
