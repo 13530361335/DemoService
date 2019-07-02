@@ -15,28 +15,25 @@ import java.util.Date;
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {
-
     @Value("${spring.application.name}")
     private String appName;
-
-    @Value("${info.version}")
-    private String version;
+    private final static String CONTROLLER_PACKAGE_PATH = "com.joker.controller";
+    private final static String START_TIME = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
     /**
      * Swagger配置
-     *
      * @return
      */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.joker.controller"))
+                .apis(RequestHandlerSelectors.basePackage(CONTROLLER_PACKAGE_PATH))
                 .build()
                 .apiInfo(new ApiInfoBuilder()
                         .title(appName + "接口展示")
-                        .version(version)
-                        .description("发布时间: " + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()))
+                        .version("1.0")
+                        .description(String.format("发布时间: %s", START_TIME))
                         .build());
     }
 

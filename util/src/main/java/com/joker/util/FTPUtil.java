@@ -240,12 +240,4 @@ public class FTPUtil {
         }
     }
 
-    public static void main(String[] args) {
-        String[] dirs = "/a/bc/f/g/i".split("/");
-        for (int i = 0; i < dirs.length; i++) {
-            System.out.println(dirs[i]);
-        }
-        System.out.println(dirs.length);
-    }
-
 }

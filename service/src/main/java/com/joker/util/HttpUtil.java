@@ -3,6 +3,8 @@ package com.joker.util;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -101,6 +103,16 @@ public class HttpUtil {
         } finally {
             IOUtils.closeQuietly(out);
         }
+    }
+
+    public synchronized static HttpServletRequest getRequest(){
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return servletRequestAttributes.getRequest();
+    }
+
+    public synchronized static HttpServletResponse getResponse(){
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return servletRequestAttributes.getResponse();
     }
 
 

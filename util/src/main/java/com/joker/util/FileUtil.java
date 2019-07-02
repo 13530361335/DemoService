@@ -8,12 +8,17 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.Enumeration;
 
 /**
- * 文件操作工具类
+ * created by Joker on 2019/7/2
+ * 1.压缩
+ * 2.解压
+ * 3.加密压缩
+ * 4.解密解压
+ * 5.文件删除（含文件夹）
+ * 6.文件写入内容
+ * 7.文件读取内容
  */
 public class FileUtil {
     private final static Logger logger = LoggerFactory.getLogger(FileUtil.class);
@@ -30,8 +35,6 @@ public class FileUtil {
         ZipFile zipFile = null;
         ZipEntry entry;
         String entryName, unFile;
-        byte[] bytes = new byte[4096];
-        int len;
         boolean flag;
         try {
             zipFile = new ZipFile(zipFileName);
@@ -52,7 +55,7 @@ public class FileUtil {
                     continue;
                 }
                 try (InputStream in = zipFile.getInputStream(entry); OutputStream out = new FileOutputStream(new File(unFile))) {
-                    transport(in, out);
+                    IOUtil.transport(in, out);
                 }
             }
             logger.info("unZipFile success");
@@ -119,7 +122,7 @@ public class FileUtil {
 
             in = conn.getInputStream();
             out = new FileOutputStream(new File((savePath + fileName)));
-            transport(in, out);
+            IOUtil.transport(in, out);
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         } finally {
@@ -145,40 +148,5 @@ public class FileUtil {
         return referer;
     }
 
-    public static void transport(InputStream in, OutputStream out) throws IOException {
-        transport(in, out, 4096);
-    }
-
-    public static void transport(FileInputStream fileInputStream, OutputStream out) throws IOException {
-        transport(fileInputStream, out, 4096);
-    }
-
-    // IO 实现
-    public static void transport(InputStream in, OutputStream out, int buffer) throws IOException {
-        byte[] bytes = new byte[buffer];
-        int len;
-        while ((len = in.read(bytes)) != -1) {
-            out.write(bytes, 0, len);
-        }
-    }
-
-    // NIO 实现,使用系统内存
-    public static void transport(FileInputStream fileInputStream, OutputStream out, int buffer) throws IOException {
-        try (FileChannel channel = fileInputStream.getChannel()) {
-            ByteBuffer buff = ByteBuffer.allocateDirect(786432);  // 系统内存 1024 * 128 * 6
-            byte[] bytes = new byte[buffer];
-            int capacity, len;
-            while ((capacity = channel.read(buff)) != -1) {
-                buff.position(0);
-                buff.limit(capacity);
-                while (buff.hasRemaining()) {
-                    len = Math.min(buff.remaining(), buffer);
-                    buff.get(bytes, 0, len);
-                    out.write(bytes);
-                }
-                buff.clear();
-            }
-        }
-    }
 
 }

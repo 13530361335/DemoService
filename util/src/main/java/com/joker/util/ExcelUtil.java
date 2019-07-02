@@ -114,7 +114,7 @@ public class ExcelUtil {
             int rowIndex = start;
             for (Object object : list) {
                 Row dataRow = sheet.createRow(rowIndex);
-                Map map = JsonUtil.change(object, Map.class);
+                Map map = JSONUtil.change(object, Map.class);
                 for (int i = 0; i < fields.length; i++) {
                     Cell cell = dataRow.createCell(i);
                     Object value = map.get(fields[i]);

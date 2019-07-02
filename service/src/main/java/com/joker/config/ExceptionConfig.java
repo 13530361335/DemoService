@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Configuration
-public class WebExceptionConfig implements HandlerExceptionResolver {
+public class ExceptionConfig implements HandlerExceptionResolver {
 
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
         log.error("请求发生异常:{}", request.getRequestURI());

@@ -6,6 +6,7 @@ import com.joker.entity.UserInfo;
 import com.joker.third.ThirdService;
 import com.joker.util.FileUtil;
 import com.joker.util.HttpUtil;
+import com.joker.util.IOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class TestController {
         String fileName = "ideaIU-2018.3.4.exe";
         HttpUtil.setDownHeader(request, response, fileName);
         try (InputStream in = new FileInputStream("D:/Downloads/ideaIU-2018.3.4.exe"); OutputStream out = response.getOutputStream()) {
-            FileUtil.transport(in, out);
+            IOUtil.transport(in, out);
         }
     }
 
