@@ -4,14 +4,9 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import org.aspectj.util.FileUtil;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
-
 
 public class SSHTest {
 
@@ -85,25 +80,6 @@ public class SSHTest {
     public void getCanonicalPath() {
         File directory = new File("C:/a\\d\\\\/");//设定为当前文件夹
         System.out.println(directory.getAbsolutePath());//获取标准的路径
-    }
-
-
-    @Test
-    public void download() {
-        ChannelSftp sftp = null;
-        Session session = null;
-        try {
-            session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
-            Channel channel = session.openChannel("sftp");
-            channel.connect();
-            sftp = (ChannelSftp) channel;
-            SSHUtil.download(sftp, "C:\\Download\\xq", "/xq/Download", "/xq/Download");
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            if (sftp != null) sftp.disconnect();
-            if (session != null) session.disconnect();
-        }
     }
 
 
