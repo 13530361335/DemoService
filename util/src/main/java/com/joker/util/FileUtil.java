@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DecimalFormat;
 import java.util.Enumeration;
 
 /**
@@ -146,6 +147,71 @@ public class FileUtil {
         uri = uri.substring(0, uri.indexOf("/"));
         String referer = protocol + "://" + uri;
         return referer;
+    }
+
+    /**
+     * 转换文件大小
+     *
+     * @param size
+     * @return
+     */
+    public static String formatFileSize(long size) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        String fileSizeString;
+        String wrongSize = "0B";
+        if (size == 0) {
+            return wrongSize;
+        }
+        if (size < 1024) {
+            fileSizeString = df.format((double) size) + " B";
+        } else if (size < 1048576) {
+            fileSizeString = df.format((double) size / 1024) + " KB";
+        } else if (size < 1073741824) {
+            fileSizeString = df.format((double) size / 1048576) + " MB";
+        } else {
+            fileSizeString = df.format((double) size / 1073741824) + " GB";
+        }
+        return fileSizeString;
+    }
+
+    /**
+     *
+     * @param filePath
+     * @return 计算好的带B、KB、MB、GB的字符串
+     */
+    public static String getFileSize(String filePath) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            return "file is not exists";
+        }
+        long size = getFileSize(file);
+        return formatFileSize(size);
+    }
+
+
+    /**
+     * 获取文件或文件夹大小
+     *
+     * @param file
+     * @return
+     */
+    public static long getFileSize(File file) {
+        long size = 0;
+        if (file.isFile()) {
+            return file.length();
+        }
+        File files[] = file.listFiles();
+        if (files == null) {
+            return size;
+        }
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].isDirectory()) {
+                size += getFileSize(files[i]);
+            } else {
+                size += files[i].length();
+            }
+        }
+        return size;
     }
 
 

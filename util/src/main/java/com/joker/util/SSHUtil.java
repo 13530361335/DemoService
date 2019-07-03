@@ -6,8 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.Iterator;
 import java.util.Vector;
+
+import com.jcraft.jsch.ChannelSftp.LsEntry;
 
 public class SSHUtil {
     private final static Logger logger = LoggerFactory.getLogger(SSHUtil.class);
@@ -70,14 +71,6 @@ public class SSHUtil {
         }
     }
 
-    /**
-     * sftp上传文件（夹）
-     *
-     * @param sftp
-     * @param localPath
-     * @param remotePath
-     * @throws Exception
-     */
     public static void upload(ChannelSftp sftp, String localPath, String remotePath) throws Exception {
         File localFile = new File(localPath);
         try {
@@ -102,7 +95,7 @@ public class SSHUtil {
                 target += " ";
             }
 
-            String fileSize = FileSizeUtil.formetFileSize(localFile.length());
+            String fileSize = FileUtil.formatFileSize(localFile.length());
             while (fileSize.length() < 9) {
                 fileSize += " ";
             }
@@ -129,49 +122,50 @@ public class SSHUtil {
         }
     }
 
-    /**
-     * sftp下载文件（夹）
-     *
-     * @param directory 下载文件上级目录
-     * @param srcFile   下载文件完全路径
-     * @param saveFile  保存文件路径
-     * @param sftp      ChannelSftp
-     * @throws UnsupportedEncodingException
-     */
-    public static void download(ChannelSftp sftp, String localPath, String directory, String srcFile) throws UnsupportedEncodingException, SftpException {
-        Vector files = sftp.ls(srcFile);
-        File file = new File(localPath);
-        if (!file.exists()) {
-            file.mkdir();
-        }
-        if (srcFile.indexOf(".") > -1) {
-            try {
-                sftp.get(srcFile, localPath);
-            } catch (SftpException e) {
-                System.out.println("ChannelSftp sftp下载文件发生错误," + e);
+    public static boolean download(ChannelSftp sftp, String savePath, String remotePath) {
+        boolean flag = false;
+        try {
+            savePath = new File(savePath).getAbsolutePath();
+            File saveDir = new File(savePath).getParentFile();
+            if (!saveDir.exists()) {
+                saveDir.mkdirs();
             }
-        } else {
-            //文件夹(路径)
-            for (Iterator iterator = files.iterator(); iterator.hasNext(); ) {
-                ChannelSftp.LsEntry obj = (ChannelSftp.LsEntry) iterator.next();
-                String filename = new String(obj.getFilename().getBytes(), "UTF-8");
-                if (!(filename.indexOf(".") > -1)) {
-                    directory = directory + System.getProperty("file.separator") + filename;
-                    srcFile = directory;
-                    localPath = localPath + System.getProperty("file.separator") + filename;
-                } else {
-                    //扫描到文件名为".."这样的直接跳过
-                    String[] arr = filename.split("\\.");
-                    if ((arr.length > 0) && (arr[0].length() > 0)) {
-                        srcFile = directory + System.getProperty("file.separator") + filename;
-                    } else {
-                        continue;
-                    }
-                }
-                download(sftp, localPath, directory, srcFile);
-            }
+            sftp.get(remotePath, savePath);
+            flag = true;
+        } catch (SftpException e) {
+            logger.info(e.getMessage(), e);
         }
+        logger.info("{} 下载{}", remotePath, flag ? "成功" : "失败");
+        return flag;
     }
+
+    public static boolean downloadDir(ChannelSftp sftp, String saveDir, String remoteDir) {
+        boolean flag = false;
+        saveDir = new File(saveDir).getAbsolutePath();
+        File dir = new File(saveDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        try {
+            Vector<LsEntry> files = sftp.ls(remoteDir);
+            for (LsEntry remoteFile : files) {
+                String remoteFileName = remoteFile.getFilename();
+                String remoteFilePath = remoteDir + "/" + remoteFileName;
+                String savePath = saveDir + File.separator + remoteFileName;
+                SftpATTRS attrs = remoteFile.getAttrs();
+                if (!attrs.isDir()) {
+                    download(sftp, savePath, remoteFilePath);
+                } else if (!".".equals(remoteFileName) && !"..".equals(remoteFileName)) {
+                    downloadDir(sftp, savePath, remoteFilePath);
+                }
+            }
+            flag = true;
+        } catch (SftpException e) {
+            logger.info(e.getMessage(), e);
+        }
+        return flag;
+    }
+
 
     public static int getStrLength(String value) {
         int valueLength = 0;
