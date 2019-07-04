@@ -2,16 +2,15 @@ package com.joker.util;
 
 import com.jcraft.jsch.*;
 import lombok.Cleanup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.Vector;
 
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 
+@Slf4j
 public class SSHUtil {
-    private final static Logger logger = LoggerFactory.getLogger(SSHUtil.class);
 
     public static Session connect(String host, int port, String username, String password) throws JSchException {
         JSch jsch = new JSch();
@@ -23,52 +22,37 @@ public class SSHUtil {
         return session;
     }
 
-    private static void close(Session session, ChannelExec channelExec) {
+    public static void disconnect(Session session) {
         if (session != null && session.isConnected()) {
             session.disconnect();
         }
-        if (channelExec != null && channelExec.isConnected()) {
-            channelExec.disconnect();
-        }
     }
 
-    public static String execute(String host, int port, String username, String password, String command) throws JSchException {
-        long startTime = System.currentTimeMillis();
-        Session session = null;
-        ChannelExec channelExec = null;
+    public static boolean execute(Session session, String command) throws JSchException {
+        boolean flag = false;
         try {
-            session = connect(host, port, username, password);
-            @Cleanup ByteArrayOutputStream os = new ByteArrayOutputStream();
-            channelExec = (ChannelExec) session.openChannel("exec");
-            channelExec.setCommand(command);
-            channelExec.setErrStream(os);
-            channelExec.connect();
-            @Cleanup InputStream in = channelExec.getInputStream();
+            @Cleanup OutputStream errOs = new ByteArrayOutputStream();
+            ChannelExec exec = (ChannelExec) session.openChannel("exec");
+            exec.setCommand(command);
+            exec.setErrStream(errOs);
+            exec.connect();
+            @Cleanup InputStream in = exec.getInputStream();
             @Cleanup BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            String line, result = null;
-            int status;
+            String line;
             while ((line = reader.readLine()) != null) {
-                if (line.length() == 0) continue;
-                logger.info(line);
-                result = line;
-            }
-            while (true) {
-                if (channelExec.isClosed()) {
-                    status = channelExec.getExitStatus();
-                    break;
+                if (line.length() != 0) {
+                    log.info(line);
                 }
             }
-            logger.info("结束行:{} >> 退出码:{}  ", result, status);
-            logger.info(new String(os.toByteArray(), "gbk"));
-            return result;
+            if (exec.getExitStatus() == 0) {
+                flag = true;
+            } else {
+                log.warn("错误信息 : {}", errOs.toString());
+            }
         } catch (IOException e) {
-            logger.info(e.getMessage(), e);
-            return null;
-        } finally {
-            long endTime = System.currentTimeMillis();
-            logger.info("运行时间:{}", endTime - startTime);
-            close(session, channelExec);
+            log.info(e.getMessage(), e);
         }
+        return flag;
     }
 
     public static void upload(ChannelSftp sftp, String localPath, String remotePath) throws Exception {
@@ -133,9 +117,9 @@ public class SSHUtil {
             sftp.get(remotePath, savePath);
             flag = true;
         } catch (SftpException e) {
-            logger.info(e.getMessage(), e);
+            log.info(e.getMessage(), e);
         }
-        logger.info("{} 下载{}", remotePath, flag ? "成功" : "失败");
+        log.info("{} 下载{}", remotePath, flag ? "成功" : "失败");
         return flag;
     }
 
@@ -161,7 +145,7 @@ public class SSHUtil {
             }
             flag = true;
         } catch (SftpException e) {
-            logger.info(e.getMessage(), e);
+            log.info(e.getMessage(), e);
         }
         return flag;
     }

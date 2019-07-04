@@ -13,10 +13,12 @@ public class SSHTest {
     @Test
     public void execute() {
         try {
-            SSHUtil.execute("47.105.168.197", 22, "root", "Lxq931129", "ls");
+            Session session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
+            SSHUtil.execute(session, "date");
+            SSHUtil.disconnect(session);
+            SSHUtil.execute(session, "java -version");
         } catch (JSchException e) {
             System.out.println(e);
-            System.out.println("远程机连接失败");
         }
     }
 
@@ -26,7 +28,6 @@ public class SSHTest {
         Session session = null;
         try {
             session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
-
             Channel channel = session.openChannel("sftp");
             channel.connect();
             sftp = (ChannelSftp) channel;

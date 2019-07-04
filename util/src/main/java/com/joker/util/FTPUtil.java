@@ -12,30 +12,20 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class FTPUtil {
-
     private final static String controlEncoding = "UTF-8";
-
     private final static long keepAliveTimeOut = 0;
-
     private final static int connectTimeOut = 10 * 1000;
-
     private final static boolean passiveMode = false;
-
     private final static int fileType = FTPClient.BINARY_FILE_TYPE;
-
     private final static int bufferSize = 1024 * 1024;
-
     private final static int dataTimeOut = 60 * 1000;
 
     @Value("${ftp.host}")
     private String host;
-
     @Value("${ftp.port}")
     private int port = 21;
-
     @Value("${ftp.username}")
     private String username;
-
     @Value("${ftp.password}")
     private String password;
 
@@ -45,7 +35,7 @@ public class FTPUtil {
      * @param out
      * @return
      */
-    public int download(String remoteDir, String fileName, OutputStream out) {
+    public boolean download(String remoteDir, String fileName, OutputStream out) {
         int code = 0;
         FTPClient ftpClient = null;
         try {
@@ -67,14 +57,14 @@ public class FTPUtil {
                     code = 550;
                 }
             }
-            return code;
         } catch (Exception e) {
+            code = 500;
             log.info(e.getMessage(), e);
-            return code;
         } finally {
             disConnect(ftpClient);
             IOUtils.closeQuietly(out);
         }
+        return code == 250;
     }
 
     /**
@@ -83,7 +73,7 @@ public class FTPUtil {
      * @param localPath 保存的全路径
      * @return
      */
-    public int download(String remoteDir, String fileName, String localPath) {
+    public boolean download(String remoteDir, String fileName, String localPath) {
         log.info("download  " + remoteDir + "/" + fileName + "  >>>  " + localPath);
         try {
             // 下载目录不存在则创建
@@ -95,7 +85,7 @@ public class FTPUtil {
             OutputStream out = new FileOutputStream(localPath);
             return download(remoteDir, fileName, out);
         } catch (FileNotFoundException e) {
-            return 550;
+            return false;
         }
     }
 
@@ -107,7 +97,7 @@ public class FTPUtil {
      * @param in
      * @return
      */
-    public int upload(String remoteDir, String fileName, InputStream in) {
+    public boolean upload(String remoteDir, String fileName, InputStream in) {
         int code = 0;
         FTPClient ftpClient = null;
         try {
@@ -123,15 +113,14 @@ public class FTPUtil {
                     log.info("upload file failure:" + j);
                 }
             }
-            return code;
         } catch (Exception e) {
             code = 500;
             log.info(e.getMessage(), e);
-            return code;
         } finally {
             disConnect(ftpClient);
             IOUtils.closeQuietly(in);
         }
+        return code == 250;
     }
 
     /**
@@ -142,14 +131,14 @@ public class FTPUtil {
      * @param localPath 上传的全路径
      * @return
      */
-    public int upload(String remoteDir, String fileName, String localPath) {
+    public boolean upload(String remoteDir, String fileName, String localPath) {
         log.info("upload " + localPath + "  >>>  " + remoteDir + "/" + fileName);
         try {
             InputStream in = new FileInputStream(localPath);
             return upload(remoteDir, fileName, in);
         } catch (Exception e) {
             log.info(e.getMessage(), e);
-            return 500;
+            return false;
         }
     }
 
@@ -159,23 +148,20 @@ public class FTPUtil {
      * @param remoteDir FTP的文件夹
      * @param fileName  FTP的文件名
      */
-    public int delete(String remoteDir, String fileName) {
+    public boolean delete(String remoteDir, String fileName) {
         log.info("del  " + remoteDir + "/" + fileName);
-        int code = 0;
         FTPClient ftpClient = null;
         try {
             ftpClient = this.connect();
             ftpClient.changeWorkingDirectory(remoteDir);
-            code = ftpClient.dele(fileName);
-            return code;
+            ftpClient.dele(fileName);
+            return true;
         } catch (Exception e) {
-            code = 500;
             log.info(e.getMessage(), e);
-            return code;
+            return false;
         } finally {
             disConnect(ftpClient);
         }
-
     }
 
     /**
@@ -228,11 +214,11 @@ public class FTPUtil {
             current += "/" + dirs[i];
             try {
                 if (!ftpClient.changeWorkingDirectory(current)) {
-                    log.info("创建并切换FTP目录：{}",current);
+                    log.info("创建并切换FTP目录：{}", current);
                     ftpClient.makeDirectory(current);
                     ftpClient.changeWorkingDirectory(current);
-                }else {
-                    log.info("切换FTP目录：{}",current);
+                } else {
+                    log.info("切换FTP目录：{}", current);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
