@@ -22,7 +22,7 @@ public class SSHUtil {
         return session;
     }
 
-    public static void disconnect(Session session) {
+    public static void close(Session session) {
         if (session != null && session.isConnected()) {
             session.disconnect();
         }
@@ -55,92 +55,56 @@ public class SSHUtil {
         return flag;
     }
 
-    public static void upload(ChannelSftp sftp, String localPath, String remotePath) throws Exception {
+    public static void upload(ChannelSftp sftp, String localPath, String remoteDir) throws SftpException, FileNotFoundException {
+        localPath = new File(localPath).getAbsolutePath();
         File localFile = new File(localPath);
         try {
-            sftp.cd(remotePath);
+            sftp.cd(remoteDir);
         } catch (SftpException e) {
-            sftp.mkdir(remotePath);
+            sftp.mkdir(remoteDir);
         }
         if (localFile.isFile()) {
-            long start = System.currentTimeMillis();
-            sftp.cd(remotePath);
+            sftp.cd(remoteDir);
             InputStream in = new FileInputStream(localFile);
-            sftp.put(in, new String(localFile.getName().getBytes(), "UTF-8"));
-            // 控制台打印
-            long end = System.currentTimeMillis();
-            String fileName = localFile.getName();
-            while (getStrLength(fileName) < 40) {
-                fileName += " ";
-            }
-
-            String target = remotePath;
-            while (getStrLength(target) < 40) {
-                target += " ";
-            }
-
-            String fileSize = FileUtil.formatFileSize(localFile.length());
-            while (fileSize.length() < 9) {
-                fileSize += " ";
-            }
-
-            String time = (end - start) + "ms";
-            while (time.length() < 8) {
-                time += " ";
-            }
-            String print = "*fileName* >>> *target* *fileSize* *time*"
-                    .replace("*fileName*", fileName)
-                    .replace("*target*", target)
-                    .replace("*fileSize*", fileSize)
-                    .replace("*time*", time);
-            System.out.println(print);
+            sftp.put(in, localFile.getName());
         } else {
             File[] files = localFile.listFiles();
             for (File file : files) {
                 if (file.isDirectory()) {
-                    upload(sftp, file.getPath(), remotePath + "/" + file.getName());
+                    upload(sftp, file.getPath(), remoteDir + "/" + file.getName());
                 } else {
-                    upload(sftp, file.getPath(), remotePath);
+                    upload(sftp, file.getPath(), remoteDir);
                 }
             }
         }
     }
 
-    public static boolean download(ChannelSftp sftp, String savePath, String remotePath) {
+    // TODO 判断远程机器类型获取标准远程路径
+    public static boolean download(ChannelSftp sftp, String localDir, String remotePath) {
         boolean flag = false;
+        localDir = new File(localDir).getAbsolutePath();
         try {
-            savePath = new File(savePath).getAbsolutePath();
-            File saveDir = new File(savePath).getParentFile();
+            File saveDir = new File(localDir);
             if (!saveDir.exists()) {
                 saveDir.mkdirs();
             }
-            sftp.get(remotePath, savePath);
-            flag = true;
-        } catch (SftpException e) {
-            log.info(e.getMessage(), e);
-        }
-        log.info("{} 下载{}", remotePath, flag ? "成功" : "失败");
-        return flag;
-    }
-
-    public static boolean downloadDir(ChannelSftp sftp, String saveDir, String remoteDir) {
-        boolean flag = false;
-        saveDir = new File(saveDir).getAbsolutePath();
-        File dir = new File(saveDir);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        try {
-            Vector<LsEntry> files = sftp.ls(remoteDir);
-            for (LsEntry remoteFile : files) {
-                String remoteFileName = remoteFile.getFilename();
-                String remoteFilePath = remoteDir + "/" + remoteFileName;
-                String savePath = saveDir + File.separator + remoteFileName;
-                SftpATTRS attrs = remoteFile.getAttrs();
-                if (!attrs.isDir()) {
-                    download(sftp, savePath, remoteFilePath);
-                } else if (!".".equals(remoteFileName) && !"..".equals(remoteFileName)) {
-                    downloadDir(sftp, savePath, remoteFilePath);
+            Vector<LsEntry> files = sftp.ls(remotePath);
+            if (files.size() == 1) {  // 下载文件
+                LsEntry remoteFile = files.get(0);
+                String fileName = remoteFile.getFilename();
+                String savePath = localDir + File.separator + fileName;
+                sftp.get(remotePath, savePath);
+            } else if (files.size() > 2) {  // 下载目录
+                for (LsEntry remoteFile : files) {
+                    String fileName = remoteFile.getFilename();
+                    String remoteFilePath = remotePath + "/" + fileName;
+                    String savePath = localDir + File.separator + fileName;
+                    SftpATTRS attrs = remoteFile.getAttrs();
+                    if (!attrs.isDir()) {  // 文件
+                        sftp.get(remoteFilePath, savePath);
+                    } else if (!".".equals(fileName) && !"..".equals(fileName)) {  // 文件夹
+                        download(sftp, savePath, remoteFilePath);
+                    }
                 }
             }
             flag = true;
@@ -148,21 +112,6 @@ public class SSHUtil {
             log.info(e.getMessage(), e);
         }
         return flag;
-    }
-
-
-    public static int getStrLength(String value) {
-        int valueLength = 0;
-        String chinese = "[\u4e00-\u9fa5]";
-        for (int i = 0; i < value.length(); i++) {
-            String temp = value.substring(i, i + 1);
-            if (temp.matches(chinese)) {
-                valueLength += 2;
-            } else {
-                valueLength += 1;
-            }
-        }
-        return valueLength;
     }
 
 }
