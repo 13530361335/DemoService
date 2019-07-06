@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: demo-dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: Jing#123
+  ftp:
+    host: 127.0.0.1
+    port: 21
+    username: ftpuser
+    password: ftpuser
+  mail:
+    host: smtp.163.com
+    username: j150714101@163.com
+    password: jm19930913
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/demo
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: root
+    password: root
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:123456@${spring.cloud.client.ip-address}:9000/eureka/
+
+logging:
+  file: C:\Download\run.log
+  level:
+    com.demo.dao: debug
+    org.mongodb.driver: off
+

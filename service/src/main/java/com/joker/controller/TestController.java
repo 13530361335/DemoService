@@ -1,11 +1,9 @@
 package com.joker.controller;
 
 import com.joker.common.Result;
-import com.joker.dao.UserInfoMapper;
-import com.joker.entity.UserInfo;
 import com.joker.third.ThirdService;
 import com.joker.util.HttpUtil;
-import com.joker.util.IOUtil;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,24 +21,15 @@ import java.io.OutputStream;
 public class TestController {
 
     @Autowired
-    private UserInfoMapper userInfoMapper;
-
-    @Autowired
     private ThirdService thirdService;
 
-    @GetMapping("sql")
-    public Result<UserInfo> sql() {
-        UserInfo userInfo = userInfoMapper.selectByPrimaryKey("1");
-        return new Result<>(userInfo);
-    }
-
     @GetMapping("download")
-    public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void download() throws IOException {
         String fileName = "ideaIU-2018.3.4.exe";
-        HttpUtil.setDownHeader(request, response, fileName);
-        try (InputStream in = new FileInputStream("D:/Downloads/ideaIU-2018.3.4.exe"); OutputStream out = response.getOutputStream()) {
-            IOUtil.transport(in, out);
-        }
+        HttpUtil.setDownHeader(fileName);
+        InputStream in = new FileInputStream("D:/Downloads/ideaIU-2018.3.4.exe");
+        OutputStream out = HttpUtil.getResponse().getOutputStream();
+        IOUtils.copy(in,out);
     }
 
     @GetMapping("third")

@@ -20,13 +20,13 @@ public class FTPUtil {
     private final static int bufferSize = 1024 * 1024;
     private final static int dataTimeOut = 60 * 1000;
 
-    @Value("${ftp.host}")
+    @Value("${spring.ftp.host}")
     private String host;
-    @Value("${ftp.port}")
+    @Value("${spring.ftp.port}")
     private int port = 21;
-    @Value("${ftp.username}")
+    @Value("${spring.ftp.username}")
     private String username;
-    @Value("${ftp.password}")
+    @Value("${spring.ftp.password}")
     private String password;
 
     /**

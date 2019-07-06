@@ -1,15 +1,12 @@
 package com.joker.controller;
 
-import com.joker.util.FileUtil;
 import com.joker.util.HttpUtil;
-import com.joker.util.IOUtil;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,12 +23,12 @@ public class LogController {
     @GetMapping("download")
     public void download() throws IOException {
         String fileName = new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".log";
-        HttpServletRequest request = HttpUtil.getRequest();
-        HttpServletResponse response = HttpUtil.getResponse();
-        HttpUtil.setDownHeader(request, response, fileName);
-        try (InputStream in = new FileInputStream(logPath); OutputStream out = response.getOutputStream()) {
-            IOUtil.transport(in, out);
-        }
+        HttpUtil.setDownHeader(fileName);
+        InputStream in = new FileInputStream(logPath);
+        OutputStream out = HttpUtil.getResponse().getOutputStream();
+        IOUtils.copy(in, out);
+        IOUtils.closeQuietly(in);
+        IOUtils.closeQuietly(out);
     }
 
 }

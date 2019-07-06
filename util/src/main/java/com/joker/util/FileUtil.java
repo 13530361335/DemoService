@@ -1,5 +1,6 @@
 package com.joker.util;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
 import org.slf4j.Logger;
@@ -27,37 +28,36 @@ public class FileUtil {
     /**
      * 解压缩ZIP文件，将ZIP文件里的内容解压到descFileName目录下
      *
-     * @param zipFileName 需要解压的ZIP文件
-     * @param targetPath  目标路径
+     * @param zipPath    需要解压的ZIP文件
+     * @param targetPath 目标路径
      */
-    public static boolean unZipFile(String zipFileName, String targetPath) {
-        logger.info("unZipFile start");
-        String targetDir = targetPath.endsWith(File.separator) ? targetPath : targetPath + File.separator;
+    public static boolean unZipFile(String zipPath, String targetPath) {
+        targetPath = new File(targetPath).getAbsolutePath() + File.separator;
         ZipFile zipFile = null;
-        ZipEntry entry;
-        String entryName, unFile;
         boolean flag;
         try {
-            zipFile = new ZipFile(zipFileName);
+            zipFile = new ZipFile(zipPath);
             Enumeration<ZipEntry> enums = zipFile.getEntries();
             while (enums.hasMoreElements()) {
-                entry = enums.nextElement();
-                entryName = entry.getName();
-                unFile = targetDir + entryName;
+                ZipEntry entry = enums.nextElement();
+                String entryName = entry.getName();
+                String unFile = targetPath + entryName;
                 boolean isDirectory = entry.isDirectory();
-                File dir = isDirectory ? new File(unFile) : new File(unFile).getParentFile();
-                if (!dir.exists()) {
-                    flag = dir.mkdirs();
+                File unDir = isDirectory ? new File(unFile) : new File(unFile).getParentFile();
+                if (!unDir.exists()) {
+                    flag = unDir.mkdirs();
                     if (!flag) {
-                        logger.warn("create descFileDir failed");
+                        logger.warn("create unDir failed");
                     }
                 }
                 if (isDirectory) {
                     continue;
                 }
-                try (InputStream in = zipFile.getInputStream(entry); OutputStream out = new FileOutputStream(new File(unFile))) {
-                    IOUtil.transport(in, out);
-                }
+                InputStream in = zipFile.getInputStream(entry);
+                OutputStream out = new FileOutputStream(unFile);
+                IOUtils.copy(in,out);
+                in.close();
+                out.close();
             }
             logger.info("unZipFile success");
             return true;
@@ -81,7 +81,7 @@ public class FileUtil {
      * @param path 路径
      */
     public static void delete(String path) {
-        File file = new File(path);
+        File file = new File(path).getAbsoluteFile();
         if (!file.exists()) {
             logger.warn("file is not exists:{}", path);
         }
@@ -93,50 +93,41 @@ public class FileUtil {
                 }
             }
         }
-        boolean flag = file.delete();
-        if (!flag) {
-            logger.error("delete file error:{}", path);
-        }
+        file.delete();
     }
 
     /**
      * 下载文件
      *
      * @param url
-     * @param savePath
+     * @param saveDir
      */
-    public static void downLoad(String url, String savePath) {
+    public static void downLoad(String url, String saveDir) {
         InputStream in = null;
         OutputStream out = null;
         try {
             URLConnection conn = new URL(url).openConnection();
             conn.setRequestProperty("referer", getReferer(url));
-            conn.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36");
+            conn.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
             conn.connect();
 
             String contentDisposition = conn.getHeaderField("Content-Disposition");
-            String fileName = contentDisposition == null ? url.substring(url.lastIndexOf("/") + 1) :
+            System.out.println(contentDisposition);
+            String fileName = contentDisposition == null ?
+                    url.substring(url.lastIndexOf("/") + 1,"url".contains("?")? url.indexOf("?"):url.length()) :
                     contentDisposition.substring(contentDisposition.indexOf('"') + 1, contentDisposition.lastIndexOf('"'));
             String contentType = conn.getContentType();
             long contentLength = conn.getContentLengthLong();
-            logger.info("文件名:[" + fileName + "], 类型:[" + contentType + "], 大小:[" + contentLength + "]");
+            logger.info("文件名:[" + fileName + "], 类型:[" + contentType + "], 大小:[" + formatFileSize(contentLength) + "]");
 
             in = conn.getInputStream();
-            out = new FileOutputStream(new File((savePath + fileName)));
-            IOUtil.transport(in, out);
+            out = new FileOutputStream(new File(saveDir).getAbsolutePath() + File.separator + fileName);
+            IOUtils.copy(in,out);
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException e) {
-                logger.error(e.getMessage(), e);
-            }
+            IOUtils.closeQuietly(in);
+            IOUtils.closeQuietly(out);
         }
     }
 
@@ -175,7 +166,6 @@ public class FileUtil {
     }
 
     /**
-     *
      * @param filePath
      * @return 计算好的带B、KB、MB、GB的字符串
      */

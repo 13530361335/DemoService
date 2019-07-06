@@ -20,18 +20,17 @@ public class HttpUtil {
     /**
      * 文件下载时设置响应头
      *
-     * @param response
-     * @param request
      * @param fileName
      * @return
      */
-    public static boolean setDownHeader(HttpServletRequest request, HttpServletResponse response, String fileName) {
+    public static boolean setDownHeader(String fileName) {
+        HttpServletResponse response = getResponse();
         response.setHeader("Content-Type", "application/octet-stream");
         try {
-            if (isIEBrowser(request)) { // 解决IE浏览器下载时文件名乱码，以及空格和加号问题
-                fileName = URLEncoder.encode(fileName, "utf-8").replaceAll("\\+", "%20");
-            } else {// 解决其它浏览器下载时文件名乱码
-                fileName = new String(fileName.getBytes("utf-8"), "ISO-8859-1");
+            if (isIEBrowser()) {  // 解决IE浏览器下载时文件名乱码，以及空格和加号问题
+                fileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
+            } else {  // 解决其它浏览器下载时文件名乱码
+                fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
             }
         } catch (UnsupportedEncodingException e) {
             return false;
@@ -41,18 +40,12 @@ public class HttpUtil {
         return true;
     }
 
-    public static void setImgHeader(HttpServletResponse response) {
-        response.setHeader("Content-Type", "image/png");
-        response.setHeader("Connection", "close");
-    }
-
     /**
      * 判断客户端是否为ie浏览器
-     *
-     * @param request
      * @return
      */
-    private static boolean isIEBrowser(HttpServletRequest request) {
+    private static boolean isIEBrowser() {
+        HttpServletRequest request = getRequest();
         String[] IEs = {"MSIE", "Trident", "Edge"};
         String userAgent = request.getHeader("User-Agent");
         for (String ie : IEs) {
@@ -62,6 +55,7 @@ public class HttpUtil {
         }
         return false;
     }
+
 
     /**
      * @param in
@@ -78,6 +72,12 @@ public class HttpUtil {
             IOUtils.closeQuietly(in);
         }
         return new BASE64Encoder().encode(data);
+    }
+
+    public static void setImgHeader() {
+        HttpServletResponse response = getResponse();
+        response.setHeader("Content-Type", "image/png");
+        response.setHeader("Connection", "close");
     }
 
     /**
@@ -105,12 +105,12 @@ public class HttpUtil {
         }
     }
 
-    public synchronized static HttpServletRequest getRequest(){
+    public static HttpServletRequest getRequest() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return servletRequestAttributes.getRequest();
     }
 
-    public synchronized static HttpServletResponse getResponse(){
+    public static HttpServletResponse getResponse() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return servletRequestAttributes.getResponse();
     }

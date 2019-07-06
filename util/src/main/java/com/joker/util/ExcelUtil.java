@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +16,7 @@ import java.util.Map;
 public class ExcelUtil {
 
     /**
-     * @param in
+     * @param inputStream
      * @param sheetNo     工作簿编号
      * @param start       数据起始行
      * @param fields      字段数组
@@ -27,22 +25,23 @@ public class ExcelUtil {
      * @return
      * @throws IOException
      */
-    public static <T> List<T> toList(InputStream in, int sheetNo, int start, String[] fields, Class<T> clazz) throws IOException {
-        Workbook work = new XSSFWorkbook(in);
-        Sheet sheet = work.getSheetAt(sheetNo);
-        List<T> list = new LinkedList();
-        for (int rowIndex = start; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
-            Row row = sheet.getRow(rowIndex);
-            if (row != null) {
-                JSONObject json = new JSONObject();
-                for (int colIndex = 0; colIndex < fields.length; colIndex++) {
-                    Cell cell = row.getCell(colIndex);
-                    json.put(fields[colIndex], getValue(cell));
+    public static <T> List<T> toData(InputStream inputStream, int sheetNo, int start, String[] fields, Class<T> clazz) throws IOException {
+        try (InputStream in = inputStream; Workbook work = new XSSFWorkbook(in)) {
+            Sheet sheet = work.getSheetAt(sheetNo);
+            List<T> list = new LinkedList();
+            for (int rowIndex = start; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+                Row row = sheet.getRow(rowIndex);
+                if (row != null) {
+                    JSONObject json = new JSONObject();
+                    for (int colIndex = 0; colIndex < fields.length; colIndex++) {
+                        Cell cell = row.getCell(colIndex);
+                        json.put(fields[colIndex], getValue(cell));
+                    }
+                    list.add(json.toJavaObject(clazz));
                 }
-                list.add(json.toJavaObject(clazz));
             }
+            return list;
         }
-        return list;
     }
 
     /**
@@ -53,7 +52,7 @@ public class ExcelUtil {
      * @param fields 字段数组
      * @throws IOException
      */
-    public static void toXlsx(OutputStream out, List list, String[] fields) throws IOException {
+    public static void toExcel(OutputStream out, List list, String[] fields) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet();
 
