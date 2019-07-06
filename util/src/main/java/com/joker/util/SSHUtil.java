@@ -55,63 +55,53 @@ public class SSHUtil {
         return flag;
     }
 
-    public static void upload(ChannelSftp sftp, String localPath, String remoteDir) throws SftpException, FileNotFoundException {
+    public static void upload(ChannelSftp sftp, String localPath, String remoteDir) throws SftpException {
         localPath = new File(localPath).getAbsolutePath();
+        String fileSeparator = sftp.pwd().indexOf("/") == 0 ? "/" : "\\";
         File localFile = new File(localPath);
         try {
             sftp.cd(remoteDir);
         } catch (SftpException e) {
             sftp.mkdir(remoteDir);
+            log.debug("{} create dir {}", e.getMessage(), remoteDir);
         }
         if (localFile.isFile()) {
-            sftp.cd(remoteDir);
-            InputStream in = new FileInputStream(localFile);
-            sftp.put(in, localFile.getName());
+            sftp.put(localPath, remoteDir + fileSeparator + localFile.getName());
         } else {
             File[] files = localFile.listFiles();
             for (File file : files) {
                 if (file.isDirectory()) {
-                    upload(sftp, file.getPath(), remoteDir + "/" + file.getName());
+                    upload(sftp, file.getPath(), remoteDir + fileSeparator + file.getName());
                 } else {
-                    upload(sftp, file.getPath(), remoteDir);
+                    sftp.put(file.getPath(), remoteDir + fileSeparator + file.getName());
                 }
             }
         }
     }
 
     // TODO 判断远程机器类型获取标准远程路径
-    public static boolean download(ChannelSftp sftp, String localDir, String remotePath) {
-        boolean flag = false;
+    public static void download(ChannelSftp sftp, String localDir, String remotePath) throws SftpException {
         localDir = new File(localDir).getAbsolutePath();
-        try {
-            File saveDir = new File(localDir);
-            if (!saveDir.exists()) {
-                saveDir.mkdirs();
-            }
-            Vector<LsEntry> files = sftp.ls(remotePath);
-            if (files.size() == 1) {  // 下载文件
-                LsEntry remoteFile = files.get(0);
-                String fileName = remoteFile.getFilename();
+        File saveDir = new File(localDir);
+        if (!saveDir.exists()) {
+            saveDir.mkdirs();
+        }
+        Vector<LsEntry> files = sftp.ls(remotePath);
+        if (files.size() == 1) {  // 下载文件
+            sftp.get(remotePath, localDir + File.separator + files.get(0).getFilename());
+        } else if (files.size() > 2) {  // 下载目录
+            for (LsEntry file : files) {
+                String fileName = file.getFilename();
+                String remoteFilePath = remotePath + "/" + fileName;
                 String savePath = localDir + File.separator + fileName;
-                sftp.get(remotePath, savePath);
-            } else if (files.size() > 2) {  // 下载目录
-                for (LsEntry remoteFile : files) {
-                    String fileName = remoteFile.getFilename();
-                    String remoteFilePath = remotePath + "/" + fileName;
-                    String savePath = localDir + File.separator + fileName;
-                    SftpATTRS attrs = remoteFile.getAttrs();
-                    if (!attrs.isDir()) {  // 文件
-                        sftp.get(remoteFilePath, savePath);
-                    } else if (!".".equals(fileName) && !"..".equals(fileName)) {  // 文件夹
-                        download(sftp, savePath, remoteFilePath);
-                    }
+                SftpATTRS attrs = file.getAttrs();
+                if (!attrs.isDir()) {  // 文件
+                    sftp.get(remoteFilePath, savePath);
+                } else if (!".".equals(fileName) && !"..".equals(fileName)) {  // 文件夹
+                    download(sftp, savePath, remoteFilePath);
                 }
             }
-            flag = true;
-        } catch (SftpException e) {
-            log.info(e.getMessage(), e);
         }
-        return flag;
     }
 
 }
