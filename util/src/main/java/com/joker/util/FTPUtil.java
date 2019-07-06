@@ -197,14 +197,13 @@ public class FTPUtil {
      * @param ftpClient
      */
     private static void disConnect(FTPClient ftpClient) {
-        if (ftpClient != null) {
+        if (ftpClient != null && ftpClient.isConnected()) {
             try {
                 ftpClient.disconnect();
             } catch (IOException e) {
                 log.info(e.getMessage(), e);
             }
         }
-
     }
 
     private static void changeDir(FTPClient ftpClient, String path) {

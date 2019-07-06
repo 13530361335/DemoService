@@ -4,7 +4,6 @@ import com.joker.common.Result;
 import com.joker.dao.UserInfoMapper;
 import com.joker.entity.UserInfo;
 import com.joker.third.ThirdService;
-import com.joker.util.FileUtil;
 import com.joker.util.HttpUtil;
 import com.joker.util.IOUtil;
 import org.springframework.beans.factory.annotation.Autowired;

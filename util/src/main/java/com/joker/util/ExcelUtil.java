@@ -16,10 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ExcelUtil {
-    private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
 
     /**
-     * @param inputStream
+     * @param in
      * @param sheetNo     工作簿编号
      * @param start       数据起始行
      * @param fields      字段数组
@@ -28,23 +27,22 @@ public class ExcelUtil {
      * @return
      * @throws IOException
      */
-    public static <T> List<T> toList(InputStream inputStream, int sheetNo, int start, String[] fields, Class<T> clazz) throws IOException {
-        try (InputStream in = inputStream; Workbook work = new XSSFWorkbook(in)) {
-            Sheet sheet = work.getSheetAt(sheetNo);
-            List<T> list = new LinkedList();
-            for (int rowIndex = start; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
-                Row row = sheet.getRow(rowIndex);
-                if (row != null) {
-                    JSONObject json = new JSONObject();
-                    for (int colIndex = 0; colIndex < fields.length; colIndex++) {
-                        Cell cell = row.getCell(colIndex);
-                        json.put(fields[colIndex], getValue(cell));
-                    }
-                    list.add(json.toJavaObject(clazz));
+    public static <T> List<T> toList(InputStream in, int sheetNo, int start, String[] fields, Class<T> clazz) throws IOException {
+        Workbook work = new XSSFWorkbook(in);
+        Sheet sheet = work.getSheetAt(sheetNo);
+        List<T> list = new LinkedList();
+        for (int rowIndex = start; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+            Row row = sheet.getRow(rowIndex);
+            if (row != null) {
+                JSONObject json = new JSONObject();
+                for (int colIndex = 0; colIndex < fields.length; colIndex++) {
+                    Cell cell = row.getCell(colIndex);
+                    json.put(fields[colIndex], getValue(cell));
                 }
+                list.add(json.toJavaObject(clazz));
             }
-            return list;
         }
+        return list;
     }
 
     /**
@@ -74,19 +72,6 @@ public class ExcelUtil {
     /**
      * 导入excel,根据模板导出
      *
-     * @param in     模板文件流
-     * @param out    生成excel文件流
-     * @param fields 字段数组
-     * @param list   数据集
-     * @throws IOException
-     */
-    public static void toXlsxByTemplate(InputStream in, OutputStream out, List list, String[] fields) throws IOException {
-        loadDataRow(new XSSFWorkbook(in), 0, 1, out, list, fields);
-    }
-
-    /**
-     * 导入excel,根据模板导出
-     *
      * @param in      模板文件流
      * @param sheetNo
      * @param start
@@ -109,21 +94,19 @@ public class ExcelUtil {
      * @throws IOException
      */
     private static void loadDataRow(XSSFWorkbook workbook, int sheetNo, int start, OutputStream out, List list, String[] fields) throws IOException {
-        try (XSSFWorkbook wk = workbook; OutputStream outputStream = out) {
-            XSSFSheet sheet = workbook.getSheetAt(sheetNo);
-            int rowIndex = start;
-            for (Object object : list) {
-                Row dataRow = sheet.createRow(rowIndex);
-                Map map = JSONUtil.change(object, Map.class);
-                for (int i = 0; i < fields.length; i++) {
-                    Cell cell = dataRow.createCell(i);
-                    Object value = map.get(fields[i]);
-                    setValue(cell, value);
-                }
-                rowIndex++;
+        XSSFSheet sheet = workbook.getSheetAt(sheetNo);
+        int rowIndex = start;
+        for (Object object : list) {
+            Row dataRow = sheet.createRow(rowIndex);
+            Map map = JSONUtil.change(object, Map.class);
+            for (int i = 0; i < fields.length; i++) {
+                Cell cell = dataRow.createCell(i);
+                Object value = map.get(fields[i]);
+                setValue(cell, value);
             }
-            workbook.write(out);
+            rowIndex++;
         }
+        workbook.write(out);
     }
 
     private static Object getValue(Cell cell) {
