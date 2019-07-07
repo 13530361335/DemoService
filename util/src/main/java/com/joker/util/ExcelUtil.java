@@ -1,6 +1,7 @@
 package com.joker.util;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -13,35 +14,47 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * created by Joker on 2019/7/3
+ */
+@Slf4j
 public class ExcelUtil {
 
+    private static final int DEFAULT_SHEET_NO = 0; // 工作簿编号,0为第一个工作簿
+    private static final int DEFAULT_START = 1;    // 数据起始行,0为第一行数据
+
     /**
-     * @param inputStream
-     * @param sheetNo     工作簿编号
-     * @param start       数据起始行
-     * @param fields      字段数组
+     * @param in
+     * @param sheetNo 工作簿编号,0为第一个工作簿
+     * @param start   数据起始行,0为第一行数据
+     * @param fields  字段数组
      * @param clazz
      * @param <T>
      * @return
      * @throws IOException
      */
-    public static <T> List<T> toData(InputStream inputStream, int sheetNo, int start, String[] fields, Class<T> clazz) throws IOException {
-        try (InputStream in = inputStream; Workbook work = new XSSFWorkbook(in)) {
-            Sheet sheet = work.getSheetAt(sheetNo);
-            List<T> list = new LinkedList();
-            for (int rowIndex = start; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
-                Row row = sheet.getRow(rowIndex);
-                if (row != null) {
-                    JSONObject json = new JSONObject();
-                    for (int colIndex = 0; colIndex < fields.length; colIndex++) {
-                        Cell cell = row.getCell(colIndex);
-                        json.put(fields[colIndex], getValue(cell));
-                    }
-                    list.add(json.toJavaObject(clazz));
-                }
-            }
-            return list;
+    public static <T> List<T> toData(InputStream in, int sheetNo, int start, String[] fields, Class<T> clazz) {
+        Workbook work;
+        try {
+            work = new XSSFWorkbook(in);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            return null;
         }
+        Sheet sheet = work.getSheetAt(sheetNo);
+        List<T> list = new LinkedList();
+        for (int rowIndex = start; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+            Row row = sheet.getRow(rowIndex);
+            if (row != null) {
+                JSONObject json = new JSONObject();
+                for (int colIndex = 0; colIndex < fields.length; colIndex++) {
+                    Cell cell = row.getCell(colIndex);
+                    json.put(fields[colIndex], getValue(cell));
+                }
+                list.add(json.toJavaObject(clazz));
+            }
+        }
+        return list;
     }
 
     /**
@@ -65,7 +78,7 @@ public class ExcelUtil {
             colIndex++;
         }
 
-        loadDataRow(workbook, 0, 1, out, list, fields);
+        loadDataRow(workbook, DEFAULT_SHEET_NO, DEFAULT_START, out, list, fields);
     }
 
     /**
@@ -79,7 +92,7 @@ public class ExcelUtil {
      * @param list    数据集
      * @throws IOException
      */
-    public static void toXlsxByTemplate(InputStream in, int sheetNo, int start, OutputStream out, List list, String[] fields) throws IOException {
+    public static void toExcelByTemplate(InputStream in, int sheetNo, int start, OutputStream out, List list, String[] fields) throws IOException {
         loadDataRow(new XSSFWorkbook(in), sheetNo, start, out, list, fields);
     }
 

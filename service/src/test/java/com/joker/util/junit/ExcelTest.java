@@ -1,11 +1,8 @@
 package com.joker.util.junit;
 
-import com.joker.dao.PersonDao;
 import com.joker.entity.Person;
 import com.joker.util.ExcelUtil;
-import com.joker.util.SpringBootBaseTest;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
