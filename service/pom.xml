@@ -44,6 +44,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <layout>ZIP</layout>
+<!--                    <excludeGroupIds>-->
+<!--                        org.springframework.boot,-->
+<!--                        org.springframework,-->
+<!--                        org.springframework.data,-->
+<!--                        com.google-->
+<!--                    </excludeGroupIds>-->
+                </configuration>
             </plugin>
         </plugins>
     </build>

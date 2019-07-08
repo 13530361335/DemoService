@@ -1,6 +1,3 @@
-server:
-  port: 9010
-
 spring:
   profiles:
     active: @profileActive@
@@ -17,12 +14,16 @@ spring:
       additional-paths: src/main/java
       exclude: WEB-INF/**
 
+server:
+  port: 9010
+
 mybatis:
   mapper-locations: classpath:com/joker/mapper/*Mapper.xml
 
 pagehelper:
   helper-dialect: mysql
 
+# SpringCloud
 eureka:
   instance:
     prefer-ip-address: true
