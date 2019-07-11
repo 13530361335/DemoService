@@ -23,7 +23,7 @@ public class HttpUtil {
      * @param fileName
      * @return
      */
-    public static boolean setDownHeader(String fileName) {
+    public static boolean setDownloadFileName(String fileName) {
         HttpServletResponse response = getResponse();
         response.setHeader("Content-Type", "application/octet-stream");
         try {

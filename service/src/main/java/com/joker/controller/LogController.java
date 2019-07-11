@@ -23,7 +23,7 @@ public class LogController {
     @GetMapping("download")
     public void download() throws IOException {
         String fileName = new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".log";
-        HttpUtil.setDownHeader(fileName);
+        HttpUtil.setDownloadFileName(fileName);
         InputStream in = new FileInputStream(logPath);
         OutputStream out = HttpUtil.getResponse().getOutputStream();
         IOUtils.copy(in, out);

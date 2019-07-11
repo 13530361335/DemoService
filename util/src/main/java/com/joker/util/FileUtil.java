@@ -105,12 +105,15 @@ public class FileUtil {
     public static void downLoad(String url, String saveDir) {
         InputStream in = null;
         OutputStream out = null;
+        String[] urls = url.split("://");
+        String protocol = urls[0];
+        String uri = urls[1];
+        String referer = protocol + "://" + uri.substring(0, uri.indexOf("/"));
         try {
             URLConnection conn = new URL(url).openConnection();
-            conn.setRequestProperty("referer", getReferer(url));
+            conn.setRequestProperty("referer", referer);
             conn.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
             conn.connect();
-
             String contentDisposition = conn.getHeaderField("Content-Disposition");
             System.out.println(contentDisposition);
             String fileName = contentDisposition == null ?

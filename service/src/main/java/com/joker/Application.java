@@ -39,7 +39,8 @@ public class Application implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         try {
             String ip = InetAddress.getLocalHost().getHostAddress();
-            log.info("服务启动完成:" + "http://" + ip + ":" + port + "/swagger-ui.html");
+            log.info("服务启动完成:http://{}:{}/swagger-ui.html", ip, port);
+//            log.info("服务启动完成:" + "http://" + ip + ":" + port + "/swagger-ui.html");
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         }

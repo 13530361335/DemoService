@@ -1,17 +1,18 @@
-package com.joker.util;
+package com.joker.service.impl;
 
 import java.io.*;
 
+import com.joker.service.FTPService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-@Component
-public class FTPUtil {
+@Service
+public class FTPServiceImpl implements FTPService {
     private final static String controlEncoding = "UTF-8";
     private final static long keepAliveTimeOut = 0;
     private final static int connectTimeOut = 10 * 1000;
@@ -220,7 +221,7 @@ public class FTPUtil {
                     log.info("切换FTP目录：{}", current);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.info(e.getMessage(), e);
             }
         }
     }
