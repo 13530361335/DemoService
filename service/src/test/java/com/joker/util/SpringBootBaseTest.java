@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * created by Joker on 2019/7/6
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Slf4j
 public class SpringBootBaseTest {
 

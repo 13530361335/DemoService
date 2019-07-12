@@ -134,15 +134,6 @@ public class FileUtil {
         }
     }
 
-    private static String getReferer(String url) {
-        String[] urls = url.split("://");
-        String protocol = urls[0];
-        String uri = urls[1];
-        uri = uri.substring(0, uri.indexOf("/"));
-        String referer = protocol + "://" + uri;
-        return referer;
-    }
-
     /**
      * 转换文件大小
      *

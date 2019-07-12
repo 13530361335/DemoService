@@ -1,4 +1,4 @@
-package com.joker.common;
+package com.joker;
 
 /**
  * 统一常量存放

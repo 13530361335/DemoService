@@ -14,11 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @ServerEndpoint("/websocket/{username}")
-public class WebSocket {
+public class WebSocketService {
 
-    private final static Logger logger = LoggerFactory.getLogger(WebSocket.class);
+    private final static Logger logger = LoggerFactory.getLogger(WebSocketService.class);
 
-    private static Map<String, WebSocket> clients = new ConcurrentHashMap();
+    private static Map<String, WebSocketService> clients = new ConcurrentHashMap();
 
     private Session session;
 
@@ -32,7 +32,7 @@ public class WebSocket {
         logger.info(username + "加入连接,在线人数" + clients.size());
         Set<String> online = getClients().keySet();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("online",online);
+        jsonObject.put("online", online);
         sendAll(jsonObject.toJSONString());
     }
 
@@ -55,18 +55,18 @@ public class WebSocket {
     }
 
     @OnError
-    public void onError(Session session, Throwable error) {
+    public void onError(Throwable error) {
         clients.remove(username);
         logger.error(error.getMessage(), error);
         logger.info(username + "断开连接,在线人数" + clients.size());
     }
 
     public void sendOne(String to, String message) {
-        WebSocket webSocket = clients.get(to);
-        if (webSocket == null) {
+        WebSocketService webSocketService = clients.get(to);
+        if (webSocketService == null) {
             logger.error(to + "不在线");
         } else {
-            webSocket.session.getAsyncRemote().sendText(message);
+            webSocketService.session.getAsyncRemote().sendText(message);
         }
     }
 
@@ -76,7 +76,7 @@ public class WebSocket {
         );
     }
 
-    public static synchronized Map<String, WebSocket> getClients() {
+    public static synchronized Map<String, WebSocketService> getClients() {
         return clients;
     }
 }

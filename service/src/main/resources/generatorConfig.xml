@@ -15,7 +15,7 @@
         <!-- DO -->
         <javaModelGenerator  targetPackage="${entity}" targetProject="./src/main/java"/>
         <!-- MAPPER -->
-        <sqlMapGenerator     targetPackage="${mapper}" targetProject="./src/main/java"/>
+        <sqlMapGenerator     targetPackage="${mapper}" targetProject="./src/main/resources"/>
         <!-- DAO -->
         <javaClientGenerator targetPackage="${dao}"    targetProject="./src/main/java" type="XMLMAPPER"/>
         <!-- Table/DO -->

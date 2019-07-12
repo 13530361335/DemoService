@@ -22,7 +22,7 @@ server:
   port: 9010
 
 mybatis:
-  mapper-locations: classpath:com/joker/mapper/*Mapper.xml
+  mapper-locations: classpath:mapper/*Mapper.xml
 
 pagehelper:
   helper-dialect: mysql

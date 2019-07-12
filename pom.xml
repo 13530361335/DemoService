@@ -17,8 +17,6 @@
 
     <modules>
         <module>util</module>
-        <module>dao</module>
-        <module>manager</module>
         <module>service</module>
         <module>cloud</module>
     </modules>

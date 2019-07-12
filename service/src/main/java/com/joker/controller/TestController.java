@@ -1,7 +1,7 @@
 package com.joker.controller;
 
 import com.joker.common.Result;
-import com.joker.service.ThirdService;
+import com.joker.service.Third.ThirdService;
 import com.joker.util.HttpUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
