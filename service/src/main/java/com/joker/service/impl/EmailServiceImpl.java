@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.mail.internet.MimeMessage;
+
 /**
  * created by Joker on 2019/7/9
  */

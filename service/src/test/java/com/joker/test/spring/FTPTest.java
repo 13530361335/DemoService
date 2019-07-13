@@ -1,7 +1,7 @@
-package com.joker.util.spring;
+package com.joker.test.spring;
 
 import com.joker.service.FTPService;
-import com.joker.util.SpringBootBaseTest;
+import com.joker.test.SpringBootBaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

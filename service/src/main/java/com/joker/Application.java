@@ -3,6 +3,7 @@ package com.joker;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.joker.common.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@MapperScan("com.joker.dao")
+@MapperScan(Constant.PACKAGE_PATH_DAO)
 @SpringBootApplication
 public class Application implements ApplicationRunner {
 

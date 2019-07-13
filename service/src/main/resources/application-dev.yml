@@ -36,6 +36,5 @@ eureka:
 logging:
   file: C:\Download\run.log
   level:
-    com.demo.dao: debug
-    org.mongodb.driver: off
-
+    org.springframework.boot.test: off
+    com.demo.sql.dao: debug

@@ -1,7 +1,7 @@
-package com.joker.util.junit;
+package com.joker.test.junit;
 
-import com.joker.entity.Person;
-import com.joker.util.ExcelUtil;
+import com.joker.test.ExcelUtil;
+import com.joker.sql.entity.Person;
 import org.junit.Test;
 
 import java.io.FileInputStream;

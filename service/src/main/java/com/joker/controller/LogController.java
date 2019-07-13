@@ -1,6 +1,6 @@
 package com.joker.controller;
 
-import com.joker.util.HttpUtil;
+import com.joker.test.HttpUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,7 @@ public class LogController {
     @GetMapping("download")
     public void download() throws IOException {
         String fileName = new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".log";
-        HttpUtil.setDownloadFileName(fileName);
+        HttpUtil.setFileHeader(fileName);
         InputStream in = new FileInputStream(logPath);
         OutputStream out = HttpUtil.getResponse().getOutputStream();
         IOUtils.copy(in, out);

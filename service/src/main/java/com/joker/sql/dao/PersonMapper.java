@@ -1,6 +1,8 @@
-package com.joker.dao;
+package com.joker.sql.dao;
 
-import com.joker.entity.Person;
+import com.joker.sql.entity.Person;
+
+import java.util.List;
 
 public interface PersonMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +16,6 @@ public interface PersonMapper {
     int updateByPrimaryKeySelective(Person record);
 
     int updateByPrimaryKey(Person record);
+
+    List<Person> selectAll();
 }

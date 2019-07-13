@@ -1,9 +1,8 @@
-package com.joker.util.junit;
+package com.joker.test.junit;
 
-import com.joker.util.FileUtil;
+import com.joker.test.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
 
 /**
  * created by Joker on 2019/7/3
@@ -31,6 +30,5 @@ public class FileTest {
     public void downLoad() {
         FileUtil.downLoad("https://down.360safe.com/instbeta.exe","C:\\Download\\");
     }
-
 
 }

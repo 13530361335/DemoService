@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.joker.dao.PersonMapper">
-  <resultMap id="BaseResultMap" type="com.joker.entity.Person">
+<mapper namespace="com.joker.sql.dao.PersonMapper">
+  <resultMap id="BaseResultMap" type="com.joker.sql.entity.Person">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
@@ -11,7 +11,7 @@
     id, name, sex, age
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from person
     where id = #{id,jdbcType=BIGINT}
@@ -20,13 +20,13 @@
     delete from person
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.joker.entity.Person">
+  <insert id="insert" parameterType="com.joker.sql.entity.Person">
     insert into person (id, name, sex, 
       age)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{age,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.joker.entity.Person">
+  <insert id="insertSelective" parameterType="com.joker.sql.entity.Person">
     insert into person
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.joker.entity.Person">
+  <update id="updateByPrimaryKeySelective" parameterType="com.joker.sql.entity.Person">
     update person
     <set>
       <if test="name != null">
@@ -72,11 +72,16 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.joker.entity.Person">
+  <update id="updateByPrimaryKey" parameterType="com.joker.sql.entity.Person">
     update person
     set name = #{name,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from person
+  </select>
 </mapper>

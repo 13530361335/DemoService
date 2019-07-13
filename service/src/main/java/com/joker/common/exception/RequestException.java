@@ -1,4 +1,4 @@
-package com.joker.Exception;
+package com.joker.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,5 +14,6 @@ public class RequestException extends Exception {
 
     private int code;
     private String message;
+
 
 }

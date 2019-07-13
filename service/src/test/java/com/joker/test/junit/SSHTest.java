@@ -1,10 +1,10 @@
-package com.joker.util.junit;
+package com.joker.test.junit;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import com.joker.util.SSHUtil;
+import com.joker.test.SSHUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
