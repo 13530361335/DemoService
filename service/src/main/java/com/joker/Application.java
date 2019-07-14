@@ -41,7 +41,6 @@ public class Application implements ApplicationRunner {
         try {
             String ip = InetAddress.getLocalHost().getHostAddress();
             log.info("服务启动完成:http://{}:{}/swagger-ui.html", ip, port);
-//            log.info("服务启动完成:" + "http://" + ip + ":" + port + "/swagger-ui.html");
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         }
@@ -59,19 +58,19 @@ public class Application implements ApplicationRunner {
     @Bean
     public HttpMessageConverters fastJsonHttpMessageConverters() {
         // 1.定义一个convert转换消息的对象
-        FastJsonHttpMessageConverter fastJsonConverter = new FastJsonHttpMessageConverter();
-        // 2.添加fastJson配置
-        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteMapNullValue);
-        // 3.处理中文乱码
-        List<MediaType> mediaTypes = new ArrayList();
-        mediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
-        // 4.在convert中添加配置信息
-        fastJsonConverter.setSupportedMediaTypes(mediaTypes);
-        fastJsonConverter.setFastJsonConfig(fastJsonConfig);
-        return new HttpMessageConverters(fastJsonConverter);
-    }
+        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
 
+        // 2.处理中文乱码
+        List<MediaType> mediaTypes = new ArrayList<>();
+        mediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
+        converter.setSupportedMediaTypes(mediaTypes);
+
+        // 3.设置fastJson配置
+        FastJsonConfig jsonConfig = new FastJsonConfig();
+        jsonConfig.setSerializerFeatures(SerializerFeature.WriteMapNullValue);
+        converter.setFastJsonConfig(jsonConfig);
+        return new HttpMessageConverters(converter);
+    }
 
 }
 

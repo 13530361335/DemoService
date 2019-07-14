@@ -11,8 +11,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
@@ -21,8 +19,7 @@ public class ExceptionConfig implements HandlerExceptionResolver {
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
-        log.error("请求发生异常:{}", request.getRequestURI());
-        log.error(e.getMessage(), e);
+        log.error("请求URI >>> {} 出错: {} ", request.getRequestURI(), e);
         ModelAndView mv = new ModelAndView(new MappingJackson2JsonView());
         mv.addObject("code", 500);
         mv.addObject("message", "服务器出错了!");
@@ -34,13 +31,13 @@ public class ExceptionConfig implements HandlerExceptionResolver {
         if (bindingResult.getErrorCount() == 0) {
             return new Result();
         }
-        List<String> list = new ArrayList<>();
+        List<String> errorList = new ArrayList<>();
         bindingResult.getFieldErrors().forEach(fieldError -> {
             String field = fieldError.getField();
             String message = fieldError.getDefaultMessage();
-            list.add(field + message);
+            errorList.add(field + message);
         });
-        return new Result(400, "参数校验不通过", list);
+        return new Result(400, "参数校验不通过", errorList);
     }
 
 }

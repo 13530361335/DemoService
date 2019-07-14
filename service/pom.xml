@@ -55,15 +55,12 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>2.7.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger-ui</artifactId>-->
-<!--            <version>2.7.0</version>-->
-<!--        </dependency>-->
         <dependency>
-            <groupId>com.github.1991wangliang</groupId>
+            <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>2.7.0</version>
+<!--            <scope>system</scope>-->
+<!--            <systemPath>${project.basedir}/lib/springfox-swagger-ui-2.7.0.jar</systemPath>-->
         </dependency>
 
         <dependency>
