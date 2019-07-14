@@ -1,7 +1,6 @@
 spring:
   profiles:
     active: @profileActive@
-    # java -jar service-1.0-SNAPSHOT.jar --spring.profiles.active=test
   application:
     name: demo
   mvc:

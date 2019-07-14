@@ -136,6 +136,7 @@
     </build>
 
     <!-- 指定配置文件 -->
+    <!-- java -jar service-1.0-SNAPSHOT.jar &#45;&#45;spring.profiles.active=test -->
     <profiles>
         <profile>
             <id>dev</id>
