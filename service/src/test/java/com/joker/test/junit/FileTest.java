@@ -1,6 +1,6 @@
 package com.joker.test.junit;
 
-import com.joker.test.FileUtil;
+import com.joker.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

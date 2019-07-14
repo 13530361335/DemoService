@@ -12,7 +12,7 @@ public interface Constant {
 
     Boolean SERVICE_OS_ISWINDOWS = System.getProperty("os.name").startsWith("Win");
 
-    String PACKAGE_PATH_CONTROLLER = "com.joker.sql.controller";
+    String PACKAGE_PATH_CONTROLLER = "com.joker.controller";
 
     String PACKAGE_PATH_DAO = "com.joker.sql.dao";
 

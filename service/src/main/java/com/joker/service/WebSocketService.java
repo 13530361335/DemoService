@@ -1,6 +1,7 @@
 package com.joker.service;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -12,16 +13,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Component
 @ServerEndpoint("/websocket/{username}")
 public class WebSocketService {
-
-    private final static Logger logger = LoggerFactory.getLogger(WebSocketService.class);
-
     private static Map<String, WebSocketService> clients = new ConcurrentHashMap();
-
     private Session session;
-
     private String username;
 
     @OnOpen
@@ -29,7 +26,7 @@ public class WebSocketService {
         this.username = username;
         this.session = session;
         clients.put(username, this);
-        logger.info(username + "加入连接,在线人数" + clients.size());
+        log.info(username + "加入连接,在线人数" + clients.size());
         Set<String> online = getClients().keySet();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("online", online);
@@ -51,20 +48,20 @@ public class WebSocketService {
     @OnClose
     public void onClose() {
         clients.remove(username);
-        logger.info(username + "断开连接,在线人数" + clients.size());
+        log.info(username + "断开连接,在线人数" + clients.size());
     }
 
     @OnError
     public void onError(Throwable error) {
         clients.remove(username);
-        logger.error(error.getMessage(), error);
-        logger.info(username + "断开连接,在线人数" + clients.size());
+        log.error(error.getMessage(), error);
+        log.info(username + "断开连接,在线人数" + clients.size());
     }
 
     public void sendOne(String to, String message) {
         WebSocketService webSocketService = clients.get(to);
         if (webSocketService == null) {
-            logger.error(to + "不在线");
+            log.error(to + "不在线");
         } else {
             webSocketService.session.getAsyncRemote().sendText(message);
         }

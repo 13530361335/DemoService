@@ -3,7 +3,8 @@ package com.joker.controller;
 import com.joker.common.Constant;
 import com.joker.common.Result;
 import com.joker.service.Third.ThirdService;
-import com.joker.test.HttpUtil;
+import com.joker.common.HttpUtil;
+import com.joker.sql.dao.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +26,17 @@ public class TestController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private PersonMapper personMapper;
+
     @GetMapping("third")
     public Result third() {
         return thirdService.doGet();
+    }
+
+    @GetMapping("sql")
+    public Result sql() {
+        return new Result<>(personMapper.selectAll());
     }
 
     @PostMapping("upload")
