@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @ServerEndpoint("/websocket/{username}")
 public class WebSocketService {
-    private static Map<String, WebSocketService> clients = new ConcurrentHashMap();
+    private static Map<String, WebSocketService> clients = new ConcurrentHashMap<>();
     private Session session;
     private String username;
 

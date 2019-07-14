@@ -24,7 +24,7 @@ public class TestController {
     private ThirdService thirdService;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String,Object> redisTemplate;
 
     @Autowired
     private PersonMapper personMapper;

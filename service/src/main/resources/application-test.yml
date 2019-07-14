@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: demo-dev
   datasource:
     url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
@@ -32,10 +30,4 @@ eureka:
   client:
     service-url:
       defaultZone: http://eureka:123456@${spring.cloud.client.ip-address}:9000/eureka/
-
-logging:
-  file: C:\Download\run.log
-  level:
-    com.demo.dao: debug
-    org.mongodb.driver: off
 
