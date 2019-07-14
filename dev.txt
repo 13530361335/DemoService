@@ -29,5 +29,13 @@ Mapper.xml背景去除：https://blog.csdn.net/VictorStephen/article/details/802
 
 5.SSH工具
 
+6.SpringCloud
+注册中心
+负载均衡
+Feign
+路由网关
+权限控制
+熔断降级
+
 
 
