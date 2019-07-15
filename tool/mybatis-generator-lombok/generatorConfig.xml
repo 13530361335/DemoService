@@ -2,32 +2,32 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-
+    <!-- 指定数据连接驱动jar地址 -->
+    <classPathEntry location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar" />
     <context id="default" targetRuntime="MyBatis3">
         <!-- 生成的 Java 文件的编码 -->
         <property name="javaFileEncoding" value="UTF-8"/>
-        <!-- 格式化 Java 代码 -->
-        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
-        <!-- 格式化 XML 代码 -->
-        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
-        
-        <commentGenerator>
+
+        <plugin type="org.mybatis.LombokPlugin" >
+            <property name="hasLombok" value="true"/>
+        </plugin>
+
+        <!--关闭注释 -->
+        <commentGenerator type="org.mybatis.CommentGenerator">
             <property name="suppressAllComments" value="true"/>
-            <property name="" value="true"/>
         </commentGenerator>
 
         <!-- DB Config -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/demo?
-        useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/demo?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai"
                         userId="root" password="Jing#123">
         </jdbcConnection>
-        <!-- DO -->
+        <!-- 实体 -->
         <javaModelGenerator  targetPackage="com.joker.sql.entity" targetProject="./src/main/java"/>
-        <!-- MAPPER -->
+        <!-- XML -->
         <sqlMapGenerator     targetPackage="mapper"               targetProject="./src/main/resources"/>
         <!-- DAO -->
         <javaClientGenerator targetPackage="com.joker.sql.dao"    targetProject="./src/main/java" type="XMLMAPPER"/>
-        <!-- Table/DO -->
+        <!-- Table -->
         <table  tableName="%"
                 enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
                 enableSelectByExample="false" selectByExampleQueryId="false"></table>

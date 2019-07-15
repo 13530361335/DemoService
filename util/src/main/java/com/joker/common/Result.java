@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 统一返回结果集
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 public class Result<T> {
 

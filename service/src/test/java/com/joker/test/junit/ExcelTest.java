@@ -1,7 +1,7 @@
 package com.joker.test.junit;
 
+import com.joker.sql.entity.User;
 import com.joker.util.ExcelUtil;
-import com.joker.sql.entity.Person;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -33,10 +33,10 @@ public class ExcelTest {
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.execute();
         ResultSet resultSet = ps.getResultSet();
-        Field[] fields = Person.class.getDeclaredFields();
-        List<Person> people = new ArrayList<>();
+        Field[] fields = User.class.getDeclaredFields();
+        List<User> people = new ArrayList<>();
         while (resultSet.next()) {
-            Person person = new Person();
+            User person = new User();
             for (Field field : fields) {
                 String value = resultSet.getString(field.getName());
                 String setMethod = "set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
@@ -53,7 +53,7 @@ public class ExcelTest {
     @Test
     public void toData() throws IOException {
         String[] fields = {"id", "name", "sex", "age"};
-        List<Person> people = ExcelUtil.toData(new FileInputStream("C:\\Softwares\\FTP\\person.xlsx"), 0, 1, fields, Person.class);
+        List<User> people = ExcelUtil.toData(new FileInputStream("C:\\Softwares\\FTP\\person.xlsx"), 0, 1, fields, User.class);
         System.out.println(people);
     }
 

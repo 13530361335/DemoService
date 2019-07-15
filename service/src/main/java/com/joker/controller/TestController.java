@@ -4,7 +4,7 @@ import com.joker.common.Constant;
 import com.joker.common.Result;
 import com.joker.service.Third.ThirdService;
 import com.joker.common.HttpUtil;
-import com.joker.sql.dao.PersonMapper;
+import com.joker.sql.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,7 @@ public class TestController {
     private RedisTemplate<String,Object> redisTemplate;
 
     @Autowired
-    private PersonMapper personMapper;
+    private UserMapper userMapper;
 
     @GetMapping("third")
     public Result third() {
@@ -36,7 +36,7 @@ public class TestController {
 
     @GetMapping("sql")
     public Result sql() {
-        return new Result<>(personMapper.selectAll());
+        return new Result<>(userMapper.selectByPrimaryKey(1));
     }
 
     @PostMapping("upload")

@@ -92,6 +92,11 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.9</version>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-maven-plugin</artifactId>
+            <version>1.3.7</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -101,22 +106,6 @@
 
     <build>
         <plugins>
-            <!-- Mybatis代码生成插件 -->
-            <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.7</version>
-                <configuration>
-                    <overwrite>true</overwrite>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.47</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
             <!-- SpringBoot打包插件 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
