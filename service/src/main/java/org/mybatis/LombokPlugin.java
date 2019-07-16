@@ -27,7 +27,7 @@ public class LombokPlugin extends PluginAdapter {
     public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         //添加domain的import
         topLevelClass.addImportedType("lombok.Getter");
-        topLevelClass.addImportedType("lombok.Setter;");
+        topLevelClass.addImportedType("lombok.Setter");
         topLevelClass.addImportedType("lombok.ToString");
 
         //添加domain的注解

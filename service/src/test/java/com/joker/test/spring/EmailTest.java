@@ -21,13 +21,12 @@ public class EmailTest extends SpringBootBaseTest {
 
 
     @Test
-    public void sendSimpleMail() {
+    public void sendSimpleMail() throws Exception {
         Context context = new Context();
         context.setVariable("message", "测试123456");
         String text = emailService.getTextByTemplate("mailTemplate", context);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(sender);
-//        message.setTo("761878367@qq.com");
         message.setTo("minjing@isoftstone.com"); //自己给自己发送邮件
         message.setSubject("哈哈");
         message.setText(text);

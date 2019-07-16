@@ -18,4 +18,6 @@ public interface Constant {
 
     String REDIS_KEY_IMAGE = "image";
 
+    String REDIS_KEY_VERIFICATION_CODE = "verification_code";
+
 }

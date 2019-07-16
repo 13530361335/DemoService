@@ -10,6 +10,8 @@ public interface EmailService {
 
     String getTextByTemplate(String template, Context context);
 
-    void sendEmail(SimpleMailMessage message);
+    void sendEmail(SimpleMailMessage message) throws Exception;
+
+    void sendEmail(String to,String title,String content) throws Exception;
 
 }
