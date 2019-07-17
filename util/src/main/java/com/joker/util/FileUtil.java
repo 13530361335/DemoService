@@ -1,29 +1,91 @@
 package com.joker.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.tools.zip.ZipOutputStream;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * created by Joker on 2019/7/2
  * 1.压缩
  * 2.解压
- * 3.加密压缩
- * 4.解密解压
+ * 3.加密压缩   #
+ * 4.解密解压   #
  * 5.文件删除（含文件夹）
  * 6.文件写入内容
  * 7.文件读取内容
  */
+@Slf4j
 public class FileUtil {
-    private final static Logger logger = LoggerFactory.getLogger(FileUtil.class);
+
+    /**
+     * 压缩文件列表到某ZIP文件
+     *
+     * @param zipFilename 要压缩到的ZIP文件
+     * @param paths       文件列表，多参数
+     * @throws Exception
+     */
+    public static void zip(String zipFilename, String... paths) throws Exception {
+        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFilename));
+        for (String path : paths) {
+            if (path.equals("")) {
+                continue;
+            }
+            File file = new File(path);
+            if (file.exists()) {
+                if (file.isDirectory()) {
+                    zipDirectory(zos, file.getPath(), file.getName() + File.separator);
+                } else {
+                    zipFile(zos, file.getPath(), "");
+                }
+            }
+        }
+        zos.close();
+    }
+
+    private static void zipDirectory(ZipOutputStream zos, String dirName, String basePath) throws Exception {
+        File dir = new File(dirName);
+        if (dir.exists()) {
+            File files[] = dir.listFiles();
+            if (files.length > 0) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        zipDirectory(zos, file.getPath(),
+                                basePath + file.getName().substring(file.getName().lastIndexOf(File.separator) + 1) + File.separator);
+                    } else {
+                        zipFile(zos, file.getPath(), basePath);
+                    }
+                }
+            } else {
+                ZipEntry ze = new ZipEntry(basePath);
+                zos.putNextEntry(ze);
+            }
+        }
+    }
+
+    private static void zipFile(ZipOutputStream zos, String filename, String basePath) throws Exception {
+        File file = new File(filename);
+        if (file.exists()) {
+            FileInputStream fis = new FileInputStream(filename);
+            ZipEntry ze = new ZipEntry(basePath + file.getName());
+            zos.putNextEntry(ze);
+            byte[] buffer = new byte[8192];
+            int count;
+            while ((count = fis.read(buffer)) > 0) {
+                zos.write(buffer, 0, count);
+            }
+            fis.close();
+        }
+    }
+
 
     /**
      * 解压缩ZIP文件，将ZIP文件里的内容解压到descFileName目录下
@@ -31,7 +93,7 @@ public class FileUtil {
      * @param zipPath    需要解压的ZIP文件
      * @param targetPath 目标路径
      */
-    public static boolean unZipFile(String zipPath, String targetPath) {
+    public static boolean unZip(String zipPath, String targetPath) {
         targetPath = new File(targetPath).getAbsolutePath() + File.separator;
         ZipFile zipFile = null;
         boolean flag;
@@ -47,7 +109,7 @@ public class FileUtil {
                 if (!unDir.exists()) {
                     flag = unDir.mkdirs();
                     if (!flag) {
-                        logger.warn("create unDir failed");
+                        log.warn("create unDir failed");
                     }
                 }
                 if (isDirectory) {
@@ -55,14 +117,14 @@ public class FileUtil {
                 }
                 InputStream in = zipFile.getInputStream(entry);
                 OutputStream out = new FileOutputStream(unFile);
-                IOUtils.copy(in,out);
+                IOUtils.copy(in, out);
                 in.close();
                 out.close();
             }
-            logger.info("unZipFile success");
+            log.info("unZipFile success");
             return true;
         } catch (IOException e) {
-            logger.error("unZipFile error", e);
+            log.error("unZipFile error", e);
             return false;
         } finally {
             try {
@@ -70,10 +132,11 @@ public class FileUtil {
                     zipFile.close();
                 }
             } catch (IOException e) {
-                logger.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             }
         }
     }
+
 
     /**
      * 删除文件或文件夹
@@ -83,7 +146,7 @@ public class FileUtil {
     public static void delete(String path) {
         File file = new File(path).getAbsoluteFile();
         if (!file.exists()) {
-            logger.warn("file is not exists:{}", path);
+            log.warn("file is not exists:{}", path);
         }
         if (file.isDirectory()) {// 如果是目录，先递归删除
             String[] list = file.list();
@@ -117,17 +180,17 @@ public class FileUtil {
             String contentDisposition = conn.getHeaderField("Content-Disposition");
             System.out.println(contentDisposition);
             String fileName = contentDisposition == null ?
-                    url.substring(url.lastIndexOf("/") + 1,"url".contains("?")? url.indexOf("?"):url.length()) :
+                    url.substring(url.lastIndexOf("/") + 1, "url".contains("?") ? url.indexOf("?") : url.length()) :
                     contentDisposition.substring(contentDisposition.indexOf('"') + 1, contentDisposition.lastIndexOf('"'));
             String contentType = conn.getContentType();
             long contentLength = conn.getContentLengthLong();
-            logger.info("文件名:[" + fileName + "], 类型:[" + contentType + "], 大小:[" + formatFileSize(contentLength) + "]");
+            log.info("文件名:[" + fileName + "], 类型:[" + contentType + "], 大小:[" + formatFileSize(contentLength) + "]");
 
             in = conn.getInputStream();
             out = new FileOutputStream(new File(saveDir).getAbsolutePath() + File.separator + fileName);
-            IOUtils.copy(in,out);
+            IOUtils.copy(in, out);
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         } finally {
             IOUtils.closeQuietly(in);
             IOUtils.closeQuietly(out);
