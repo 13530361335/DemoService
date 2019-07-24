@@ -18,6 +18,8 @@ server:
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
 
 pagehelper:
   helper-dialect: mysql
