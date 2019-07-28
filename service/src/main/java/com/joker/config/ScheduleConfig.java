@@ -1,4 +1,3 @@
-/*
 package com.joker.config;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,4 +15,4 @@ public class ScheduleConfig {
         log.info("1小时定时任务");
     }
 
-}*/
+}

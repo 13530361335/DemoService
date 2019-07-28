@@ -1,8 +1,6 @@
 package com.joker.controller;
 
-import com.joker.common.Constant;
 import com.joker.common.Result;
-import com.joker.common.exception.RequestException;
 import com.joker.config.ExceptionConfig;
 import com.joker.controller.request.LoginParameter;
 import com.joker.controller.request.LogoutParameter;

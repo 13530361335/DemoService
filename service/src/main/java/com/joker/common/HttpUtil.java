@@ -8,6 +8,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Base64;
 
 @Slf4j
@@ -33,9 +34,9 @@ public class HttpUtil {
         try {
             // 解决不同浏览器下载时文件名乱码
             if (isIEBrowser()) {
-                fileName = new String(fileName.getBytes("UTF-8")).replaceAll("\\+", "%20");
+                fileName = fileName.replaceAll("\\+", "%20");
             } else {
-                fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+                fileName = new String(fileName.getBytes(Charset.defaultCharset()), "ISO-8859-1");
             }
         } catch (UnsupportedEncodingException e) {
             log.error(e.getMessage(), e);
@@ -68,6 +69,8 @@ public class HttpUtil {
         }
         return false;
     }
+
+
 
 
     /**

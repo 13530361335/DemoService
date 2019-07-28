@@ -36,6 +36,9 @@ public class FileTest {
         File dir = new File("C:\\Download");
         File[] files = dir.listFiles();
         List<String> list = new ArrayList<>();
+        if(files == null){
+            return;
+        }
         for (File file : files) {
             list.add(file.getPath());
         }

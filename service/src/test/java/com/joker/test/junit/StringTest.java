@@ -2,6 +2,7 @@ package com.joker.test.junit;
 
 import org.junit.Test;
 
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 
 /**
@@ -40,8 +41,10 @@ public class StringTest {
     }
 
     @Test
-    public void test4() {
-        String command = "java \"-version\"";
-        System.out.println(command);
+    public void test5() {
+        //获取系统默认的字符编码
+        System.out.println(Charset.defaultCharset());
+        //获取系统默认语言
+        System.out.println(System.getProperty("user.language"));
     }
 }

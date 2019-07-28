@@ -8,6 +8,7 @@ import lombok.ToString;
 
 /**
  * 统一返回结果集
+ *
  * @param <T>
  */
 @Getter
@@ -39,6 +40,7 @@ public class Result<T> {
     public Result(int code, String message) {
         this.code = code;
         this.message = message;
+        this.data = (T) new Object();
     }
 
 }

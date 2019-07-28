@@ -30,13 +30,14 @@ public class SSHUtil {
 
     public static boolean execute(Session session, String command) throws JSchException {
         boolean flag = false;
-        OutputStream errStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream errorOut = new ByteArrayOutputStream();
+        BufferedReader reader = null;
         try {
             ChannelExec exec = (ChannelExec) session.openChannel("exec");
             exec.setCommand(command);
-            exec.setErrStream(errStream);
+            exec.setErrStream(errorOut);
             exec.connect();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(exec.getInputStream()));
+            reader = new BufferedReader(new InputStreamReader(exec.getInputStream(),"utf-8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 log.info(line);
@@ -44,12 +45,13 @@ public class SSHUtil {
             if (exec.getExitStatus() == 0) {
                 flag = true;
             } else {
-                log.error(errStream.toString());
+                log.error(new String(errorOut.toByteArray(),"utf-8"));
             }
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         } finally {
-            IOUtils.closeQuietly(errStream);
+            IOUtils.closeQuietly(reader);
+            IOUtils.closeQuietly(errorOut);
         }
         return flag;
     }
@@ -69,6 +71,9 @@ public class SSHUtil {
             log.debug("upload file {} >>> {}", localPath, remoteDir + fileSeparator + localFile.getName());
         } else {
             File[] files = localFile.listFiles();
+            if(files == null ){
+                return;
+            }
             for (File file : files) {
                 String remotePath = remoteDir + fileSeparator + file.getName();
                 if (!file.isDirectory()) {
@@ -86,8 +91,12 @@ public class SSHUtil {
         String fileSeparator = sftp.getHome().indexOf("/") == 0 ? "/" : "\\";  // 根据home路径获取文件分隔符
         File saveDir = new File(localDir);
         if (!saveDir.isDirectory()) {
-            saveDir.mkdirs();
-            log.debug("create localDir {}", localDir);
+            log.debug("mkdirs localDir {}", localDir);
+            boolean mkdirs = saveDir.mkdirs();
+            if(!mkdirs){
+                log.error("mkdirs {} fail", localDir);
+                return;
+            }
         }
         Vector<LsEntry> files = sftp.ls(remotePath);
         if (files.size() == 1) {

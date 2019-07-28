@@ -54,7 +54,10 @@ public class FileUtil {
     private static void zipDirectory(ZipOutputStream zos, String dirName, String basePath) throws Exception {
         File dir = new File(dirName);
         if (dir.exists()) {
-            File files[] = dir.listFiles();
+            File[] files = dir.listFiles();
+            if(files == null){
+                return;
+            }
             if (files.length > 0) {
                 for (File file : files) {
                     if (file.isDirectory()) {
@@ -156,7 +159,10 @@ public class FileUtil {
                 }
             }
         }
-        file.delete();
+        boolean isDelete = file.delete();
+        if (isDelete) {
+            log.error("delete {} fail", file.getPath());
+        }
     }
 
     /**

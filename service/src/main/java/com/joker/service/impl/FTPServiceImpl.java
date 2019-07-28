@@ -13,22 +13,18 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class FTPServiceImpl implements FTPService {
-    private final static String controlEncoding = "UTF-8";
-    private final static long keepAliveTimeOut = 0;
-    private final static int connectTimeOut = 10 * 1000;
-    private final static boolean passiveMode = false;
-    private final static int fileType = FTPClient.BINARY_FILE_TYPE;
-    private final static int bufferSize = 1024 * 1024;
-    private final static int dataTimeOut = 60 * 1000;
+
+    private final static String CONTROL_ENCODING = "UTF-8";
+    private final static int CONNECT_TIME_OUT = 10 * 1000;
 
     @Value("${spring.ftp.host}")
-    private String host;
+    private String host = "127.0.0.1";
     @Value("${spring.ftp.port}")
     private int port = 21;
     @Value("${spring.ftp.username}")
-    private String username;
+    private String username = "ftpuser";
     @Value("${spring.ftp.password}")
-    private String password;
+    private String password = "ftpuser";
 
     /**
      * @param remoteDir FTP的文件夹
@@ -36,36 +32,50 @@ public class FTPServiceImpl implements FTPService {
      * @param out
      * @return
      */
-    public boolean download(String remoteDir, String fileName, OutputStream out) {
-        int code = 0;
+    public boolean downloadFile(String remoteDir, String fileName, OutputStream out) {
         FTPClient ftpClient = null;
         try {
-            ftpClient = this.connect();
-            ftpClient.changeWorkingDirectory(remoteDir);
+            ftpClient = connect();
+
+            // 切换目录
+            if (!ftpClient.changeWorkingDirectory(remoteDir)) {
+                log.error("change working directory fail:  {}", remoteDir);
+                return false;
+            }
+
+            // 判断目录是否存在文件
             FTPFile[] ftpFiles = ftpClient.listFiles();
             if (ftpFiles.length == 0) {
-                code = 550;
+                log.error("working directory is empty");
+                return false;
             }
+
+            // 遍历目录文件，根据文件名匹配需要下载的文件
+            boolean isExist = false;
             for (FTPFile file : ftpFiles) {
                 if (file.isFile() && file.getName().equals(fileName)) {
+                    isExist = true;
+                    // 执行下载方法
                     if (ftpClient.retrieveFile(file.getName(), out)) {
-                        code = 250;
-                        break;
-                    } else {
-                        code = 500;
+                        log.info("download success");
+                        return true;
                     }
-                } else {
-                    code = 550;
                 }
             }
+
+            if (!isExist) {
+                log.error("file not found: {}", fileName);
+            } else {
+                log.error("download fail");
+            }
+            return false;
         } catch (Exception e) {
-            code = 500;
-            log.info(e.getMessage(), e);
+            log.error(e.getMessage(), e);
+            return false;
         } finally {
             disConnect(ftpClient);
             IOUtils.closeQuietly(out);
         }
-        return code == 250;
     }
 
     /**
@@ -74,18 +84,24 @@ public class FTPServiceImpl implements FTPService {
      * @param localPath 保存的全路径
      * @return
      */
-    public boolean download(String remoteDir, String fileName, String localPath) {
-        log.info("download  " + remoteDir + "/" + fileName + "  >>>  " + localPath);
+    public boolean downloadFile(String remoteDir, String fileName, String localPath) {
         try {
             // 下载目录不存在则创建
-            String localDir = localPath.substring(0, localPath.lastIndexOf(File.separator));
-            File dir = new File(localDir);
-            if (!dir.exists() || !dir.isDirectory()) {
-                dir.mkdirs();
+            File localFile = new File(localPath);
+            File parentFile = localFile.getParentFile();
+            if (!parentFile.isDirectory()) {
+                boolean mkdirs = parentFile.mkdirs();
+                if (!mkdirs) {
+                    log.error("mkdirs fail: {}", parentFile.getPath());
+                    return false;
+                } else {
+                    log.info("mkdirs success: {}", parentFile.getPath());
+                }
             }
             OutputStream out = new FileOutputStream(localPath);
-            return download(remoteDir, fileName, out);
+            return downloadFile(remoteDir, fileName, out);
         } catch (FileNotFoundException e) {
+            log.error(e.getMessage(), e);
             return false;
         }
     }
@@ -98,30 +114,23 @@ public class FTPServiceImpl implements FTPService {
      * @param in
      * @return
      */
-    public boolean upload(String remoteDir, String fileName, InputStream in) {
-        int code = 0;
+    public boolean uploadFile(String remoteDir, String fileName, InputStream in) {
         FTPClient ftpClient = null;
         try {
             ftpClient = this.connect();
-            changeDir(ftpClient, remoteDir);
-            final int retryTimes = 3;
-            for (int j = 0; j <= retryTimes; j++) {
-                if (ftpClient.storeFile(fileName, in)) {
-                    code = 250;
-                    break;
-                } else {
-                    code = 550;
-                    log.info("upload file failure:" + j);
-                }
-            }
+
+            // 切换目录
+            changeWorkingDirectory(ftpClient, remoteDir);
+
+            // 执行上传方法
+            return ftpClient.storeFile(fileName, in);
         } catch (Exception e) {
-            code = 500;
             log.info(e.getMessage(), e);
+            return false;
         } finally {
             disConnect(ftpClient);
             IOUtils.closeQuietly(in);
         }
-        return code == 250;
     }
 
     /**
@@ -132,11 +141,11 @@ public class FTPServiceImpl implements FTPService {
      * @param localPath 上传的全路径
      * @return
      */
-    public boolean upload(String remoteDir, String fileName, String localPath) {
-        log.info("upload " + localPath + "  >>>  " + remoteDir + "/" + fileName);
+    public boolean uploadFile(String remoteDir, String fileName, String localPath) {
+        log.info("upload  {}  >>>  {}", localPath, remoteDir + "/" + fileName);
         try {
             InputStream in = new FileInputStream(localPath);
-            return upload(remoteDir, fileName, in);
+            return uploadFile(remoteDir, fileName, in);
         } catch (Exception e) {
             log.info(e.getMessage(), e);
             return false;
@@ -149,11 +158,11 @@ public class FTPServiceImpl implements FTPService {
      * @param remoteDir FTP的文件夹
      * @param fileName  FTP的文件名
      */
-    public boolean delete(String remoteDir, String fileName) {
-        log.info("del  " + remoteDir + "/" + fileName);
+    public boolean deleteFile(String remoteDir, String fileName) {
+        log.info("del  {}", remoteDir + "/" + fileName);
         FTPClient ftpClient = null;
         try {
-            ftpClient = this.connect();
+            ftpClient = connect();
             ftpClient.changeWorkingDirectory(remoteDir);
             ftpClient.dele(fileName);
             return true;
@@ -170,26 +179,19 @@ public class FTPServiceImpl implements FTPService {
      *
      * @return
      */
-    private FTPClient connect() {
+    private FTPClient connect() throws IOException {
         FTPClient ftpClient = new FTPClient();
-        try {
-            ftpClient.setControlEncoding(controlEncoding);
-            ftpClient.setControlKeepAliveTimeout(keepAliveTimeOut);
-            ftpClient.setConnectTimeout(connectTimeOut);
-            ftpClient.connect(host, port);
-            ftpClient.login(username, password);
-            ftpClient.setDataTimeout(dataTimeOut);
-            ftpClient.setFileType(fileType);
-            ftpClient.setBufferSize(bufferSize);
-            if (passiveMode) {
-                // 设置为被动模式
-                ftpClient.enterLocalPassiveMode();
-            }
-            return ftpClient;
-        } catch (IOException e) {
-            log.info(e.getMessage(), e);
-            return null;
-        }
+        // 设置字符集
+        ftpClient.setControlEncoding(CONTROL_ENCODING);
+        // 设置连接超时时间
+        ftpClient.setConnectTimeout(CONNECT_TIME_OUT);
+        // 设置为被动模式
+        ftpClient.enterLocalPassiveMode();
+
+        // 建立连接
+        ftpClient.connect(host, port);
+        ftpClient.login(username, password);
+        return ftpClient;
     }
 
     /**
@@ -202,26 +204,28 @@ public class FTPServiceImpl implements FTPService {
             try {
                 ftpClient.disconnect();
             } catch (IOException e) {
-                log.info(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             }
         }
     }
 
-    private static void changeDir(FTPClient ftpClient, String path) {
+    /**
+     * 切换工作目录
+     *
+     * @param ftpClient
+     * @param path
+     */
+    private static void changeWorkingDirectory(FTPClient ftpClient, String path) throws IOException {
         String[] dirs = path.split("/");
-        String current = "";
+        StringBuffer current = new StringBuffer();
         for (int i = 1; i < dirs.length; i++) {
-            current += "/" + dirs[i];
-            try {
-                if (!ftpClient.changeWorkingDirectory(current)) {
-                    log.info("创建并切换FTP目录：{}", current);
-                    ftpClient.makeDirectory(current);
-                    ftpClient.changeWorkingDirectory(current);
-                } else {
-                    log.info("切换FTP目录：{}", current);
-                }
-            } catch (IOException e) {
-                log.info(e.getMessage(), e);
+            current.append("/").append(dirs[i]);
+            if (!ftpClient.changeWorkingDirectory(current.toString())) {
+                ftpClient.makeDirectory(current.toString());
+                ftpClient.changeWorkingDirectory(current.toString());
+                log.info("create and change working directory to: {}", current);
+            } else {
+                log.info("change working directory to: {}", current);
             }
         }
     }

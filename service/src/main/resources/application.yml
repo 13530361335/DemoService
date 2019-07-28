@@ -16,13 +16,6 @@ spring:
 server:
   port: 9010
 
-mybatis:
-  mapper-locations: classpath:mapper/*Mapper.xml
-  configuration:
-    map-underscore-to-camel-case: true
-
-pagehelper:
-  helper-dialect: mysql
 
 logging:
   file: /log/${spring.application.name}/run.log
@@ -47,5 +40,8 @@ management:
       show-details: ALWAYS
 
 
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
 
-
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml

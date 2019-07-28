@@ -8,14 +8,14 @@ import java.io.OutputStream;
  */
 public interface FTPService {
 
-    boolean download(String remoteDir, String fileName, OutputStream out);
+    boolean downloadFile(String remoteDir, String fileName, OutputStream out);
 
-    boolean download(String remoteDir, String fileName, String localPath);
+    boolean downloadFile(String remoteDir, String fileName, String localPath);
 
-    boolean upload(String remoteDir, String fileName, InputStream in);
+    boolean uploadFile(String remoteDir, String fileName, InputStream in);
 
-    boolean upload(String remoteDir, String fileName, String localPath);
+    boolean uploadFile(String remoteDir, String fileName, String localPath);
 
-    boolean delete(String remoteDir, String fileName);
+    boolean deleteFile(String remoteDir, String fileName);
 
 }

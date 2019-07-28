@@ -16,9 +16,11 @@ public class SSHTest {
         Session session = null;
         try {
             session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
-            SSHUtil.execute(session, "date \"+%Y-%m-%d %H:%M:%S\"");
-            SSHUtil.execute(session, "git --version");
+            System.out.println(session);
             SSHUtil.execute(session, "java -version");
+            SSHUtil.execute(session, "git --version");
+            SSHUtil.execute(session, "date \"+%Y-%m-%d %H:%M:%S\"");
+
         } catch (JSchException e) {
             log.info(e.getMessage(), e);
         } finally {
