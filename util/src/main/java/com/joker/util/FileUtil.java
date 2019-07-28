@@ -13,7 +13,9 @@ import java.text.DecimalFormat;
 import java.util.Enumeration;
 
 /**
- * created by Joker on 2019/7/2
+ * @auther: Joker Jing
+ * @Date: 2019/7/29
+ * @Description:
  * 1.压缩
  * 2.解压
  * 3.加密压缩   #
@@ -24,6 +26,12 @@ import java.util.Enumeration;
  */
 @Slf4j
 public class FileUtil {
+
+    private static final Long KB = 1024L;
+
+    private static final Long MB = 1024L * 1024L;
+
+    private static final Long GB = 1024L * 1024L * 1024L;
 
     /**
      * 压缩文件列表到某ZIP文件
@@ -54,7 +62,7 @@ public class FileUtil {
         File dir = new File(dirName);
         if (dir.exists()) {
             File[] files = dir.listFiles();
-            if(files == null){
+            if (files == null) {
                 return;
             }
             if (files.length > 0) {
@@ -217,11 +225,11 @@ public class FileUtil {
         if (size == 0) {
             return wrongSize;
         }
-        if (size < 1024) {
+        if (size < KB) {
             fileSizeString = df.format((double) size) + " B";
-        } else if (size < 1048576) {
+        } else if (size < MB) {
             fileSizeString = df.format((double) size / 1024) + " KB";
-        } else if (size < 1073741824) {
+        } else if (size < GB) {
             fileSizeString = df.format((double) size / 1048576) + " MB";
         } else {
             fileSizeString = df.format((double) size / 1073741824) + " GB";
@@ -254,7 +262,7 @@ public class FileUtil {
         if (file.isFile()) {
             return file.length();
         }
-        File files[] = file.listFiles();
+        File[] files = file.listFiles();
         if (files == null) {
             return size;
         }

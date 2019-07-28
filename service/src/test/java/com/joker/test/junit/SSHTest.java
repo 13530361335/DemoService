@@ -4,7 +4,7 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import com.joker.util.SSHUtil;
+import com.joker.util.SshUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -15,16 +15,16 @@ public class SSHTest {
     public void execute() {
         Session session = null;
         try {
-            session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
+            session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
             System.out.println(session);
-            SSHUtil.execute(session, "java -version");
-            SSHUtil.execute(session, "git --version");
-            SSHUtil.execute(session, "date \"+%Y-%m-%d %H:%M:%S\"");
+            SshUtil.execute(session, "java -version");
+            SshUtil.execute(session, "git --version");
+            SshUtil.execute(session, "date \"+%Y-%m-%d %H:%M:%S\"");
 
         } catch (JSchException e) {
             log.info(e.getMessage(), e);
         } finally {
-            SSHUtil.close(session);
+            SshUtil.close(session);
         }
     }
 
@@ -32,15 +32,15 @@ public class SSHTest {
     public void upload() {
         Session session = null;
         try {
-            session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
+            session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftp = (ChannelSftp) channel;
-            SSHUtil.upload(sftp, "C:\\Download", "/xq/test");
+            SshUtil.upload(sftp, "C:\\Download", "/xq/test");
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         } finally {
-            SSHUtil.close(session);
+            SshUtil.close(session);
         }
     }
 
@@ -48,15 +48,15 @@ public class SSHTest {
     public void download() {
         Session session = null;
         try {
-            session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
+            session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftp = (ChannelSftp) channel;
-            SSHUtil.download(sftp, "C:/Download", "/xq/Download");
+            SshUtil.download(sftp, "C:/Download", "/xq/Download");
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         } finally {
-            SSHUtil.close(session);
+            SshUtil.close(session);
         }
     }
 
@@ -64,12 +64,12 @@ public class SSHTest {
     public void delete() {
         Session session = null;
         try {
-            session = SSHUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
-            SSHUtil.delete(session,"/xq/Download/aaaa");
+            session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
+            SshUtil.delete(session,"/xq/Download/aaaa");
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         } finally {
-            SSHUtil.close(session);
+            SshUtil.close(session);
         }
     }
 

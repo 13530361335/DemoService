@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.joker.common.Constant;
 import com.joker.common.Result;
 import com.joker.controller.request.RequestPage;
-import com.joker.service.Third.ThirdService;
+import com.joker.service.third.ThirdService;
 import com.joker.common.HttpUtil;
 import com.joker.sql.dao.UserMapper;
 import com.joker.sql.entity.User;

@@ -17,6 +17,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @ServerEndpoint("/websocket/{username}")
 public class WebSocketService {
+
+    private static final String ALL_USERS = "all";
+
     private static Map<String, WebSocketService> clients = new ConcurrentHashMap<>();
     private Session session;
     private String username;
@@ -38,7 +41,7 @@ public class WebSocketService {
         JSONObject json = JSONObject.parseObject(message);
         String to = json.getString("to");
         String data = json.getString("data");
-        if ("all".equals(to)) {
+        if (ALL_USERS.equals(to)) {
             sendAll(data);
         } else {
             sendOne(to, data);

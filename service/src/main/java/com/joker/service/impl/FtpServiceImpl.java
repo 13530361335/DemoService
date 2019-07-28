@@ -2,7 +2,7 @@ package com.joker.service.impl;
 
 import java.io.*;
 
-import com.joker.service.FTPService;
+import com.joker.service.FtpService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTPClient;
@@ -10,9 +10,14 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+/**
+ * @auther: Joker Jing
+ * @Date: 2019/7/29
+ * @Description:
+ */
 @Slf4j
 @Service
-public class FTPServiceImpl implements FTPService {
+public class FtpServiceImpl implements FtpService {
 
     private final static String CONTROL_ENCODING = "UTF-8";
     private final static int CONNECT_TIME_OUT = 10 * 1000;

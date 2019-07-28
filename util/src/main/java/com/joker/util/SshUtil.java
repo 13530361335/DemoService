@@ -10,15 +10,20 @@ import com.jcraft.jsch.ChannelSftp.LsEntry;
 import org.apache.commons.io.IOUtils;
 
 @Slf4j
-public class SSHUtil {
+public class SshUtil {
+
+    private static final int MIN_EMPTY_SIZE = 3;
 
     public static Session connect(String host, int port, String username, String password) throws JSchException {
         JSch jsch = new JSch();
         Session session = jsch.getSession(username, host, port);
-        session.setConfig("StrictHostKeyChecking", "no");          // 设置第一次登陆的时候提示，可选值:(ask | yes | no)
-        session.setConfig("PreferredAuthentications", "password"); // 跳过手动输入
+        // 设置第一次登陆的时候提示，可选值:(ask | yes | no)
+        session.setConfig("StrictHostKeyChecking", "no");
+        // 跳过手动输入
+        session.setConfig("PreferredAuthentications", "password");
         session.setPassword(password);
-        session.connect(5000);                     // 5秒连接超时
+        // 5秒连接超时
+        session.connect(5000);
         return session;
     }
 
@@ -58,10 +63,12 @@ public class SSHUtil {
 
     public static void upload(ChannelSftp sftp, String localPath, String remoteDir) throws SftpException {
         localPath = new File(localPath).getAbsolutePath();
-        String fileSeparator = sftp.getHome().indexOf("/") == 0 ? "/" : "\\";  // 根据home路径获取文件分隔符
+        // 根据home路径获取文件分隔符
+        String fileSeparator = sftp.getHome().indexOf("/") == 0 ? "/" : "\\";
         File localFile = new File(localPath);
         try {
-            sftp.cd(remoteDir);  // TODO 通过异常方式判断有无远程目录，没有则创建
+            // TODO 通过异常方式判断有无远程目录，没有则创建
+            sftp.cd(remoteDir);
         } catch (SftpException e) {
             sftp.mkdir(remoteDir);
             log.debug("create remoteDir {}", remoteDir);
@@ -88,7 +95,8 @@ public class SSHUtil {
 
     public static void download(ChannelSftp sftp, String localDir, String remotePath) throws SftpException {
         localDir = new File(localDir).getAbsolutePath();
-        String fileSeparator = sftp.getHome().indexOf("/") == 0 ? "/" : "\\";  // 根据home路径获取文件分隔符
+        // 根据home路径获取文件分隔符
+        String fileSeparator = sftp.getHome().indexOf("/") == 0 ? "/" : "\\";
         File saveDir = new File(localDir);
         if (!saveDir.isDirectory()) {
             log.debug("mkdirs localDir {}", localDir);
@@ -102,7 +110,7 @@ public class SSHUtil {
         if (files.size() == 1) {
             sftp.get(remotePath, localDir + File.separator + files.get(0).getFilename());
             log.debug("download file {} >>> {}", remotePath, localDir + File.separator + files.get(0).getFilename());
-        } else if (files.size() > 2) {
+        } else if (files.size() >= MIN_EMPTY_SIZE) {
             for (LsEntry file : files) {
                 String fileName = file.getFilename();
                 String remoteFilePath = remotePath + fileSeparator + fileName;

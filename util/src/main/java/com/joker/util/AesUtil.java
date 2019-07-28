@@ -5,14 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
-import java.util.Random;
 
 /**
  * created by Joker on 2019/7/3
  * AES加密：ECB加密模式
+ * @author Joker
  */
 @Slf4j
-public class AESUtil {
+public class AesUtil {
 
     /**
      * 默认加密的KEY,使用AES-128-ECB加密模式，key需要为16位
@@ -36,14 +36,14 @@ public class AESUtil {
         try {
             // 获取AES算法需要的秘钥
             SecretKeySpec keySpec = new SecretKeySpec(key.getBytes("utf-8"), "AES");
-            // 设置ECB模式
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding"); //"算法/模式/补码方式"
+            // 设置ECB模式："算法/模式/补码方式"
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             // 设置加密模式并加入密匙
             cipher.init(Cipher.ENCRYPT_MODE, keySpec);
             // 进行加密
             byte[] cipherBytes = cipher.doFinal(plainText.getBytes("utf-8"));
-            // 返回加密字符串
-            return Base64.getEncoder().encodeToString(cipherBytes);//此处使用BASE64做转码功能，同时能起到2次加密的作用。
+            // 返回加密字符串，此处使用BASE64做转码功能，同时能起到2次加密的作用。
+            return Base64.getEncoder().encodeToString(cipherBytes);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return null;

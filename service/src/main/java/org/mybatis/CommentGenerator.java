@@ -7,6 +7,11 @@ import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.Method;
 
+/**
+ * @auther: Joker Jing
+ * @Date: 2019/7/29
+ * @Description:
+ */
 public class CommentGenerator extends DefaultCommentGenerator {
 
     @Override

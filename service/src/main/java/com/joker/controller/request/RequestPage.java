@@ -12,6 +12,10 @@ import lombok.*;
 @NoArgsConstructor
 public class RequestPage {
 
+    private static final Long MIN_PAGE_SIZE = 10L;
+
+    private static final Long MAX_PAGE_SIZE = 100L;
+
     @ApiModelProperty(value = "当前页数")
     private Long current = 1L;
 
@@ -22,7 +26,7 @@ public class RequestPage {
         if (current == null || current < 1) {
             this.current = 1L;
         }
-        if (size == null || size < 10 || size > 100) {
+        if (size == null || size < MIN_PAGE_SIZE || size > MAX_PAGE_SIZE) {
             this.size = 10L;
         }
     }

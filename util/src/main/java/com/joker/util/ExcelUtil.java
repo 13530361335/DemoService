@@ -15,13 +15,22 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * created by Joker on 2019/7/3
+ * @auther: Joker Jing
+ * @Date: 2019/7/29
+ * @Description:
  */
 @Slf4j
 public class ExcelUtil {
 
-    private static final int DEFAULT_SHEET_NO = 0; // 工作簿编号,0为第一个工作簿
-    private static final int DEFAULT_START = 1;    // 数据起始行,0为第一行数据
+    /**
+     * 工作簿编号,0为第一个工作簿
+     */
+    private static final int DEFAULT_SHEET_NO = 0;
+
+    /**
+     * 数据起始行,0为第一行数据
+     */
+    private static final int DEFAULT_START = 1;
 
     /**
      * @param in
@@ -110,7 +119,7 @@ public class ExcelUtil {
         int rowIndex = start;
         for (Object object : list) {
             Row dataRow = sheet.createRow(rowIndex);
-            Map map = JSONUtil.change(object, Map.class);
+            Map map = JsonUtil.change(object, Map.class);
             for (int i = 0; i < fields.length; i++) {
                 Cell cell = dataRow.createCell(i);
                 Object value = map.get(fields[i]);
@@ -127,11 +136,11 @@ public class ExcelUtil {
         }
         Object value;
         switch (cell.getCellType()) {
-            case Cell.CELL_TYPE_NUMERIC: // 数字
+            case Cell.CELL_TYPE_NUMERIC:
                 value = DateUtil.isCellDateFormatted(cell) ?
                         DateUtil.getJavaDate(cell.getNumericCellValue()) : new DataFormatter().formatCellValue(cell);
                 break;
-            case Cell.CELL_TYPE_BOOLEAN: // Boolean
+            case Cell.CELL_TYPE_BOOLEAN:
                 value = cell.getBooleanCellValue();
                 break;
             default:

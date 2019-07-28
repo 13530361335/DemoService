@@ -18,7 +18,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * created by Joker on 2019/7/16
+ * @auther: Joker Jing
+ * @Date: 2019/7/29
+ * @Description:
  */
 @Slf4j
 @Api(tags = "授权接口")

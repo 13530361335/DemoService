@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @auther: Joker Jing
+ * @Date: 2019/7/29
+ * @Description:
+ */
 @Slf4j
 @Configuration
 public class ExceptionConfig implements HandlerExceptionResolver {

@@ -1,4 +1,4 @@
-package com.joker.common.annotation.Aspect;
+package com.joker.common.annotation.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -6,6 +6,11 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
+/**
+ * @auther: Joker Jing
+ * @Date: 2019/7/29
+ * @Description:
+ */
 @Slf4j
 @Aspect
 public class HandlingTimeAspect {

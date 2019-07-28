@@ -3,7 +3,7 @@ package com.joker.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
-public class JSONUtil {
+public class JsonUtil {
 
     public static String toString(Object object) {
         return JSON.toJSONString(object, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);

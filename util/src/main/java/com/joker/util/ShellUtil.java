@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 public class ShellUtil {
     private final static String DEFAULT_CHARSET = System.getProperty("os.name").startsWith("Win") ? "GBK" : "UTF-8";
 
-    public static void execute(String... command) {
+    public static void execute(String... command) throws IOException {
         Process process = null;
         BufferedReader reader = null;
         try {
@@ -21,12 +21,11 @@ public class ShellUtil {
             while ((line = reader.readLine()) != null) {
                 log.info(line);
             }
-        } catch (IOException e) {
+        } finally {
             IOUtils.closeQuietly(reader);
             if (process != null && process.isAlive()) {
                 process.destroy();
             }
-            log.warn(e.getMessage(), e);
         }
     }
 

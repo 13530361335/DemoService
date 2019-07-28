@@ -1,4 +1,4 @@
-package com.joker.service.Third;
+package com.joker.service.third;
 
 import com.joker.common.Result;
 import org.springframework.beans.factory.annotation.Autowired;

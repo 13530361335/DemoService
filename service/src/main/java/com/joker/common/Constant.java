@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 统一常量存放
+ * @auther: Joker Jing
+ * @Date: 2019/7/29
+ * @Description: 统一常量存放
  */
 public interface Constant {
 
