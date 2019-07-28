@@ -33,7 +33,7 @@ public class HttpUtil {
     public static void setFileHeader(String fileName) {
         try {
             // 解决不同浏览器下载时文件名乱码
-            if (isIEBrowser()) {
+            if (isIeBrowser()) {
                 fileName = fileName.replaceAll("\\+", "%20");
             } else {
                 fileName = new String(fileName.getBytes(Charset.defaultCharset()), "ISO-8859-1");
@@ -58,7 +58,7 @@ public class HttpUtil {
      *
      * @return
      */
-    private static boolean isIEBrowser() {
+    private static boolean isIeBrowser() {
         String[] iEs = {"MSIE", "Trident", "Edge"};
         HttpServletRequest request = getRequest();
         String userAgent = request.getHeader("User-Agent");

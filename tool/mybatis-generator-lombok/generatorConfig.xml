@@ -36,7 +36,6 @@
                 enableSelectByExample="false"
                 selectByExampleQueryId="true"
         >
-            <generatedKey column="" sqlStatement=""></generatedKey>
 
         </table>
     </context>

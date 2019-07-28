@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Liweizhou  2018/6/6
+ * created by Joker on 2019/7/16
  */
 public class LombokPlugin extends PluginAdapter {
 
@@ -26,14 +26,14 @@ public class LombokPlugin extends PluginAdapter {
     @Override
     public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         //添加domain的import
-        topLevelClass.addImportedType("lombok.Getter");
-        topLevelClass.addImportedType("lombok.Setter");
-        topLevelClass.addImportedType("lombok.ToString");
+        topLevelClass.addImportedType("lombok.Data");
+        topLevelClass.addImportedType("lombok.NoArgsConstructor");
+        topLevelClass.addImportedType("lombok.AllArgsConstructor");
 
         //添加domain的注解
-        topLevelClass.addAnnotation("@Getter");
-        topLevelClass.addAnnotation("@Setter");
-        topLevelClass.addAnnotation("@ToString");
+        topLevelClass.addAnnotation("@Data");
+        topLevelClass.addAnnotation("@NoArgsConstructor");
+        topLevelClass.addAnnotation("@AllArgsConstructor");
 
         //添加domain的注释
         topLevelClass.addJavaDocLine("/**");
@@ -44,11 +44,11 @@ public class LombokPlugin extends PluginAdapter {
     }
 
     @Override
-    public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+    public boolean clientGenerated(Interface inter, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         //Mapper文件的注释
-        interfaze.addJavaDocLine("/**");
-        interfaze.addJavaDocLine("* Created by Mybatis Generator on " + DATE);
-        interfaze.addJavaDocLine("*/");
+        inter.addJavaDocLine("/**");
+        inter.addJavaDocLine("* Created by Mybatis Generator on " + DATE);
+        inter.addJavaDocLine("*/");
         return true;
     }
 

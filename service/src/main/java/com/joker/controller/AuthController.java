@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +36,7 @@ public class AuthController {
     @GetMapping("sendVerificationCode")
     public Result sendVerificationCode(String type, String account) {
         // type：0，手机验证；1，邮箱验证。
-        if (!"0".equals(type) && !"1".equals(type)) {
+        if (!AuthService.VERIFY_TYPE_TELEPHONR.equals(type) && !AuthService.VERIFY_TYPE_EMAIL.equals(type)) {
             return new Result<>(400, "type类型只能为0（手机验证）或1（邮箱验证）");
         }
         // 校验手机号码或邮箱。
@@ -49,7 +50,7 @@ public class AuthController {
     @PostMapping("register")
     public Result register(@Validated @RequestBody RegisterParameter registerParameter, BindingResult bindingResult) {
         Result result = ExceptionConfig.checkParam(bindingResult);
-        if (result.getCode() != 200) {
+        if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }
         return authService.register(registerParameter);
@@ -59,7 +60,7 @@ public class AuthController {
     @PostMapping("login")
     public Result login(@Validated @RequestBody LoginParameter loginParameter, BindingResult bindingResult) {
         Result result = ExceptionConfig.checkParam(bindingResult);
-        if (result.getCode() != 200) {
+        if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }
         return authService.login(loginParameter);
@@ -69,7 +70,7 @@ public class AuthController {
     @PostMapping("logout")
     public Result logout(@Validated @RequestBody LogoutParameter logoutParameter, BindingResult bindingResult) {
         Result result = ExceptionConfig.checkParam(bindingResult);
-        if (result.getCode() != 200) {
+        if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }
         return authService.logout(logoutParameter);

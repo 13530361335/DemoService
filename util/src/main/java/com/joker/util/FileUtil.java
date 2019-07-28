@@ -11,7 +11,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
-import java.util.List;
 
 /**
  * created by Joker on 2019/7/2
@@ -36,7 +35,7 @@ public class FileUtil {
     public static void zip(String zipFilename, String... paths) throws Exception {
         ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFilename));
         for (String path : paths) {
-            if (path.equals("")) {
+            if ("".equals(path)) {
                 continue;
             }
             File file = new File(path);
@@ -151,11 +150,13 @@ public class FileUtil {
         if (!file.exists()) {
             log.warn("file is not exists:{}", path);
         }
-        if (file.isDirectory()) {// 如果是目录，先递归删除
+        // 如果是目录，先递归删除
+        if (file.isDirectory()) {
             String[] list = file.list();
             if (list != null) {
                 for (int i = 0; i < list.length; i++) {
-                    delete(path + File.separator + list[i]);// 先删除目录下的文件
+                    // 先删除目录下的文件
+                    delete(path + File.separator + list[i]);
                 }
             }
         }

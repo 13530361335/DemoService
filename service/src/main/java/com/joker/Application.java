@@ -40,15 +40,6 @@ public class Application implements ApplicationRunner {
     }
 
     /**
-     * 分页插件
-     * @return
-     */
-    @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        return new PaginationInterceptor();
-    }
-
-    /**
      * 服务启动后执行
      */
     @Override

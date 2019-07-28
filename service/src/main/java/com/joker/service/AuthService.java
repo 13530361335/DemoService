@@ -11,6 +11,12 @@ import com.joker.controller.request.RegisterParameter;
  */
 public interface AuthService {
 
+    // 手机验证
+    String VERIFY_TYPE_TELEPHONR = "0";
+
+    // 邮箱验证
+    String VERIFY_TYPE_EMAIL = "1";
+
     /**
      * 发送验证码
      */

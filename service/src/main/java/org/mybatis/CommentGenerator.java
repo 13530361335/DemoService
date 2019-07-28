@@ -9,6 +9,7 @@ import org.mybatis.generator.api.dom.java.Method;
 
 public class CommentGenerator extends DefaultCommentGenerator {
 
+    @Override
     public void addFieldComment(Field field, IntrospectedTable introspectedTable,
                                 IntrospectedColumn introspectedColumn) {
         field.addJavaDocLine("/**");
@@ -16,17 +17,19 @@ public class CommentGenerator extends DefaultCommentGenerator {
         field.addJavaDocLine(" */");
     }
 
-
+    @Override
     public void addGetterComment(Method method, IntrospectedTable introspectedTable,
                                  IntrospectedColumn introspectedColumn) {
         return;
     }
 
+    @Override
     public void addSetterComment(Method method, IntrospectedTable introspectedTable,
                                  IntrospectedColumn introspectedColumn) {
         return;
     }
 
+    @Override
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
         return;
     }

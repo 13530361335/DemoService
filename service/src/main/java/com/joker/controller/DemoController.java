@@ -6,6 +6,7 @@ import com.joker.controller.request.RequestDemo;
 import com.joker.controller.response.ResponseDemo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ public class DemoController {
     @PostMapping("hello")
     public Result<ResponseDemo> hello(@Validated @RequestBody RequestDemo requestDemo, BindingResult bindingResult) {
         Result result = ExceptionConfig.checkParam(bindingResult);
-        if (result.getCode() != 200) {
+        if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }
         return new Result<>();

@@ -1,21 +1,22 @@
 package com.joker.sql.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
-* Created by Mybatis Generator on 2019/07/16
-*/
-@Getter
-@Setter
-@ToString
+ * Created by Mybatis Generator on 2019/07/16
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     /**
      * 用户id
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer userId;
 
     /**

@@ -19,6 +19,8 @@ public class AESUtil {
      */
     private static final String DEFAULT_KEY = "8G5M4Ff9hel8fUA9";
 
+    private static final int DEFAULT_KEY_LENGTH = 16;
+
     /**
      * 加密
      *
@@ -27,7 +29,7 @@ public class AESUtil {
      * @return
      */
     public static String encrypt(String plainText, String key) {
-        if (key == null || key.length() != 16) {
+        if (key == null || key.length() != DEFAULT_KEY_LENGTH) {
             key = DEFAULT_KEY;
             log.debug("密匙长度小于16,使用默认密匙");
         }
@@ -56,7 +58,7 @@ public class AESUtil {
      * @return
      */
     public static String decrypt(String cipherText, String key) {
-        if (key == null || key.length() != 16) {
+        if (key == null || key.length() != DEFAULT_KEY_LENGTH) {
             key = DEFAULT_KEY;
             log.debug("密匙长度小于16,使用默认密匙");
         }

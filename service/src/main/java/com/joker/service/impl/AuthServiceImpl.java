@@ -26,7 +26,6 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-
     @Autowired
     private EmailService emailService;
 
@@ -44,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
         redisTemplate.expire(Constant.REDIS_KEY_VERIFICATION_CODE, 10, TimeUnit.SECONDS);
         // 发送验证码
         try {
-            if ("0".equals(type)) {
+            if (VERIFY_TYPE_TELEPHONR.equals(type)) {
                 // 手机验证
                 log.info("发送验证码到手机号:{}", account);
             } else {

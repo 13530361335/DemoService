@@ -32,6 +32,7 @@ public class FTPServiceImpl implements FTPService {
      * @param out
      * @return
      */
+    @Override
     public boolean downloadFile(String remoteDir, String fileName, OutputStream out) {
         FTPClient ftpClient = null;
         try {
@@ -84,6 +85,7 @@ public class FTPServiceImpl implements FTPService {
      * @param localPath 保存的全路径
      * @return
      */
+    @Override
     public boolean downloadFile(String remoteDir, String fileName, String localPath) {
         try {
             // 下载目录不存在则创建
@@ -114,6 +116,7 @@ public class FTPServiceImpl implements FTPService {
      * @param in
      * @return
      */
+    @Override
     public boolean uploadFile(String remoteDir, String fileName, InputStream in) {
         FTPClient ftpClient = null;
         try {
@@ -141,6 +144,7 @@ public class FTPServiceImpl implements FTPService {
      * @param localPath 上传的全路径
      * @return
      */
+    @Override
     public boolean uploadFile(String remoteDir, String fileName, String localPath) {
         log.info("upload  {}  >>>  {}", localPath, remoteDir + "/" + fileName);
         try {
@@ -158,6 +162,7 @@ public class FTPServiceImpl implements FTPService {
      * @param remoteDir FTP的文件夹
      * @param fileName  FTP的文件名
      */
+    @Override
     public boolean deleteFile(String remoteDir, String fileName) {
         log.info("del  {}", remoteDir + "/" + fileName);
         FTPClient ftpClient = null;

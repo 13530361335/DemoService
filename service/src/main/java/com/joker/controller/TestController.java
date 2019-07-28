@@ -40,12 +40,13 @@ public class TestController {
     }
 
     @GetMapping("sql")
-    public Result sql(RequestPage<User> requestPage) {
+    public Result sql(RequestPage requestPage,String account) {
+        String[] columns = {"user_id","role_id","account","real_name","email"};
         QueryWrapper<User> wrapper = new QueryWrapper<User>()
-                .select("account","password")
-                .eq("account", "jingmin");
-        IPage<User> userIPage = userMapper.selectPage(new Page<>(requestPage.getCurrent(),requestPage.getSize()), wrapper);
-        return new Result(userIPage);
+                .select(columns)
+                .eq("account", account);
+        IPage<User> userPage = userMapper.selectPage(new Page<>(requestPage.getCurrent(),requestPage.getSize()), wrapper);
+        return new Result(userPage);
     }
 
     @PostMapping("upload")
