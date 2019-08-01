@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @auther: Joker Jing
- * @Date: 2019/7/29
- * @Description:
+ * @date: 2019/7/29
  */
 @Slf4j
 @Api(tags = "授权接口")

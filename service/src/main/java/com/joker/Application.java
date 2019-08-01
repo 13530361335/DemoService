@@ -3,7 +3,6 @@ package com.joker;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.joker.common.Constant;
 import com.joker.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +25,8 @@ import java.util.List;
 
 /**
  * @auther: Joker Jing
- * @Date: 2019/7/29
- * @Description:
+ * @date: 2019/7/29
  */
-
 @Slf4j
 @MapperScan(Constant.PACKAGE_PATH_DAO)
 @SpringBootApplication

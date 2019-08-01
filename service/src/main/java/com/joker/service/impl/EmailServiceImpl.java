@@ -11,8 +11,7 @@ import org.thymeleaf.context.Context;
 
 /**
  * @auther: Joker Jing
- * @Date: 2019/7/29
- * @Description:
+ * @date: 2019/7/29
  */
 @Service
 public class EmailServiceImpl implements EmailService {

@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @auther: Joker Jing
- * @Date: 2019/7/29
- * @Description:
+ * @date: 2019/7/29
  */
 @Api(tags = "demo接口")
 @RestController

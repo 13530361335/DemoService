@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @auther: Joker Jing
- * @Date: 2019/7/29
- * @Description:
+ * @date: 2019/7/29
  */
 @FeignClient(value = "SPRINGBOOT")
 public interface FeignService {

@@ -8,8 +8,7 @@ import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * @auther: Joker Jing
- * @Date: 2019/7/29
- * @Description:
+ * @date: 2019/7/29
  */
 @Slf4j
 @Aspect

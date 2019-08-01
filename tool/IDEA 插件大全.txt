@@ -1,0 +1,41 @@
+简化实体： Lombok
+日志颜色：Grep Console
+Mybatis日志 ：Mybatis Log Plugin  
+Mybatis 工具：Free Mybatis plugin
+彩虹颜色的括号：Rainbow Brackets
+阿里代码规约检测：Alibaba Java Coding Guidelines
+
+======================================
+
+日志颜色：Grep Console
+Mybatis日志 ：Mybatis Log Plugin  
+
+彩虹颜色的括号：Rainbow Brackets
+可以将光标移动到页面上面的任何地方：AceJump
+自动化高亮显示光标所在代码块对应的括号：HighlightBracketPair
+写代码是整个屏幕都在抖动：Power mode II
+
+热部署插件：JRebel
+Mybatis 工具：Free Mybatis plugin
+
+
+快捷键提示工具：Key promoter X
+中英文翻译工具：Translation
+名称风格转换工具： CamelCase
+
+
+阿里代码规约检测：Alibaba Java Coding Guidelines
+发者发现代码里的bug：SonarLint
+
+数据库代码生成工具： Easy code
+可以切换成多种格式的字符串或变量名 ：快捷键 shift+alt+u
+强大的字符串转换工具：String Manipulation   快捷键，Alt+m。
+代码生成工具：CodeMaker
+JSON转领域对象工具：GsonFormat
+简化实体： Lombok
+
+根据pojo生成单表dao与service codehelper.generator
+可以自行设置快捷键，默认没有快捷键，在 Tools CodeHelper GenDaoCode 输入 Pojo名字，多个Pojo以 | 分隔。即可生成代码
+
+
+
