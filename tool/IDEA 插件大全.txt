@@ -2,7 +2,9 @@
 日志颜色：Grep Console
 Mybatis日志 ：Mybatis Log Plugin  
 Mybatis 工具：Free Mybatis plugin
+快捷键提示工具：Key promoter X
 彩虹颜色的括号：Rainbow Brackets
+
 阿里代码规约检测：Alibaba Java Coding Guidelines
 
 ======================================
