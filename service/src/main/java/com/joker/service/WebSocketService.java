@@ -2,8 +2,6 @@ package com.joker.service;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -13,6 +11,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @author: Joker Jing
+ * @date: 2019/7/29
+ */
 @Slf4j
 @Component
 @ServerEndpoint("/websocket/{username}")

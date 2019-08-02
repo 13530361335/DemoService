@@ -5,6 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+/**
+ * @author Joker Jing
+ * @date: 2019/7/29
+ */
 @Slf4j
 @EnableScheduling
 @Configuration

@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @auther: Joker Jing
+ * @author Joker Jing
  * @date: 2019/7/29
+ * @description: 统一常量存放
  */
 @Api(tags = "demo接口")
 @RestController

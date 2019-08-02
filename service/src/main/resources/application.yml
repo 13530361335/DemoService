@@ -19,6 +19,9 @@ server:
 logging:
   file: /log/${spring.application.name}/run.log
 
+admin:
+  email: 761878367@qq.com
+
 # SpringCloud
 eureka:
   instance:

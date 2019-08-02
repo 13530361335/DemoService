@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @auther: Joker Jing
+ * @author Joker Jing
  * @date: 2019/7/29
  */
 @Slf4j
@@ -34,6 +34,12 @@ public class Application implements ApplicationRunner {
 
     @Value("${server.port}")
     private int port;
+
+    @Value("${spring.profiles.active}")
+    private String active;
+
+    @Value("${admin.email}")
+    private String adminEmail;
 
     @Autowired
     private EmailService emailService;
@@ -61,24 +67,26 @@ public class Application implements ApplicationRunner {
     @PreDestroy
     public void destroy() throws Exception {
         log.warn("服务已经关闭");
-//        emailService.sendEmail("761878367@qq.com","服务关闭","你好，服务已关闭");
+        if (!Constant.APPLICATION_ACTIVE_DEV.equals(active)) {
+            emailService.sendEmail(adminEmail, "服务关闭", "你好，服务已关闭");
+        }
     }
 
     @Primary
     @Bean
     public HttpMessageConverters fastJsonHttpMessageConverters() {
-        // 1.定义一个convert转换消息的对象
-        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        // 1.FastJson配置：空值字段保留
+        FastJsonConfig config = new FastJsonConfig();
+        config.setSerializerFeatures(SerializerFeature.WriteMapNullValue);
 
-        // 2.处理中文乱码
+        // 2.设置UTF-8编码
         List<MediaType> mediaTypes = new ArrayList<>();
         mediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
-        converter.setSupportedMediaTypes(mediaTypes);
 
-        // 3.设置FastJson配置
-        FastJsonConfig jsonConfig = new FastJsonConfig();
-        jsonConfig.setSerializerFeatures(SerializerFeature.WriteMapNullValue);
-        converter.setFastJsonConfig(jsonConfig);
+        // 3.定义一个convert转换消息的对象
+        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        converter.setFastJsonConfig(config);
+        converter.setSupportedMediaTypes(mediaTypes);
         return new HttpMessageConverters(converter);
     }
 

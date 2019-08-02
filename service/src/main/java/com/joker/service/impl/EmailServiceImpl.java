@@ -10,8 +10,9 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 /**
- * @auther: Joker Jing
+ * @author Joker Jing
  * @date: 2019/7/29
+ * @description:
  */
 @Service
 public class EmailServiceImpl implements EmailService {

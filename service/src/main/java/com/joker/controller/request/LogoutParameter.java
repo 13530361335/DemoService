@@ -1,7 +1,9 @@
 package com.joker.controller.request;
 
 /**
- * created by Joker on 2019/7/16
+ * @author Joker Jing
+ * @date: 2019/7/29
+ * @description:
  */
 public class LogoutParameter {
 }

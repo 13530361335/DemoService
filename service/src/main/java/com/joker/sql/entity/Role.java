@@ -5,8 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
-* Created by Mybatis Generator on 2019/07/16
-*/
+ * @author: Joker Jing
+ * @date: 2019/7/29
+ */
 @Getter
 @Setter
 @ToString

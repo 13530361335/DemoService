@@ -7,7 +7,7 @@ import com.joker.controller.request.LogoutParameter;
 import com.joker.controller.request.RegisterParameter;
 
 /**
- * @auther: Joker Jing
+ * @author: Joker Jing
  * @date: 2019/7/29
  */
 public interface AuthService {

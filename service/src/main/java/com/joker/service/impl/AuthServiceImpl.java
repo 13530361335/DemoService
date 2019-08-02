@@ -2,7 +2,6 @@ package com.joker.service.impl;
 
 import com.joker.common.Constant;
 import com.joker.common.Result;
-import com.joker.common.exception.RequestException;
 import com.joker.controller.request.LoginParameter;
 import com.joker.controller.request.LogoutParameter;
 import com.joker.controller.request.RegisterParameter;
@@ -17,8 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @auther: Joker Jing
+ * @author Joker Jing
  * @date: 2019/7/29
+ * @description:
  */
 @Slf4j
 @Service

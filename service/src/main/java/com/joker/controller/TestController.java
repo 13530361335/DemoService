@@ -21,6 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import java.io.*;
 
+/**
+ * @author Joker Jing
+ * @date: 2019/7/29
+ * @description: 统一常量存放
+ */
 @RestController
 @RequestMapping("test")
 public class TestController {

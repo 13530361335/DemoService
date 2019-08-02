@@ -7,9 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 统一返回结果集
- *
- * @param <T>
+ * @author: Joker Jing
+ * @date: 2019/7/29
  */
 @Getter
 @Setter

@@ -10,7 +10,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * created by Joker on 2019/7/12
+ * @author Joker Jing
+ * @date: 2019/7/29
+ * @description:
  */
 @ApiModel("请求参数实体")
 @Setter

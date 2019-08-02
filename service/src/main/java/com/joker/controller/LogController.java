@@ -12,7 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * created by Joker on 2019/6/30
+ * @author Joker Jing
+ * @date: 2019/7/29
+ * @description: 统一常量存放
  */
 @RestController
 @RequestMapping("log")

@@ -9,6 +9,10 @@ import java.util.Vector;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import org.apache.commons.io.IOUtils;
 
+/**
+ * @author: Joker Jing
+ * @date: 2019/7/29
+ */
 @Slf4j
 public class SshUtil {
 
@@ -42,7 +46,7 @@ public class SshUtil {
             exec.setCommand(command);
             exec.setErrStream(errorOut);
             exec.connect();
-            reader = new BufferedReader(new InputStreamReader(exec.getInputStream(),"utf-8"));
+            reader = new BufferedReader(new InputStreamReader(exec.getInputStream(), "utf-8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 log.info(line);
@@ -50,7 +54,7 @@ public class SshUtil {
             if (exec.getExitStatus() == 0) {
                 flag = true;
             } else {
-                log.error(new String(errorOut.toByteArray(),"utf-8"));
+                log.error(new String(errorOut.toByteArray(), "utf-8"));
             }
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -78,7 +82,7 @@ public class SshUtil {
             log.debug("upload file {} >>> {}", localPath, remoteDir + fileSeparator + localFile.getName());
         } else {
             File[] files = localFile.listFiles();
-            if(files == null ){
+            if (files == null) {
                 return;
             }
             for (File file : files) {
@@ -101,7 +105,7 @@ public class SshUtil {
         if (!saveDir.isDirectory()) {
             log.debug("mkdirs localDir {}", localDir);
             boolean mkdirs = saveDir.mkdirs();
-            if(!mkdirs){
+            if (!mkdirs) {
                 log.error("mkdirs {} fail", localDir);
                 return;
             }

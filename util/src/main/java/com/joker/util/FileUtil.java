@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 import java.util.Enumeration;
 
 /**
- * @auther: Joker Jing
+ * @author: Joker Jing
  * @Date: 2019/7/29
  * @Description:
  * 1.压缩

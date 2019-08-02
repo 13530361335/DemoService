@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.joker.sql.entity.User;
 
 /**
- * created by Joker on 2019/7/28
+ * @author: Joker Jing
+ * @date: 2019/7/29
  */
 public interface UserService extends IService<User>{
 }

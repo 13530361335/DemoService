@@ -9,7 +9,9 @@ import lombok.ToString;
 import javax.validation.constraints.NotBlank;
 
 /**
- * created by Joker on 2019/7/16
+ * @author Joker Jing
+ * @date: 2019/7/29
+ * @description:
  */
 @ApiModel("注册参数")
 @Setter

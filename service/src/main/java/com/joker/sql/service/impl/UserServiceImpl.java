@@ -7,7 +7,8 @@ import com.joker.sql.service.UserService;
 import org.springframework.stereotype.Service;
 
 /**
- * created by Joker on 2019/7/28
+ * @author: Joker Jing
+ * @date: 2019/7/29
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {

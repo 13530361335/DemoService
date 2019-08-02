@@ -8,6 +8,10 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+/**
+ * @author Joker Jing
+ * @date: 2019/7/29
+ */
 @Configuration
 public class RedisConfig {
 
@@ -21,4 +25,5 @@ public class RedisConfig {
         redisTemplate.setHashKeySerializer(strSerializer);
         return redisTemplate;
     }
+
 }
