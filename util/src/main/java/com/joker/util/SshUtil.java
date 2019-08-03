@@ -89,7 +89,7 @@ public class SshUtil {
                 String remotePath = remoteDir + fileSeparator + file.getName();
                 if (!file.isDirectory()) {
                     sftp.put(file.getPath(), remotePath);
-                    log.debug("upload file {} >>> {}", remotePath);
+                    log.debug("upload file {} >>> {}", file.getPath(), remotePath);
                 } else {
                     upload(sftp, file.getPath(), remotePath);
                 }

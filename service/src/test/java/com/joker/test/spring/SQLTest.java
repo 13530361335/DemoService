@@ -31,12 +31,10 @@ public class SQLTest extends SpringBootBaseTest {
 
     @Test
     public void selectList() {
-        QueryWrapper wrapper = new QueryWrapper<>()
-//                .select("user_id","account","password")
-//                .eq("account","jingmin")            // 等于
-//                .ne("user_id",1)                    // 不等于
-//                .in("user_id", Arrays.asList(1,2,3))
-                .last("order by user_id desc");    // in
+        QueryWrapper wrapper =
+                new QueryWrapper<>().select("user_id", "account", "password").eq("account", "jingmin")            // 等于
+                        .ne("user_id", 1)                    // 不等于
+                        .in("user_id", Arrays.asList(1, 2, 3)).last("order by user_id desc");    // in
         List<User> users = userMapper.selectList(wrapper);
         users.forEach(System.out::println);
     }
@@ -44,13 +42,10 @@ public class SQLTest extends SpringBootBaseTest {
     @Test
     public void selectPage() {
         // 需要配置分页插件
-        QueryWrapper<User> wrapper = new QueryWrapper<User>()
-                .select("account", "password")
-                .eq("account", "jingmin");
+        QueryWrapper<User> wrapper = new QueryWrapper<User>().select("account", "password").eq("account", "jingmin");
         IPage<User> userIPage = userMapper.selectPage(new Page<>(3, 2), wrapper);
         userIPage.getRecords().forEach(System.out::println);
     }
-
 
     @Test
     public void insert() {
@@ -65,12 +60,10 @@ public class SQLTest extends SpringBootBaseTest {
 
     @Test
     public void insert1() {
-        userService.saveBatch(Arrays.asList(
-                new User(null, null, "xu", "123", "1", "1", "1"),
-                new User(null, null, "xu", "123", "1", "1", "1"),
-                new User(null, null, "xu", "123", "1", "1", "1"),
-                new User(null, null, "jingmin", "123", "1", "1", "1")
-        ));
+        userService.saveBatch(Arrays
+                .asList(new User(null, null, "xu", "123", "1", "1", "1"), new User(null, null, "xu", "123", "1", "1", "1"),
+                        new User(null, null, "xu", "123", "1", "1", "1"),
+                        new User(null, null, "jingmin", "123", "1", "1", "1")));
     }
 
 }

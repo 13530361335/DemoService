@@ -13,15 +13,11 @@ import org.thymeleaf.context.Context;
  */
 public class EmailTest extends SpringBootBaseTest {
 
-    @Autowired
-    private EmailService emailService;
+    @Autowired private EmailService emailService;
 
-    @Value("${spring.mail.username}")
-    private String sender;
+    @Value("${spring.mail.username}") private String sender;
 
-
-    @Test
-    public void sendSimpleMail() throws Exception {
+    @Test public void sendSimpleMail() throws Exception {
         Context context = new Context();
         context.setVariable("message", "测试123456");
         String text = emailService.getTextByTemplate("mailTemplate", context);
@@ -33,6 +29,5 @@ public class EmailTest extends SpringBootBaseTest {
         System.out.println(text);
         emailService.sendEmail(message);
     }
-
 
 }

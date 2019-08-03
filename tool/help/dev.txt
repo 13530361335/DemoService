@@ -40,7 +40,9 @@ Feign
 7.MyBatis Generator 自定义生成注释
 https://segmentfault.com/a/1190000016525887
 
-8.
+8.引入本地包
+<scope>system</scope>
+ <systemPath>${project.basedir}/lib/springfox-swagger-ui-2.7.0.jar</systemPath>
 
 
 

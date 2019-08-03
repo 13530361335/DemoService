@@ -15,7 +15,7 @@ public class AESTest {
     public void encrypt() {
         String plainText = "Jing#123";
         String key = RandomStringUtils.randomAlphanumeric(16);
-        log.info("加密前的字串是：" + plainText);
+        log.info("密码：" + plainText);
         log.info("密钥：" + key);
         // 加密
         String cipherText = AesUtil.encrypt(plainText, key);

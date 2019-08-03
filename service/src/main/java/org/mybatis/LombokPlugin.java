@@ -19,8 +19,7 @@ public class LombokPlugin extends PluginAdapter {
 
     private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 
-    @Override
-    public boolean validate(List<String> list) {
+    @Override public boolean validate(List<String> list) {
         return true;
     }
 
@@ -53,14 +52,14 @@ public class LombokPlugin extends PluginAdapter {
         return true;
     }
 
-    @Override
-    public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+    @Override public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass,
+        IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
         //不生成getter
         return false;
     }
 
-    @Override
-    public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+    @Override public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass,
+        IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
         //不生成setter
         return false;
     }

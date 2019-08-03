@@ -11,11 +11,10 @@ import java.io.InputStreamReader;
  * @author: Joker Jing
  * @date: 2019/7/29
  */
-@Slf4j
-public class ShellUtil {
+@Slf4j public class ShellUtil {
     private final static String DEFAULT_CHARSET = System.getProperty("os.name").startsWith("Win") ? "GBK" : "UTF-8";
 
-    public static void execute(String... command) throws IOException {
+    public static void execute(String... command) {
         Process process = null;
         BufferedReader reader = null;
         try {
@@ -25,6 +24,8 @@ public class ShellUtil {
             while ((line = reader.readLine()) != null) {
                 log.info(line);
             }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
         } finally {
             IOUtils.closeQuietly(reader);
             if (process != null && process.isAlive()) {

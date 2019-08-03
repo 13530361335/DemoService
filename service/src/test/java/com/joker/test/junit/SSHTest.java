@@ -20,7 +20,6 @@ public class SSHTest {
             SshUtil.execute(session, "java -version");
             SshUtil.execute(session, "git --version");
             SshUtil.execute(session, "date \"+%Y-%m-%d %H:%M:%S\"");
-
         } catch (JSchException e) {
             log.info(e.getMessage(), e);
         } finally {
@@ -52,7 +51,7 @@ public class SSHTest {
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftp = (ChannelSftp) channel;
-            SshUtil.download(sftp, "C:/Download", "/xq/Download");
+            SshUtil.download(sftp, "C:/Download/xq", "/xq");
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         } finally {
@@ -65,7 +64,7 @@ public class SSHTest {
         Session session = null;
         try {
             session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
-            SshUtil.delete(session,"/xq/Download/aaaa");
+            SshUtil.delete(session, "/xq/Download/aaaa");
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         } finally {
