@@ -4,6 +4,7 @@ import com.jcraft.jsch.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.Vector;
 
 import com.jcraft.jsch.ChannelSftp.LsEntry;
@@ -16,7 +17,10 @@ import org.apache.commons.io.IOUtils;
 @Slf4j
 public class SshUtil {
 
-    private static final int MIN_EMPTY_SIZE = 3;
+    /**
+     * 非空文件夹最小文件数
+     */
+    private static final int MIN_DIR_SIZE = 3;
 
     public static Session connect(String host, int port, String username, String password) throws JSchException {
         JSch jsch = new JSch();
@@ -114,7 +118,7 @@ public class SshUtil {
         if (files.size() == 1) {
             sftp.get(remotePath, localDir + File.separator + files.get(0).getFilename());
             log.debug("download file {} >>> {}", remotePath, localDir + File.separator + files.get(0).getFilename());
-        } else if (files.size() >= MIN_EMPTY_SIZE) {
+        } else if (files.size() >= MIN_DIR_SIZE) {
             for (LsEntry file : files) {
                 String fileName = file.getFilename();
                 String remoteFilePath = remotePath + fileSeparator + fileName;
@@ -129,8 +133,11 @@ public class SshUtil {
         }
     }
 
-    public static void delete(Session session, String filePath) throws JSchException {
-        execute(session, "rm -rf " + filePath);
+    public static boolean delete(Session session, String filePath) throws JSchException {
+        String delCommand = true ? MessageFormat.format("rm -rf {0}", filePath) :
+                MessageFormat.format("del {0}\\* /q /f /s", filePath);
+        log.info("delCommand:{}", delCommand);
+        return execute(session, delCommand);
     }
 
 }
