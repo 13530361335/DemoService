@@ -7,11 +7,15 @@ import com.joker.controller.request.LogoutParameter;
 import com.joker.controller.request.RegisterParameter;
 import com.joker.service.AuthService;
 import com.joker.service.EmailService;
+import com.joker.sql.dao.UserMapper;
+import com.joker.sql.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,11 +28,24 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AuthServiceImpl implements AuthService {
 
+    /**
+     * 验证码长度
+     */
+    private static final int VERIFICATION_CODE_LENGTH = 6;
+
+    /**
+     * 验证码过期时间
+     */
+    private static final long VERIFICATION_CODE_EXPIRE_TIME = 60;
+
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public Result sendVerificationCode(String type, String account) {
@@ -37,41 +54,64 @@ public class AuthServiceImpl implements AuthService {
             return new Result<>(400, "60秒内不可重复发送验证码");
         }
         // 生成6位数字验证码
-        String verificationCode = RandomStringUtils.randomNumeric(6);
-        log.info("生成验证码:{}", verificationCode);
+        String verificationCode = RandomStringUtils.randomNumeric(VERIFICATION_CODE_LENGTH);
         // 验证码存入redis,60秒失效
         redisTemplate.opsForHash().put(Constant.REDIS_KEY_VERIFICATION_CODE, account, verificationCode);
-        redisTemplate.expire(Constant.REDIS_KEY_VERIFICATION_CODE, 10, TimeUnit.SECONDS);
+        redisTemplate.expire(Constant.REDIS_KEY_VERIFICATION_CODE, VERIFICATION_CODE_EXPIRE_TIME, TimeUnit.SECONDS);
         // 发送验证码
         try {
             if (VERIFY_TYPE_TELEPHONR.equals(type)) {
                 // 手机验证
-                log.info("发送验证码到手机号:{}", account);
             } else {
                 // 邮箱验证
-                log.info("发送验证码到邮箱:{}", account);
                 emailService.sendEmail(account, "验证码", verificationCode);
             }
         } catch (Exception e) {
             redisTemplate.opsForHash().delete(Constant.REDIS_KEY_VERIFICATION_CODE, account);
             log.info("发送验证码失败，account：{} type:{}", account, type);
             log.info(e.getMessage(), e);
-            return new Result<>(500, "邮件发送失败");
+            return new Result<>(500, "send email error");
         }
         return new Result<>();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result register(RegisterParameter registerParameter) {
+        String email = registerParameter.getEmail();
+        String telephone = registerParameter.getTelephone();
+        String verificationCode;
+        User user = new User();
         // 识别注册类型
+        if (!StringUtils.isEmpty(email)) {
+            // 邮箱验证
+            verificationCode = (String) redisTemplate.opsForHash().get(Constant.REDIS_KEY_VERIFICATION_CODE, email);
+            user.setEmail(email);
+            user.setAccount(email);
+        } else {
+            // 手机验证
+            verificationCode = (String) redisTemplate.opsForHash().get(Constant.REDIS_KEY_VERIFICATION_CODE, telephone);
+            user.setTelephone(telephone);
+            user.setAccount(telephone);
+        }
 
-        // 发送验证码
-        return null;
+        // 校验验证码
+        if (!registerParameter.getVerificationCode().equals(verificationCode)) {
+            return new Result<>(403, "verification code is incorrect or expired");
+        }
+
+        user.setPassword("123456");
+        userMapper.insert(user);
+        return new Result<>(200, "register success");
     }
 
     @Override
     public Result login(LoginParameter loginParameter) {
-        return null;
+        User user = userMapper.selectByAccount(loginParameter.getAccount());
+        if (user == null || !loginParameter.getPassword().equals(user.getPassword())) {
+            return new Result<>(403, "username or password incorrect");
+        }
+        return new Result<>(200, "login success");
     }
 
     @Override

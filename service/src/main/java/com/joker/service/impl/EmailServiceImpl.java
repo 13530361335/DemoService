@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -36,6 +37,7 @@ public class EmailServiceImpl implements EmailService {
         javaMailSender.send(message);
     }
 
+    @Async
     @Override
     public void sendEmail(String to, String title, String content) throws Exception{
         SimpleMailMessage message = new SimpleMailMessage();

@@ -12,7 +12,7 @@ public class RandomStringUtilsTest {
 
     @Test
     public void test() {
-        // 字母（大小写）
+        // 字母
         String random1 = RandomStringUtils.randomAlphabetic(20);
         System.out.println(random1);
 
@@ -20,14 +20,14 @@ public class RandomStringUtilsTest {
         String random2 = RandomStringUtils.randomNumeric(20);
         System.out.println(random2);
 
-        // 数字
+        // 字母+数字
         String random3 = RandomStringUtils.randomAlphanumeric(20);
         System.out.println(random3);
 
-        String random4 = RandomStringUtils.randomAscii(20);
+        String random4 = RandomStringUtils.randomGraph(20);
         System.out.println(random4);
 
-        String random5 = RandomStringUtils.randomGraph(20);
+        String random5 = RandomStringUtils.randomAscii(20);
         System.out.println(random5);
 
         String random6 = RandomStringUtils.randomPrint(20);

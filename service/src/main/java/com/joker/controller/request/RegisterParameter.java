@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 
@@ -16,7 +15,6 @@ import javax.validation.constraints.NotBlank;
 @ApiModel("注册参数")
 @Setter
 @Getter
-@ToString(exclude = "password")
 public class RegisterParameter {
 
     @ApiModelProperty(value = "手机号码")
