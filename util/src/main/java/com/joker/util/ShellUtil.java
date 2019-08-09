@@ -11,7 +11,8 @@ import java.io.InputStreamReader;
  * @author: Joker Jing
  * @date: 2019/7/29
  */
-@Slf4j public class ShellUtil {
+@Slf4j
+public class ShellUtil {
     private final static String DEFAULT_CHARSET = System.getProperty("os.name").startsWith("Win") ? "GBK" : "UTF-8";
 
     public static void execute(String... command) {

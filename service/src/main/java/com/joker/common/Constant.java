@@ -24,4 +24,6 @@ public interface Constant {
 
     String REDIS_KEY_VERIFICATION_CODE = "verification_code";
 
+    String REDIS_KEY_TASK_THREAD = "task_thread";
+
 }

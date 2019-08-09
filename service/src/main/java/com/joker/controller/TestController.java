@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.joker.common.Constant;
 import com.joker.common.Result;
 import com.joker.controller.request.RequestPage;
+import com.joker.service.TestService;
 import com.joker.service.third.ThirdService;
 import com.joker.common.HttpUtil;
 import com.joker.sql.dao.UserMapper;
@@ -23,9 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import java.io.*;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Joker Jing
@@ -77,8 +75,6 @@ public class TestController {
 
     @GetMapping("testRedis")
     public void testRedis() {
-//        redisTemplate.expire(Constant.REDIS_KEY_VERIFICATION_CODE, 10, TimeUnit.SECONDS);
-
         redisTemplate.opsForHash().put(Constant.REDIS_KEY_VERIFICATION_CODE,
                 RandomStringUtils.randomNumeric(6),
                 RandomStringUtils.randomNumeric(6));
@@ -89,6 +85,19 @@ public class TestController {
 
         redisTemplate.opsForSet().add("opsForSet", "opsForSet1","opsForSet2");
         redisTemplate.opsForZSet().add("opsForZSet", "opsForZSet1",10.0);
+    }
+
+    @Autowired
+    TestService testService;
+
+    @GetMapping("start")
+    public void start(String taskId) {
+        testService.start(taskId);
+    }
+
+    @GetMapping("stop")
+    public void stop(String taskId) {
+        testService.stop(taskId);
     }
 
 }

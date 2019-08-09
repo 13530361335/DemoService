@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.PreDestroy;
 import java.net.InetAddress;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 @Slf4j
 @MapperScan(Constant.PACKAGE_PATH_DAO)
+@EnableAsync
 @SpringBootApplication
 public class Application implements ApplicationRunner {
 
