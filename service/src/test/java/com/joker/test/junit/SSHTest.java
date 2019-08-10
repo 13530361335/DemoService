@@ -17,13 +17,13 @@ public class SSHTest {
         try {
             session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
             boolean execute1 = SshUtil.execute(session, "pwd");
-            log.info("1:{}",execute1);
+            log.info("1:{}", execute1);
             boolean execute2 = SshUtil.execute(session, "java -version");
-            log.info("2:{}",execute2);
+            log.info("2:{}", execute2);
             boolean execute3 = SshUtil.execute(session, "git --version");
-            log.info("3:{}",execute3);
+            log.info("3:{}", execute3);
             boolean execute4 = SshUtil.execute(session, "date \"+%Y-%m-%d %H:%M:%S\"");
-            log.info("4:{}",execute4);
+            log.info("4:{}", execute4);
         } catch (JSchException e) {
             log.info(e.getMessage(), e);
         } finally {
@@ -67,8 +67,10 @@ public class SSHTest {
     public void delete() {
         Session session = null;
         try {
+//            session = SshUtil.connect("127.0.0.1", 22, "administrator", "jing2019");
             session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
-            System.out.println(SshUtil.delete(session, "/xq/test"));
+            boolean delete = SshUtil.delete(session, "C:\\Download\\123");
+            log.info("删除结果: {}", delete);
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         } finally {
@@ -77,15 +79,13 @@ public class SSHTest {
     }
 
     @Test
-    public void test() {
+    public void isWin() {
         Session session = null;
         try {
-//            session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
-            session = SshUtil.connect("127.0.0.1", 22, "administrator", "jm19930913.");
-            Channel channel = session.openChannel("sftp");
-            channel.connect();
-            ChannelSftp sftp = (ChannelSftp) channel;
-            log.info(sftp.getHome());
+//            session = SshUtil.connect("127.0.0.1", 22, "administrator", "jing2019");
+            session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
+            boolean win = SshUtil.isWin(session);
+            System.out.println(win);
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         } finally {

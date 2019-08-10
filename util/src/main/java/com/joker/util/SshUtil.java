@@ -22,6 +22,8 @@ public class SshUtil {
      */
     private static final int MIN_DIR_SIZE = 3;
 
+    private static final String WINDOWS_SIGN = "Windows";
+
     public static Session connect(String host, int port, String username, String password) throws JSchException {
         JSch jsch = new JSch();
         Session session = jsch.getSession(username, host, port);
@@ -32,6 +34,7 @@ public class SshUtil {
         session.setPassword(password);
         // 5秒连接超时
         session.connect(5000);
+        log.info("ssh connect success, server version: {}", session.getServerVersion());
         return session;
     }
 
@@ -50,16 +53,18 @@ public class SshUtil {
             exec.setCommand(command);
             exec.setErrStream(errorOut);
             exec.connect();
-            reader = new BufferedReader(new InputStreamReader(exec.getInputStream(), "utf-8"));
+            String charsetName = isWin(session) ? "GBK" : "UTF-8";
+            reader = new BufferedReader(new InputStreamReader(exec.getInputStream(), charsetName));
             String line;
             while ((line = reader.readLine()) != null) {
                 log.info(line);
             }
-            if (exec.getExitStatus() == 0) {
-                flag = true;
-            } else {
-                log.error(new String(errorOut.toByteArray(), "utf-8"));
+            while (exec.isConnected()) {
+                if (exec.getExitStatus() == 0) {
+                    flag = true;
+                }
             }
+            log.error(new String(errorOut.toByteArray(), charsetName));
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         } finally {
@@ -134,10 +139,16 @@ public class SshUtil {
     }
 
     public static boolean delete(Session session, String filePath) throws JSchException {
-        String delCommand = true ? MessageFormat.format("rm -rf {0}", filePath) :
-                MessageFormat.format("del {0}\\* /q /f /s", filePath);
-        log.info("delCommand:{}", delCommand);
-        return execute(session, delCommand);
+        String command = isWin(session) ?
+                MessageFormat.format("if exist {0} (del {0}\\* /s/q & rd {0} /s/q)", filePath) :
+                MessageFormat.format("rm -rf {0}", filePath);
+        log.info("delete command: {}", command);
+        return execute(session, command);
+    }
+
+    public static boolean isWin(Session session) {
+        String serverVersion = session.getServerVersion();
+        return (serverVersion != null && serverVersion.contains(WINDOWS_SIGN));
     }
 
 }
