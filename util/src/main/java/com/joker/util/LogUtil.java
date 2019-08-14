@@ -1,13 +1,13 @@
 package com.joker.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -17,39 +17,43 @@ import java.util.Date;
 @Slf4j
 public class LogUtil {
 
-    public static void info(String logPath, String message) {
-        log(logPath, message, "INFO");
+    private final File logFile;
+
+    public static LogUtil getInstance(String logPath) {
+        return new LogUtil(logPath);
     }
 
-    public static void debug(String logPath, String message) {
-        log(logPath, message, "DEBUG");
+    private LogUtil(String logPath) {
+        this.logFile = new File(logPath);
     }
 
-    public static void warn(String logPath, String message) {
-        log(logPath, message, "WARN");
+    public void info(String message) {
+        log(message, "INFO");
     }
 
-    public static void error(String logPath, String message) {
-        log(logPath, message, "ERROR");
+    public void debug(String message) {
+        log(message, "DEBUG");
     }
 
-    private static void log(String logPath, String message, String level) {
-        File logFile = new File(logPath);
-        File logDir = logFile.getParentFile();
-        if (!logDir.isDirectory()) {
-            logDir.mkdirs();
-        }
-        PrintWriter pw = null;
+    public void warn(String message) {
+        log(message, "WARN");
+    }
+
+    public void error(String message) {
+        log(message, "ERROR");
+    }
+
+    private void log(String message, String level) {
+        // 日志格式
+        String pattern = "{0}  {1}  {2}";
+        String dateTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+        String line = MessageFormat.format(pattern, dateTime, level, message);
+
+        // FileUtils工具写入日志，日志路径自动创建
         try {
-            FileWriter fw = new FileWriter(logFile, true);
-            String dateTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-            pw = new PrintWriter(fw);
-            pw.println(dateTime + "  " + level + "  " + message);
-            pw.flush();
+            FileUtils.writeLines(logFile, "utf-8", Arrays.asList(line), true);
         } catch (IOException e) {
             log.info(e.getMessage(), e);
-        } finally {
-            IOUtils.closeQuietly(pw);
         }
     }
 

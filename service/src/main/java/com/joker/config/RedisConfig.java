@@ -18,8 +18,10 @@ public class RedisConfig {
     @Bean
     public RedisTemplate redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate redisTemplate = new RedisTemplate();
+
         redisTemplate.setConnectionFactory(factory);
         redisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
+
         RedisSerializer strSerializer  = new StringRedisSerializer();
         redisTemplate.setKeySerializer(strSerializer);
         redisTemplate.setHashKeySerializer(strSerializer);

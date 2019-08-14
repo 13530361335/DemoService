@@ -34,6 +34,9 @@ import java.util.List;
 @SpringBootApplication
 public class Application implements ApplicationRunner {
 
+    private static final String OS = System.getProperty("os.name");
+    private static final String JDK = System.getProperty("java.version");
+
     @Value("${server.port}")
     private int port;
 
@@ -57,6 +60,7 @@ public class Application implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         try {
             String ip = InetAddress.getLocalHost().getHostAddress();
+            log.info("JDK: {} [{}] " ,JDK ,OS);
             log.info("http://{}:{}/swagger-ui.html", ip, port);
         } catch (Exception e) {
             log.info(e.getMessage(), e);

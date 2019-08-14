@@ -10,6 +10,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author Joker Jing
  * @date: 2019/7/29
@@ -17,6 +20,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {
+
+    private static final String START_TIME = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
     @Value("${spring.application.name}")
     private String appName;
@@ -35,7 +40,7 @@ public class SwaggerConfig {
                 .apiInfo(new ApiInfoBuilder()
                         .title(appName + "接口展示")
                         .version("1.0")
-                        .description(String.format("发布时间: %s", Constant.SERVICE_START_TIME))
+                        .description(String.format("发布时间: %s", START_TIME))
                         .build());
     }
 

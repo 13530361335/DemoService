@@ -18,8 +18,10 @@ import java.util.List;
 public class LombokPlugin extends PluginAdapter {
 
     private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+    private static final String USER = System.getProperty("user.name");
 
-    @Override public boolean validate(List<String> list) {
+    @Override
+    public boolean validate(List<String> list) {
         return true;
     }
 
@@ -37,7 +39,8 @@ public class LombokPlugin extends PluginAdapter {
 
         //添加domain的注释
         topLevelClass.addJavaDocLine("/**");
-        topLevelClass.addJavaDocLine("* Created by Mybatis Generator on " + DATE);
+        topLevelClass.addJavaDocLine("* @author: " + USER);
+        topLevelClass.addJavaDocLine("* @date: " + DATE);
         topLevelClass.addJavaDocLine("*/");
 
         return true;
@@ -47,19 +50,22 @@ public class LombokPlugin extends PluginAdapter {
     public boolean clientGenerated(Interface inter, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         //Mapper文件的注释
         inter.addJavaDocLine("/**");
-        inter.addJavaDocLine("* Created by Mybatis Generator on " + DATE);
+        inter.addJavaDocLine("* @author: " + USER);
+        inter.addJavaDocLine("* @date: " + DATE);
         inter.addJavaDocLine("*/");
         return true;
     }
 
-    @Override public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass,
-        IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+    @Override
+    public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass,
+                                              IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
         //不生成getter
         return false;
     }
 
-    @Override public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass,
-        IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+    @Override
+    public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass,
+                                              IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
         //不生成setter
         return false;
     }

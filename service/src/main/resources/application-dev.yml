@@ -34,10 +34,8 @@ eureka:
       defaultZone: http://eureka:123456@${spring.cloud.client.ip-address}:9000/eureka/
 
 logging:
-  file: C:/log/${spring.application.name}/run.log
   level:
     org.springframework.boot.test: off
-    com.demo.sql.dao: debug
 
 # 配置slq打印日志
 mybatis-plus:

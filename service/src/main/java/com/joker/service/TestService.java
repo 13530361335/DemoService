@@ -6,8 +6,16 @@ package com.joker.service;
  */
 public interface TestService {
 
+    /**
+     * 启动
+     * @param taskId
+     */
     void start(String taskId);
 
+    /**
+     * 终止
+     * @param taskId
+     */
     void stop(String taskId);
 
 }

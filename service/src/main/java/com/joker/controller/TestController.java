@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.joker.common.Constant;
 import com.joker.common.Result;
+import com.joker.common.annotation.HandlingTime;
 import com.joker.controller.request.RequestPage;
 import com.joker.service.TestService;
 import com.joker.service.third.ThirdService;
@@ -14,7 +15,6 @@ import com.joker.sql.entity.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,6 +90,7 @@ public class TestController {
     @Autowired
     TestService testService;
 
+    @HandlingTime
     @GetMapping("start")
     public void start(String taskId) {
         testService.start(taskId);
