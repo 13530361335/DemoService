@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 @Slf4j
 public class SSHTest {
@@ -32,16 +34,16 @@ public class SSHTest {
             log.info("清理进程开始");
             logUtil.info("清理进程开始");
 
+            // 清理进程
+            List<String> killList = new LinkedList<>();
+            killList.add("taskkill /f /t /im python.exe");
+            killList.add("taskkill /f /t /im git.exe");
             if (isWin) {
-                String killPython = "taskkill /f /t /im python.exe";
-                log.info(killPython);
-                logUtil.info(killPython);
-                SshUtil.execute(session, killPython);
-
-                String killGit = "taskkill /f /t /im git.exe";
-                log.info(killGit);
-                logUtil.info(killGit);
-                SshUtil.execute(session, killGit);
+                for (String kill : killList) {
+                    log.info(kill);
+                    logUtil.info(kill);
+                    SshUtil.execute(session, kill);
+                }
             }
 
             log.info("清理进程完成");
