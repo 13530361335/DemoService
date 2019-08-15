@@ -56,9 +56,4 @@ public class LogUtil {
         }
     }
 
-    public static void main(String[] args) {
-        String format = DateFormatUtils.format(new Date(), "yyyy-MM-dd hh:mm:ss");
-        System.out.println(format);
-    }
-
 }

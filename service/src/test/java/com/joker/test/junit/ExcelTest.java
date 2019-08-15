@@ -13,10 +13,11 @@ import java.util.List;
  */
 public class ExcelTest {
 
-    @Test public void toData() throws IOException {
+    @Test
+    public void toData() throws IOException {
         String[] fields = {"id", "name", "sex", "age"};
         List<User> people =
-            ExcelUtil.toData(new FileInputStream("C:\\Softwares\\FTP\\person.xlsx"), 0, 1, fields, User.class);
+                ExcelUtil.toData(new FileInputStream("C:\\Softwares\\FTP\\person.xlsx"), 0, 1, fields, User.class);
         System.out.println(people);
     }
 

@@ -45,9 +45,16 @@ public class SshUtil {
     }
 
     public static boolean execute(Session session, String command) throws JSchException {
-        boolean flag = false;
+        return execute(session, command, null);
+    }
+
+    public static boolean execute(Session session, String command, String logPath) throws JSchException {
         ByteArrayOutputStream errorOut = new ByteArrayOutputStream();
         BufferedReader reader = null;
+        LogUtil logUtil = null;
+        if (logPath != null) {
+            logUtil = LogUtil.getInstance(logPath);
+        }
         try {
             ChannelExec exec = (ChannelExec) session.openChannel("exec");
             exec.setCommand(command);
@@ -58,20 +65,28 @@ public class SshUtil {
             String line;
             while ((line = reader.readLine()) != null) {
                 log.info(line);
+                if (logPath != null) {
+                    logUtil.info(line);
+                }
             }
             while (exec.isConnected()) {
                 if (exec.getExitStatus() == 0) {
-                    flag = true;
+                    return true;
                 }
             }
-            log.error(new String(errorOut.toByteArray(), charsetName));
+            String errorMessage = new String(errorOut.toByteArray(), charsetName);
+            log.error(errorMessage);
+            if (logPath != null) {
+                logUtil.info(errorMessage);
+            }
+            return false;
         } catch (IOException e) {
             log.error(e.getMessage(), e);
+            return false;
         } finally {
             IOUtils.closeQuietly(reader);
             IOUtils.closeQuietly(errorOut);
         }
-        return flag;
     }
 
     public static void upload(ChannelSftp sftp, String localPath, String remoteDir) throws SftpException {
