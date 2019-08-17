@@ -13,7 +13,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @date: 2019/7/29
  */
 @Configuration
-public class RedisConfig {
+public class RedisTemplateConfig {
 
     @Bean
     public RedisTemplate redisTemplate(RedisConnectionFactory factory) {

@@ -59,18 +59,35 @@ public class SSHTest {
     @Test
     public void upload() {
         Session session = null;
+
+        String logPath = "/usr/task/2.log";
+        new File(logPath).delete();
+        LogUtil logUtil = LogUtil.getInstance(logPath);
         try {
-            session = SshUtil.connect("47.105.168.197", 22, "root", "Lxq931129");
+            session = SshUtil.connect("127.0.0.1", 22, "administrator", "jing2019");
+
+            // 清理目录
+            String cleanDir = "D:/task/tools";
+            logUtil.info("清理工具目录： " + cleanDir);
+            SshUtil.delete(session, cleanDir);
+            logUtil.info("清理工具完成");
+
+            // 上传工具
+            String toolsPath = "C:/Softwares/tools";
+            String remoteDir = "/task/tools";
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftp = (ChannelSftp) channel;
-            SshUtil.upload(sftp, "C:\\Download", "/xq/test");
+            logUtil.info("上传工具开始");
+            SshUtil.upload(sftp, toolsPath, remoteDir);
+            logUtil.info("上传工具完成");
         } catch (Exception e) {
             log.info(e.getMessage(), e);
         } finally {
             SshUtil.close(session);
         }
     }
+
 
     @Test
     public void download() {

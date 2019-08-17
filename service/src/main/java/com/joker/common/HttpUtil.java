@@ -7,7 +7,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Base64;
 
@@ -36,19 +39,18 @@ public class HttpUtil {
      * @return
      */
     public static void setFileHeader(String fileName) {
+        String realFileName = null;
         try {
             // 解决不同浏览器下载时文件名乱码
-            if (isIeBrowser()) {
-                fileName = fileName.replaceAll("\\+", "%20");
-            } else {
-                fileName = new String(fileName.getBytes(Charset.defaultCharset()), "ISO-8859-1");
-            }
+            realFileName = isIeBrowser() ?
+                    fileName.replaceAll("\\+", "%20") :
+                    new String(fileName.getBytes(Charset.defaultCharset()), "ISO-8859-1");
         } catch (UnsupportedEncodingException e) {
             log.error(e.getMessage(), e);
         }
         HttpServletResponse response = getResponse();
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + realFileName + "\"");
         response.setHeader("Connection", "close");
     }
 
@@ -76,13 +78,12 @@ public class HttpUtil {
     }
 
 
-
-
     /**
+     * 输入流转字符串
      * @param in
      * @return
      */
-    public static String imgToStr(InputStream in) {
+    public static String streamToString(InputStream in) {
         try {
             byte[] data = new byte[in.available()];
             in.read(data);
@@ -97,13 +98,14 @@ public class HttpUtil {
 
 
     /**
-     * @param imgStr
+     * 字符串转输出流
+     * @param string
      * @param out
      * @return
      */
-    public static void strToImg(String imgStr, OutputStream out) {
+    public static void stringToStream(String string, OutputStream out) {
         try {
-            byte[] b = Base64.getDecoder().decode(imgStr);
+            byte[] b = Base64.getDecoder().decode(string);
             for (int i = 0; i < b.length; ++i) {
                 if (b[i] < 0) {
                     b[i] += 256;

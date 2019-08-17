@@ -1,7 +1,7 @@
 package com.joker.controller;
 
 import com.joker.common.Result;
-import com.joker.config.ExceptionConfig;
+import com.joker.config.HandlerExceptionResolverConfig;
 import com.joker.controller.request.LoginParameter;
 import com.joker.controller.request.LogoutParameter;
 import com.joker.controller.request.RegisterParameter;
@@ -47,7 +47,7 @@ public class AuthController {
     @ApiOperation("注册")
     @PostMapping("register")
     public Result register(@Validated @RequestBody RegisterParameter registerParameter, BindingResult bindingResult) {
-        Result result = ExceptionConfig.checkParam(bindingResult);
+        Result result = HandlerExceptionResolverConfig.checkParam(bindingResult);
         if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }
@@ -57,7 +57,7 @@ public class AuthController {
     @ApiOperation("登录")
     @PostMapping("login")
     public Result login(@Validated @RequestBody LoginParameter loginParameter, BindingResult bindingResult) {
-        Result result = ExceptionConfig.checkParam(bindingResult);
+        Result result = HandlerExceptionResolverConfig.checkParam(bindingResult);
         if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }
@@ -67,7 +67,7 @@ public class AuthController {
     @ApiOperation("登出")
     @PostMapping("logout")
     public Result logout(@Validated @RequestBody LogoutParameter logoutParameter, BindingResult bindingResult) {
-        Result result = ExceptionConfig.checkParam(bindingResult);
+        Result result = HandlerExceptionResolverConfig.checkParam(bindingResult);
         if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }

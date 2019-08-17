@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Slf4j
 @Configuration
-public class ExceptionConfig implements HandlerExceptionResolver {
+public class HandlerExceptionResolverConfig implements HandlerExceptionResolver {
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {

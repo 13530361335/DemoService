@@ -19,7 +19,7 @@ import java.util.Date;
  */
 @EnableSwagger2
 @Configuration
-public class SwaggerConfig {
+public class Swagger2Config {
 
     private static final String START_TIME = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
