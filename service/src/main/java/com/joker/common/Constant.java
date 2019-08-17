@@ -7,11 +7,7 @@ package com.joker.common;
  */
 public interface Constant {
 
-    String APPLICATION_ACTIVE_DEV = "dev";
 
-    String PACKAGE_PATH_CONTROLLER = "com.joker.controller";
-
-    String PACKAGE_PATH_DAO = "com.joker.sql.dao";
 
     String REDIS_KEY_IMAGE = "image";
 

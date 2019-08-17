@@ -1,6 +1,5 @@
 package com.joker.config;
 
-import com.joker.common.Constant;
 import com.joker.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ public class ApplicationRunnerConfig implements ApplicationRunner {
 
     private static final String OS = System.getProperty("os.name");
     private static final String JDK = System.getProperty("java.version");
+    private static final String APPLICATION_ACTIVE_DEV = "dev";
 
     @Value("${server.port}")
     private int port;
@@ -55,7 +55,7 @@ public class ApplicationRunnerConfig implements ApplicationRunner {
     @PreDestroy
     public void destroy() throws Exception {
         log.warn("服务已经关闭");
-        if (!Constant.APPLICATION_ACTIVE_DEV.equals(active)) {
+        if (!APPLICATION_ACTIVE_DEV.equals(active)) {
             emailService.sendEmail(adminEmail, "服务关闭", "你好，服务已关闭");
         }
     }
