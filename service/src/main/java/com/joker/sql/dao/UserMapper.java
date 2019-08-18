@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.joker.sql.entity.User;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * @author: Joker Jing
  * @date: 2019/7/29
@@ -15,12 +17,6 @@ public interface UserMapper extends BaseMapper<User>{
      * @param account
      * @return
      */
-    @Select("SELECT\n" +
-            "	* \n" +
-            "FROM\n" +
-            "	`user` \n" +
-            "WHERE\n" +
-            "	account = #{account}")
-    User selectByAccount(String account);
+    List<User> selectByAccount(String account);
 
 }

@@ -25,8 +25,9 @@ public class SQLTest extends SpringBootBaseTest {
 
     @Test
     public void selectById() {
-        User user1 = userMapper.selectById(1);
-        System.out.println(user1);
+//        User user1 = userMapper.selectById(1);
+        List<User> Uses = userMapper.selectByAccount("jingmin");
+        System.out.println(Uses);
     }
 
     @Test

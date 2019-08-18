@@ -107,7 +107,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Result login(LoginParameter loginParameter) {
-        User user = userMapper.selectByAccount(loginParameter.getAccount());
+        User user = userMapper.selectByAccount(loginParameter.getAccount()).get(0);
         if (user == null || !loginParameter.getPassword().equals(user.getPassword())) {
             return new Result<>(403, "username or password incorrect");
         }
