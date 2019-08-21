@@ -1,6 +1,7 @@
 package com.joker.config;
 
 import com.joker.service.EmailService;
+import com.joker.util.IPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +10,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PreDestroy;
-import java.net.InetAddress;
 
 /**
  * @author: Joker Jing
@@ -21,7 +21,7 @@ public class ApplicationRunnerConfig implements ApplicationRunner {
 
     private static final String OS = System.getProperty("os.name");
     private static final String JDK = System.getProperty("java.version");
-    private static final String APPLICATION_ACTIVE_DEV = "dev";
+    private static final String ACTIVE_DEV = "dev";
 
     @Value("${server.port}")
     private int port;
@@ -41,7 +41,7 @@ public class ApplicationRunnerConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         try {
-            String ip = InetAddress.getLocalHost().getHostAddress();
+            String ip = IPUtil.getIpAddress();
             log.info("JDK: {} [{}] ", JDK, OS);
             log.info("http://{}:{}/swagger-ui.html", ip, port);
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class ApplicationRunnerConfig implements ApplicationRunner {
     @PreDestroy
     public void destroy() throws Exception {
         log.warn("服务已经关闭");
-        if (!APPLICATION_ACTIVE_DEV.equals(active)) {
+        if (!ACTIVE_DEV.equals(active)) {
             emailService.sendEmail(adminEmail, "服务关闭", "你好，服务已关闭");
         }
     }

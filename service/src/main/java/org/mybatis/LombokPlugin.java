@@ -58,14 +58,16 @@ public class LombokPlugin extends PluginAdapter {
 
     @Override
     public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass,
-                                              IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+                                              IntrospectedColumn introspectedColumn,
+                                              IntrospectedTable introspectedTable, ModelClassType modelClassType) {
         //不生成getter
         return false;
     }
 
     @Override
     public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass,
-                                              IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+                                              IntrospectedColumn introspectedColumn,
+                                              IntrospectedTable introspectedTable, ModelClassType modelClassType) {
         //不生成setter
         return false;
     }

@@ -45,5 +45,8 @@ Feign
 <scope>system</scope>
 <systemPath>${project.basedir}/lib/springfox-swagger-ui-2.7.0.jar</systemPath>
 
+9.SpringCloud架构中如何保证定时任务只在一个服务在执行
+https://blog.csdn.net/linzhiqiang0316/article/details/88047138
+
 
 
