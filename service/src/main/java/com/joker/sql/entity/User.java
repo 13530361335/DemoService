@@ -72,8 +72,9 @@ public class User {
         this.realName = realName;
         this.telephone = telephone;
         this.email = email;
-        this.createTime = new Date();
-        this.updateTime = new Date();
+        Date date = new Date();
+        this.createTime = date;
+        this.updateTime = date;
     }
 
 }
