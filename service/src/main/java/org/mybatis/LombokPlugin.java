@@ -47,7 +47,8 @@ public class LombokPlugin extends PluginAdapter {
     }
 
     @Override
-    public boolean clientGenerated(Interface inter, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+    public boolean clientGenerated(Interface inter, TopLevelClass topLevelClass,
+                                   IntrospectedTable introspectedTable) {
         //Mapper文件的注释
         inter.addJavaDocLine("/**");
         inter.addJavaDocLine("* @author: " + USER);
@@ -59,7 +60,8 @@ public class LombokPlugin extends PluginAdapter {
     @Override
     public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass,
                                               IntrospectedColumn introspectedColumn,
-                                              IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+                                              IntrospectedTable introspectedTable,
+                                              ModelClassType modelClassType) {
         //不生成getter
         return false;
     }
@@ -67,7 +69,8 @@ public class LombokPlugin extends PluginAdapter {
     @Override
     public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass,
                                               IntrospectedColumn introspectedColumn,
-                                              IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+                                              IntrospectedTable introspectedTable,
+                                              ModelClassType modelClassType) {
         //不生成setter
         return false;
     }

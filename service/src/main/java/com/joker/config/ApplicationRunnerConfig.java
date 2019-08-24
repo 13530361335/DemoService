@@ -1,7 +1,7 @@
 package com.joker.config;
 
 import com.joker.service.EmailService;
-import com.joker.util.IPUtil;
+import com.joker.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +41,7 @@ public class ApplicationRunnerConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         try {
-            String ip = IPUtil.getIpAddress();
+            String ip = IpUtil.getIpAddress();
             log.info("JDK: {} [{}] ", JDK, OS);
             log.info("http://{}:{}/swagger-ui.html", ip, port);
         } catch (Exception e) {

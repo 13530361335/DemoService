@@ -1,8 +1,12 @@
-package com.joker.test.junit;
+package com.joker.test.util;
 
 import com.joker.service.impl.FtpServiceImpl;
 import org.junit.Test;
 
+/**
+ * @author: Joker Jing
+ * @date: 2019/7/14
+ */
 public class FTPTest {
 
     @Test public void upload() {

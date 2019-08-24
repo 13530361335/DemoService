@@ -1,5 +1,5 @@
 /*
-package com.joker.test.junit;
+package com.joker.test.util;
 
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
@@ -12,7 +12,8 @@ import java.io.PrintWriter;
 
 */
 /**
- * created by Joker on 2019/7/14
+ * @author: Joker Jing
+ * @date: 2019/7/14
  *//*
 
 public class ORCTest {

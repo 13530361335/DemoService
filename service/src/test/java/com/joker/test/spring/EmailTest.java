@@ -1,7 +1,6 @@
 package com.joker.test.spring;
 
 import com.joker.service.EmailService;
-import com.joker.test.SpringBootBaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,15 +8,19 @@ import org.springframework.mail.SimpleMailMessage;
 import org.thymeleaf.context.Context;
 
 /**
- * created by Joker on 2019/7/9
+ * @author: Joker Jing
+ * @date: 2019/7/9
  */
-public class EmailTest extends SpringBootBaseTest {
+public class EmailTest extends BaseTest {
 
-    @Autowired private EmailService emailService;
+    @Autowired
+    private EmailService emailService;
 
-    @Value("${spring.mail.username}") private String sender;
+    @Value("${spring.mail.username}")
+    private String sender;
 
-    @Test public void sendSimpleMail() throws Exception {
+    @Test
+    public void sendSimpleMail() throws Exception {
         Context context = new Context();
         context.setVariable("message", "测试123456");
         String text = emailService.getTextByTemplate("mailTemplate", context);

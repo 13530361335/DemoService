@@ -24,7 +24,7 @@ public class SshUtil {
 
     private static final String WINDOWS_SIGN = "Windows";
 
-    public static Session connect(String host, int port, String username, String password) throws JSchException {
+    public static final Session connect(String host, int port, String username, String password) throws JSchException {
         JSch jsch = new JSch();
         Session session = jsch.getSession(username, host, port);
         // 设置第一次登陆的时候提示，可选值:(ask | yes | no)

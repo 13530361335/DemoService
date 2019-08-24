@@ -1,4 +1,4 @@
-package com.joker.test.junit;
+package com.joker.test.util;
 
 import com.joker.util.ShellUtil;
 import org.junit.Test;
@@ -11,9 +11,8 @@ public class ShellTest {
 
     @Test
     public void test(){
-//        ShellUtil.execute("java","-version");
+        ShellUtil.execute("java","-version");
         ShellUtil.execute("git","--version");
-        ShellUtil.execute("git","clone","-b","master","https://github.com/13530361335/DemoService.git","C:/test/demo");
     }
 
 }

@@ -1,4 +1,4 @@
-package com.joker.test.junit;
+package com.joker.test.util;
 
 import com.joker.sql.entity.User;
 import com.joker.util.ExcelUtil;
@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * created by Joker on 2019/7/6
+ * @author: Joker Jing
+ * @date: 2019/7/6
  */
 public class ExcelTest {
 

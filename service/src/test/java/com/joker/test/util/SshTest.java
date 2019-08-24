@@ -1,4 +1,4 @@
-package com.joker.test.junit;
+package com.joker.test.util;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -10,14 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.LinkedList;
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
-public class SSHTest {
+public class SshTest {
 
     @Test
-    public void execute() {
+    public void taskkill() {
         Session session = null;
         String logPath = "/usr/task/1.log";
         new File(logPath).delete();
@@ -35,17 +37,15 @@ public class SSHTest {
             logUtil.info("清理进程开始");
 
             // 清理进程
-            List<String> killList = new LinkedList<>();
-            killList.add("taskkill /f /t /im python.exe");
-            killList.add("taskkill /f /t /im git.exe");
             if (isWin) {
-                for (String kill : killList) {
-                    log.info(kill);
-                    logUtil.info(kill);
-                    SshUtil.execute(session, kill);
+                List<String> imageNames = List.of("python.exe", "git.exe");
+                for (String imageName : imageNames) {
+                    String killCommand = MessageFormat.format("taskkill /f /t /im {0}", imageName);
+                    log.info(killCommand);
+                    logUtil.info(killCommand);
+                    SshUtil.execute(session, killCommand);
                 }
             }
-
             log.info("清理进程完成");
             logUtil.info("清理进程完成");
         } catch (JSchException e) {

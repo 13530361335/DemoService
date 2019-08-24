@@ -1,4 +1,4 @@
-package com.joker.test.junit;
+package com.joker.test.util;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;

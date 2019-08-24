@@ -16,7 +16,7 @@ import java.util.List;
  * @date: 2019/8/22
  */
 @Slf4j
-public class IPUtil {
+public class IpUtil {
 
     /**
      * @param ipAddress
@@ -96,8 +96,8 @@ public class IPUtil {
      */
     public static boolean ipCompare(List<URI> serviceUrl) {
         try {
-            String localIpStr = IPUtil.getIpAddress();
-            long localIpLong = IPUtil.ipToLong(localIpStr);
+            String localIpStr = IpUtil.getIpAddress();
+            long localIpLong = IpUtil.ipToLong(localIpStr);
             int size = serviceUrl.size();
             if (size == 0) {
                 return false;
@@ -106,7 +106,7 @@ public class IPUtil {
             Long[] longHost = new Long[size];
             for (int i = 0; i < serviceUrl.size(); i++) {
                 String host = serviceUrl.get(i).getHost();
-                longHost[i] = IPUtil.ipToLong(host);
+                longHost[i] = IpUtil.ipToLong(host);
             }
             Arrays.sort(longHost);
             if (localIpLong == longHost[0]) {

@@ -1,13 +1,13 @@
-package com.joker.test.junit;
+package com.joker.test.basic;
 
-import lombok.Data;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 
 /**
- * created by Joker on 2019/7/24
+ * @author: Joker Jing
+ * @date: 2019/7/24
  */
 public class StringTest {
 
@@ -78,49 +78,4 @@ public class StringTest {
         System.out.println(mid);
     }
 
-    @Test
-    public void test8() {
-        Node node1 = new Node(1);
-        Node node2 = new Node(2);
-        Node node3 = new Node(3);
-        node1.next = node2;
-        node2.next = node3;
-
-        Node node = node1;
-        while (node.next != null) {
-            System.out.println(node);
-            node = node.next;
-        }
-        System.out.println(node);
-
-        Node left = null;
-        Node right = node1;
-        while (right != null) {
-            Node temp = right.getNext();
-
-            right.setNext(left);
-
-            left = right;
-
-            right = temp;
-        }
-
-        node = left;
-        while (node.next != null) {
-            System.out.println(node);
-            node = node.next;
-        }
-        System.out.println(node);
-    }
-
-}
-
-@Data
-class Node<T> {
-    T val;
-    Node next;
-
-    public Node(T val) {
-        this.val = val;
-    }
 }

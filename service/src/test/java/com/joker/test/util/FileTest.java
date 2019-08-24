@@ -1,4 +1,4 @@
-package com.joker.test.junit;
+package com.joker.test.util;
 
 import com.joker.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * created by Joker on 2019/7/3
+ * @author: Joker Jing
+ * @date: 2019/7/3
  */
 @Slf4j
 public class FileTest {

@@ -1,7 +1,6 @@
 package com.joker.test.spring;
 
 import com.joker.common.Constant;
-import com.joker.test.SpringBootBaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @author: Joker Jing
  * @date: 2019/8/4
  */
-public class RedisTest extends SpringBootBaseTest {
+public class RedisTest extends BaseTest {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;

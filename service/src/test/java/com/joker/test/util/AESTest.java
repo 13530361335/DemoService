@@ -1,4 +1,4 @@
-package com.joker.test.junit;
+package com.joker.test.util;
 
 import com.joker.util.AesUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -6,7 +6,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 /**
- * created by Joker on 2019/7/14
+ * @author: Joker Jing
+ * @date: 2019/7/14
  */
 @Slf4j
 public class AESTest {
