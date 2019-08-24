@@ -41,28 +41,50 @@ public class ExcelUtil {
      * @return
      * @throws IOException
      */
-    public static <T> List<T> toData(InputStream in, int sheetNo, int start, String[] fields, Class<T> clazz) {
-        Workbook work;
-        try {
-            work = new XSSFWorkbook(in);
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            return null;
-        }
+    public static <T> List<T> toData(InputStream in, int sheetNo, int start,
+                                     List<String> fields, Class<T> clazz) throws IOException {
+        Workbook work = new XSSFWorkbook(in);
+
+        // 获取标题行
+        List<String> headerFields = getHeaderFields(work, sheetNo);
+
         Sheet sheet = work.getSheetAt(sheetNo);
-        List<T> list = new LinkedList();
+        List<T> list = new LinkedList<>();
         for (int rowIndex = start; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
             Row row = sheet.getRow(rowIndex);
             if (row != null) {
                 JSONObject json = new JSONObject();
-                for (int colIndex = 0; colIndex < fields.length; colIndex++) {
+                for (int colIndex = 0; colIndex < headerFields.size(); colIndex++) {
                     Cell cell = row.getCell(colIndex);
-                    json.put(fields[colIndex], getValue(cell));
+                    String headerField = headerFields.get(colIndex);
+                    if (fields.contains(headerField)) {
+                        json.put(headerField, getValue(cell));
+                    }
                 }
                 list.add(json.toJavaObject(clazz));
             }
         }
         return list;
+    }
+
+    /**
+     * 获取标题行字段
+     *
+     * @param work
+     * @param sheetNo
+     * @return
+     */
+    public static List<String> getHeaderFields(Workbook work, int sheetNo) {
+        Sheet sheet = work.getSheetAt(sheetNo);
+        Row row = sheet.getRow(0);
+        List<String> headerFields = new LinkedList<>();
+        if (row != null) {
+            for (int colIndex = 0; colIndex < row.getLastCellNum(); colIndex++) {
+                Cell cell = row.getCell(colIndex);
+                headerFields.add(cell.getStringCellValue());
+            }
+        }
+        return headerFields;
     }
 
     /**
@@ -73,7 +95,7 @@ public class ExcelUtil {
      * @param fields 字段数组
      * @throws IOException
      */
-    public static void toExcel(OutputStream out, List list, String[] fields) throws IOException {
+    public static void toExcel(OutputStream out, List<?> list, List<String> fields) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet();
 
@@ -100,7 +122,8 @@ public class ExcelUtil {
      * @param list    数据集
      * @throws IOException
      */
-    public static void toExcelByTemplate(InputStream in, int sheetNo, int start, OutputStream out, List list, String[] fields) throws IOException {
+    public static void toExcelByTemplate(InputStream in, int sheetNo, int start, OutputStream out,
+                                         List<?> list, List<String> fields) throws IOException {
         loadDataRow(new XSSFWorkbook(in), sheetNo, start, out, list, fields);
     }
 
@@ -113,15 +136,16 @@ public class ExcelUtil {
      * @param fields
      * @throws IOException
      */
-    private static void loadDataRow(XSSFWorkbook workbook, int sheetNo, int start, OutputStream out, List list, String[] fields) throws IOException {
+    private static void loadDataRow(XSSFWorkbook workbook, int sheetNo, int start,
+                                    OutputStream out, List<?> list, List<String> fields) throws IOException {
         XSSFSheet sheet = workbook.getSheetAt(sheetNo);
         int rowIndex = start;
         for (Object object : list) {
             Row dataRow = sheet.createRow(rowIndex);
             Map map = JsonUtil.change(object, Map.class);
-            for (int i = 0; i < fields.length; i++) {
+            for (int i = 0; i < fields.size(); i++) {
                 Cell cell = dataRow.createCell(i);
-                Object value = map.get(fields[i]);
+                Object value = map.get(fields.get(i));
                 setValue(cell, value);
             }
             rowIndex++;
@@ -129,6 +153,11 @@ public class ExcelUtil {
         workbook.write(out);
     }
 
+    /**
+     * 获取cell值
+     * @param cell
+     * @return
+     */
     private static Object getValue(Cell cell) {
         if (null == cell) {
             return null;
@@ -149,6 +178,11 @@ public class ExcelUtil {
         return value;
     }
 
+    /**
+     * 设置cell值
+     * @param cell
+     * @param value
+     */
     private static void setValue(Cell cell, Object value) {
         if (null == cell) {
             return;

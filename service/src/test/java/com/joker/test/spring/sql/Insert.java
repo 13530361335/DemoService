@@ -7,7 +7,7 @@ import com.joker.test.spring.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * @author: Joker Jing
@@ -31,7 +31,7 @@ public class Insert extends BaseTest {
 
     @Test
     public void saveBatch() {
-        userService.saveBatch(List.of(
+        userService.saveBatch(Arrays.asList(
                 new User("xu", "123", "1", "1", "1"),
                 new User("xu", "123", "1", "1", "1"),
                 new User("xu", "123", "1", "1", "1"),

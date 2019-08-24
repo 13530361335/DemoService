@@ -1,9 +1,20 @@
-/target/
-*/target/
+# Compiled class file
+*.class
 
-### IDEA ###
+# Log file
+*.log
+
+# idea
 .idea/
 .mvn/
 *.iml
+
+# eclipse
+.classpath
+.project
+.settings
+target
+
+
 
 

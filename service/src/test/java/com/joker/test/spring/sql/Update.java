@@ -7,6 +7,7 @@ import com.joker.test.spring.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class Update extends BaseTest {
 
     @Test
     public void updateBatchById() {
-        List<User> users = userMapper.selectBatchIds(List.of(103, 104, 105));
+        List<User> users = userMapper.selectBatchIds(Arrays.asList(103, 104, 105));
         users.forEach(user -> {
             user.setAccount(String.valueOf(user.getUserId()));
         });

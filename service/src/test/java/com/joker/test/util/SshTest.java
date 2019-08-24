@@ -38,7 +38,7 @@ public class SshTest {
 
             // 清理进程
             if (isWin) {
-                List<String> imageNames = List.of("python.exe", "git.exe");
+                List<String> imageNames = Arrays.asList("python.exe", "git.exe");
                 for (String imageName : imageNames) {
                     String killCommand = MessageFormat.format("taskkill /f /t /im {0}", imageName);
                     log.info(killCommand);

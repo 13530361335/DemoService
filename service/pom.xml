@@ -11,10 +11,7 @@
 
     <artifactId>service</artifactId>
 
-    <!-- 打包跳过测试类 -->
-    <properties>
-        <skipTests>true</skipTests>
-    </properties>
+
 
     <dependencies>
 <!--        <dependency>-->
@@ -104,37 +101,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <!-- 指定配置文件 -->
-    <!-- java -jar service-1.0-SNAPSHOT.jar &#45;&#45;spring.profiles.active=beta -->
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <profileActive>dev</profileActive>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>beta</id>
-            <properties>
-                <profileActive>beta</profileActive>
-            </properties>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <profileActive>prod</profileActive>
-            </properties>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-        </profile>
-    </profiles>
 
 </project>
