@@ -2,9 +2,6 @@ package com.joker.sql.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.joker.sql.entity.User;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
 
 /**
  * @author: Joker Jing
@@ -17,6 +14,6 @@ public interface UserMapper extends BaseMapper<User>{
      * @param account
      * @return
      */
-    List<User> selectByAccount(String account);
+    User selectByAccount(String account);
 
 }

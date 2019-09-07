@@ -19,14 +19,14 @@ spring:
     port: 6379
     password:
     database: 0
-  data:
-    mongodb:
-      uri: mongodb://127.0.0.1:27017/demo
   rabbitmq:
     host: 127.0.0.1
     port: 5672
-    username: root
-    password: root
+    username: guest
+    password: guest
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/demo
 
 eureka:
   client:

@@ -1,6 +1,7 @@
 package com.joker.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -18,23 +19,34 @@ import java.util.List;
 @Slf4j
 public class IpUtil {
 
+    private static final int THREE = 3;
+    private static final int FOUR = 4;
+
     /**
      * @param ipAddress
      * @return
      */
     public static long ipToLong(String ipAddress) {
         long result = 0;
-        String[] ipAddressInArray = ipAddress.split("\\.");
-        for (int i = 3; i >= 0; i--) {
-            long ip = Long.parseLong(ipAddressInArray[3 - i]);
-            // left shifting 24,16,8,0 and bitwise OR
-            // 1. 192 << 24
-            // 1. 168 << 16
-            // 1. 1 << 8
-            // 1. 2 << 0
-            result |= ip << (i * 8);
+        String[] ips = ipAddress.split("\\.");
+        // 用点分开的每个字节的数值范围是0~255,计算时，使用位移计算
+        for (int i = 0; i < ips.length; i++) {
+            long ip = Long.parseLong(ips[i]);
+            int moveLeftCount = (ips.length - 1 - i) * 8;
+            result |= ip << moveLeftCount;
         }
         return result;
+    }
+
+    public static boolean isIp(String ip) {
+        if (StringUtils.isEmpty(ip)) {
+            return false;
+        }
+        String regex = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
+                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+                + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";
+        return ip.matches(regex);
     }
 
     /**
@@ -42,22 +54,6 @@ public class IpUtil {
      * @return
      */
     public static String longToIp(long ip) {
-        StringBuilder result = new StringBuilder(15);
-        for (int i = 0; i < 4; i++) {
-            result.insert(0, Long.toString(ip & 0xff));
-            if (i < 3) {
-                result.insert(0, '.');
-            }
-            ip = ip >> 8;
-        }
-        return result.toString();
-    }
-
-    /**
-     * @param ip
-     * @return
-     */
-    public static String longToIp2(long ip) {
         return ((ip >> 24) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "." + ((ip >> 8) & 0xFF) + "." + (ip & 0xFF);
     }
 

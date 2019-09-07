@@ -166,7 +166,8 @@ public class ExcelUtil {
         switch (cell.getCellType()) {
             case Cell.CELL_TYPE_NUMERIC:
                 value = DateUtil.isCellDateFormatted(cell) ?
-                        DateUtil.getJavaDate(cell.getNumericCellValue()) : new DataFormatter().formatCellValue(cell);
+                        DateUtil.getJavaDate(cell.getNumericCellValue()) :
+                        new DataFormatter().formatCellValue(cell);
                 break;
             case Cell.CELL_TYPE_BOOLEAN:
                 value = cell.getBooleanCellValue();

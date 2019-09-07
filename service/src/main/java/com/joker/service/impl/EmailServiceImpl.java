@@ -1,14 +1,18 @@
 package com.joker.service.impl;
 
 import com.joker.service.EmailService;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+
+import java.io.IOException;
 
 /**
  * @author Joker Jing
@@ -19,7 +23,7 @@ import org.thymeleaf.context.Context;
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
-    private TemplateEngine templateEngine;
+    private FreeMarkerConfigurer configurer;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -28,18 +32,19 @@ public class EmailServiceImpl implements EmailService {
     private String sender;
 
     @Override
-    public String getTextByTemplate(String template, Context context) {
-        return templateEngine.process(template, context);
+    public String getTextByTemplate(String templateName, Object data) throws IOException, TemplateException {
+        Template template = configurer.getConfiguration().getTemplate(templateName);
+        return FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
     }
 
     @Override
-    public void sendEmail(SimpleMailMessage message) throws Exception{
+    public void sendEmail(SimpleMailMessage message) throws Exception {
         javaMailSender.send(message);
     }
 
     @Async
     @Override
-    public void sendEmail(String to, String title, String content) throws Exception{
+    public void sendEmail(String to, String title, String content) throws Exception {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(sender);
         message.setTo(to);

@@ -3,7 +3,7 @@
 <mapper namespace="com.joker.sql.dao.UserMapper">
 
     <select id="selectByAccount" resultType="com.joker.sql.entity.User">
-        <!--        SELECT * FROM user WHERE account = #{account}-->
+        SELECT * FROM user WHERE account = #{account} LIMIT 1
     </select>
 
 </mapper>

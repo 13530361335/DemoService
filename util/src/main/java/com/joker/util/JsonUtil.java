@@ -18,7 +18,7 @@ public class JsonUtil {
     }
 
     public static <T> T change(Object object, Class<T> clazz) {
-        return toObject(toString(object),clazz);
+        return toObject(toString(object), clazz);
     }
 
 }

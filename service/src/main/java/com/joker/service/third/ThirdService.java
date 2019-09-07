@@ -16,9 +16,9 @@ public class ThirdService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public Result doGet(){
-        ResponseEntity<String> str = restTemplate.getForEntity("https://www.baidu.com",String.class);
-        return new Result(str);
+    public Result doGet() {
+        ResponseEntity<String> str = restTemplate.getForEntity("https://www.baidu.com", String.class);
+        return Result.success(str);
     }
 
 }

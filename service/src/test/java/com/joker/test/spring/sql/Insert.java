@@ -4,10 +4,13 @@ import com.joker.sql.dao.UserMapper;
 import com.joker.sql.entity.User;
 import com.joker.sql.service.UserService;
 import com.joker.test.spring.BaseTest;
+import com.joker.util.JsonUtil;
+import com.joker.util.LogUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author: Joker Jing
@@ -31,11 +34,13 @@ public class Insert extends BaseTest {
 
     @Test
     public void saveBatch() {
-        userService.saveBatch(Arrays.asList(
+        List<User> users = Arrays.asList(
                 new User("xu", "123", "1", "1", "1"),
                 new User("xu", "123", "1", "1", "1"),
                 new User("xu", "123", "1", "1", "1"),
-                new User( "min", "123", "1", "1", "1")));
+                new User("min", "123", "1", "1", "1"));
+        userService.saveBatch(users);
+        users.forEach(System.out::println);
     }
 
 }

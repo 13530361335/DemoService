@@ -51,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
     public Result sendVerificationCode(String type, String account) {
         Object cacheVerificationCode = redisTemplate.opsForHash().get(Constant.REDIS_KEY_VERIFICATION_CODE, account);
         if (cacheVerificationCode != null) {
-            return new Result<>(400, "60秒内不可重复发送验证码");
+            return Result.fail(400, "60秒内不可重复发送验证码");
         }
         // 生成6位数字验证码
         String verificationCode = RandomStringUtils.randomNumeric(VERIFICATION_CODE_LENGTH);
@@ -60,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
         redisTemplate.expire(Constant.REDIS_KEY_VERIFICATION_CODE, VERIFICATION_CODE_EXPIRE_TIME, TimeUnit.SECONDS);
         // 发送验证码
         try {
-            if (VERIFY_TYPE_TELEPHONR.equals(type)) {
+            if (VERIFY_TYPE_TELEPHONE.equals(type)) {
                 // 手机验证
             } else {
                 // 邮箱验证
@@ -70,9 +70,9 @@ public class AuthServiceImpl implements AuthService {
             redisTemplate.opsForHash().delete(Constant.REDIS_KEY_VERIFICATION_CODE, account);
             log.info("发送验证码失败，account：{} type:{}", account, type);
             log.info(e.getMessage(), e);
-            return new Result<>(500, "send email error");
+            return Result.fail(500, "send email error");
         }
-        return new Result<>();
+        return Result.success();
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -97,21 +97,21 @@ public class AuthServiceImpl implements AuthService {
 
         // 校验验证码
         if (!registerParameter.getVerificationCode().equals(verificationCode)) {
-            return new Result<>(403, "verification code is incorrect or expired");
+            return Result.fail(403, "verification code is incorrect or expired");
         }
 
         user.setPassword("123456");
         userMapper.insert(user);
-        return new Result<>(200, "register success");
+        return Result.success();
     }
 
     @Override
     public Result login(LoginParameter loginParameter) {
-        User user = userMapper.selectByAccount(loginParameter.getAccount()).get(0);
+        User user = userMapper.selectByAccount(loginParameter.getAccount());
         if (user == null || !loginParameter.getPassword().equals(user.getPassword())) {
-            return new Result<>(403, "username or password incorrect");
+            return Result.fail(403, "username or password error");
         }
-        return new Result<>(200, "login success");
+        return Result.success();
     }
 
     @Override

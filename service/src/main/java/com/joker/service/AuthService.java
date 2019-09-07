@@ -1,7 +1,6 @@
 package com.joker.service;
 
 import com.joker.common.Result;
-import com.joker.common.exception.RequestException;
 import com.joker.controller.request.LoginParameter;
 import com.joker.controller.request.LogoutParameter;
 import com.joker.controller.request.RegisterParameter;
@@ -15,7 +14,7 @@ public interface AuthService {
     /**
      * 手机验证
      */
-    String VERIFY_TYPE_TELEPHONR = "0";
+    String VERIFY_TYPE_TELEPHONE = "0";
 
     /**
      * 邮箱验证

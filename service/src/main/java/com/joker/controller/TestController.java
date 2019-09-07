@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.joker.common.Constant;
+import com.joker.common.HelloSender;
 import com.joker.common.HttpUtil;
 import com.joker.common.Result;
 import com.joker.common.annotation.HandlingTime;
@@ -13,6 +14,7 @@ import com.joker.service.third.ThirdService;
 import com.joker.sql.dao.UserMapper;
 import com.joker.sql.entity.User;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +58,7 @@ public class TestController {
                 .select(columns)
                 .eq("account", account);
         IPage<User> userPage = userMapper.selectPage(new Page<>(requestPage.getCurrent(),requestPage.getSize()), wrapper);
-        return new Result(userPage);
+        return Result.success(userPage);
     }
 
     @PostMapping("upload")
@@ -100,6 +102,14 @@ public class TestController {
     @GetMapping("stop")
     public void stop(String taskId) {
         testService.stop(taskId);
+    }
+
+    @Autowired
+    private HelloSender helloSender;
+
+    @GetMapping("send")
+    public void send() {
+        helloSender.send();
     }
 
 }

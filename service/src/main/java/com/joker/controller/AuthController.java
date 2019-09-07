@@ -1,7 +1,7 @@
 package com.joker.controller;
 
 import com.joker.common.Result;
-import com.joker.config.HandlerExceptionResolverConfig;
+import com.joker.config.ControllerExceptionConfig;
 import com.joker.controller.request.LoginParameter;
 import com.joker.controller.request.LogoutParameter;
 import com.joker.controller.request.RegisterParameter;
@@ -34,12 +34,12 @@ public class AuthController {
     @GetMapping("sendVerificationCode")
     public Result sendVerificationCode(String type, String account) {
         // type：0，手机验证；1，邮箱验证。
-        if (!AuthService.VERIFY_TYPE_TELEPHONR.equals(type) && !AuthService.VERIFY_TYPE_EMAIL.equals(type)) {
-            return new Result<>(400, "type类型只能为0（手机验证）或1（邮箱验证）");
+        if (!AuthService.VERIFY_TYPE_TELEPHONE.equals(type) && !AuthService.VERIFY_TYPE_EMAIL.equals(type)) {
+            return Result.fail(400, "type类型只能为0（手机验证）或1（邮箱验证）");
         }
         // 校验手机号码或邮箱。
         if (StringUtils.isEmpty(account)) {
-            return new Result<>(400, "account不允许为空");
+            return Result.fail(400, "account不允许为空");
         }
         return authService.sendVerificationCode(type, account);
     }
@@ -47,7 +47,7 @@ public class AuthController {
     @ApiOperation("注册")
     @PostMapping("register")
     public Result register(@Validated @RequestBody RegisterParameter registerParameter, BindingResult bindingResult) {
-        Result result = HandlerExceptionResolverConfig.checkParam(bindingResult);
+        Result result = ControllerExceptionConfig.checkParam(bindingResult);
         if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }
@@ -57,7 +57,7 @@ public class AuthController {
     @ApiOperation("登录")
     @PostMapping("login")
     public Result login(@Validated @RequestBody LoginParameter loginParameter, BindingResult bindingResult) {
-        Result result = HandlerExceptionResolverConfig.checkParam(bindingResult);
+        Result result = ControllerExceptionConfig.checkParam(bindingResult);
         if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }
@@ -67,7 +67,7 @@ public class AuthController {
     @ApiOperation("登出")
     @PostMapping("logout")
     public Result logout(@Validated @RequestBody LogoutParameter logoutParameter, BindingResult bindingResult) {
-        Result result = HandlerExceptionResolverConfig.checkParam(bindingResult);
+        Result result = ControllerExceptionConfig.checkParam(bindingResult);
         if (result.getCode() != HttpStatus.OK.value()) {
             return result;
         }

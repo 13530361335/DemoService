@@ -30,7 +30,8 @@ public class ExcelTest {
 
     @Test
     public void toExcel() throws IOException {
-        List<String> fields = Arrays.asList("user_id", "role_id", "account",
+        List<String> fields = Arrays.asList(
+                "user_id", "role_id", "account",
                 "password", "real_name", "telephone",
                 "email", "create_time", "update_time");
 

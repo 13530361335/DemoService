@@ -1,7 +1,9 @@
 package com.joker.service;
 
+import freemarker.template.TemplateException;
 import org.springframework.mail.SimpleMailMessage;
-import org.thymeleaf.context.Context;
+
+import java.io.IOException;
 
 /**
  * @author: Joker Jing
@@ -15,7 +17,7 @@ public interface EmailService {
      * @param context
      * @return
      */
-    String getTextByTemplate(String template, Context context);
+    String getTextByTemplate(String template, Object context) throws IOException, TemplateException;
 
     /**
      * 发送邮件

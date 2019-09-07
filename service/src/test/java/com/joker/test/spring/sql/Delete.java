@@ -1,7 +1,6 @@
 package com.joker.test.spring.sql;
 
 import com.joker.sql.dao.UserMapper;
-import com.joker.sql.entity.User;
 import com.joker.sql.service.UserService;
 import com.joker.test.spring.BaseTest;
 import org.junit.Test;
