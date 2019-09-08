@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: Joker Jing
- * @date: 2019/9/5
+ * @author Joker Jing
+ * @date 2019/9/5
  */
 @ControllerAdvice
 @ResponseBody

@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Joker Jing
- * @date: 2019/7/29
- * @description: 统一常量存放
+ * @date 2019/7/29
+ * @description 统一常量存放
  */
 @Slf4j
 @Api(tags = "授权接口")

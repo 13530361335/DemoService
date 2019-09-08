@@ -4,8 +4,8 @@ import com.joker.service.impl.FtpServiceImpl;
 import org.junit.Test;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/14
+ * @author Joker Jing
+ * @date 2019/7/14
  */
 public class FTPTest {
 

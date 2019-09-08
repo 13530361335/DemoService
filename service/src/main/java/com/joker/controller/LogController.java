@@ -13,7 +13,7 @@ import java.io.*;
 
 /**
  * @author Joker Jing
- * @date: 2019/7/29
+ * @date 2019/7/29
  */
 @RestController
 @RequestMapping("log")

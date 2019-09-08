@@ -7,8 +7,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/6
+ * @author Joker Jing
+ * @date 2019/7/6
  */
 @ActiveProfiles("dev")
 @RunWith(SpringRunner.class)

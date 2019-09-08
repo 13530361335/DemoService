@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/3
+ * @author Joker Jing
+ * @date 2019/7/3
  */
 @Slf4j
 public class FileTest {

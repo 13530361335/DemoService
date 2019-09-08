@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author Joker Jing
- * @date: 2019/7/29
- * @description:
+ * @date 2019/7/29
+ * @description
  */
 @Slf4j
 @Service

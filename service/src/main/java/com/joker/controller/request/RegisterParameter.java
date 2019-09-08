@@ -9,8 +9,8 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * @author Joker Jing
- * @date: 2019/7/29
- * @description:
+ * @date 2019/7/29
+ * @description
  */
 @ApiModel("注册参数")
 @Setter

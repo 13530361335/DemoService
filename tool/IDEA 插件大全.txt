@@ -1,17 +1,10 @@
 简化实体： Lombok
-日志颜色：Grep Console
-Mybatis日志 ：Mybatis Log Plugin  
 Mybatis 工具：Free Mybatis plugin
 快捷键提示工具：Key promoter X
 彩虹颜色的括号：Rainbow Brackets
 阿里代码规约检测：Alibaba Java Coding Guidelines
 
-======================================
-
-可以将光标移动到页面上面的任何地方：AceJump
 自动化高亮显示光标所在代码块对应的括号：HighlightBracketPair
-写代码是整个屏幕都在抖动：Power mode II
-热部署插件：JRebel
 
 中英文翻译工具：Translation
 名称风格转换工具： CamelCase

@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/29
+ * @author Joker Jing
+ * @date 2019/7/29
  */
 @Slf4j
 @Service

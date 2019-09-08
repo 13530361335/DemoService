@@ -13,9 +13,9 @@ import java.text.DecimalFormat;
 import java.util.Enumeration;
 
 /**
- * @author: Joker Jing
- * @Date: 2019/7/29
- * @Description:
+ * @author Joker Jing
+ * @date 2019/7/29
+ * @description
  * 1.压缩
  * 2.解压
  * 3.加密压缩   #

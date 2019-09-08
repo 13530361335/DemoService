@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PreDestroy;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/18
+ * @author Joker Jing
+ * @date 2019/8/18
  */
 @Slf4j
 @Configuration

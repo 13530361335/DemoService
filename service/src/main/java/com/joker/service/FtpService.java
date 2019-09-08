@@ -4,8 +4,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/29
+ * @author Joker Jing
+ * @date 2019/7/29
  */
 public interface FtpService {
 

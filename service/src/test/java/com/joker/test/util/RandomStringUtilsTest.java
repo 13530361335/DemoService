@@ -4,8 +4,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/3
+ * @author Joker Jing
+ * @date 2019/8/3
  * 测试RandomStringUtils工具类
  */
 public class RandomStringUtilsTest {

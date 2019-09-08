@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author Joker Jing
- * @date: 2019/7/29
+ * @date 2019/7/29
  * https://mp.baomidou.com/guide/
  */
 @EnableTransactionManagement

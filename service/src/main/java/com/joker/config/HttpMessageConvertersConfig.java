@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/18
+ * @author Joker Jing
+ * @date 2019/8/18
  */
 @Configuration
 public class HttpMessageConvertersConfig {

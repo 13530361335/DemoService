@@ -4,8 +4,8 @@ import com.joker.util.ShellUtil;
 import org.junit.Test;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/8
+ * @author Joker Jing
+ * @date 2019/8/8
  */
 public class ShellTest {
 

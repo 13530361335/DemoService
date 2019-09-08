@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/24
+ * @author Joker Jing
+ * @date 2019/8/24
  */
 public class Insert extends BaseTest {
 

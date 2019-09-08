@@ -1,8 +1,8 @@
 package com.joker.service;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/10
+ * @author Joker Jing
+ * @date 2019/8/10
  */
 public interface TestService {
 

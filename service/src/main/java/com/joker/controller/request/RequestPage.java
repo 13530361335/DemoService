@@ -6,8 +6,8 @@ import lombok.*;
 
 /**
  * @author Joker Jing
- * @date: 2019/7/29
- * @description:
+ * @date 2019/7/29
+ * @description
  */
 @ApiModel("分页请求参数")
 @Data

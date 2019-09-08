@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/29
+ * @author Joker Jing
+ * @date 2019/7/29
  */
 @Slf4j
 public class ShellUtil {

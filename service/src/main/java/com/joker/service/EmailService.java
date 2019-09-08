@@ -6,8 +6,8 @@ import org.springframework.mail.SimpleMailMessage;
 import java.io.IOException;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/29
+ * @author Joker Jing
+ * @date 2019/7/29
  */
 public interface EmailService {
 

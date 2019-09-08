@@ -8,8 +8,8 @@ import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.Method;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/29
+ * @author Joker Jing
+ * @date 2019/7/29
  */
 public class CommentGenerator extends DefaultCommentGenerator {
 

@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/24
+ * @author Joker Jing
+ * @date 2019/8/24
  */
 public class Update extends BaseTest {
 
@@ -24,8 +24,7 @@ public class Update extends BaseTest {
 
     @Test
     public void updateById() {
-        User user = userMapper.selectById(104);
-        user.setPassword("");
+        User user = userMapper.selectById(127);
         user.setEmail("761878367@qq.com");
         userMapper.updateById(user);
     }

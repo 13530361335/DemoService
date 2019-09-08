@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/24
+ * @author Joker Jing
+ * @date 2019/8/24
  */
 public class Delete extends BaseTest {
     @Autowired

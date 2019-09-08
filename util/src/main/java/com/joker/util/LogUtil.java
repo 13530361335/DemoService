@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.Date;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/11
+ * @author Joker Jing
+ * @date 2019/8/11
  */
 @Slf4j
 public class LogUtil {

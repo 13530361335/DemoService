@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * @author Joker Jing
- * @date: 2019/8/22
+ * @date 2019/8/22
  */
 @Slf4j
 public class IpUtil {

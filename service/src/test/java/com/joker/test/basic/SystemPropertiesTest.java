@@ -6,8 +6,8 @@ import org.junit.Test;
 import java.util.Properties;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/13
+ * @author Joker Jing
+ * @date 2019/8/13
  */
 @Slf4j
 public class SystemPropertiesTest {

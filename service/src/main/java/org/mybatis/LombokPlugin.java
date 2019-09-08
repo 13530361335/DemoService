@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/29
+ * @author Joker Jing
+ * @date 2019/7/29
  */
 public class LombokPlugin extends PluginAdapter {
 
@@ -39,8 +39,8 @@ public class LombokPlugin extends PluginAdapter {
 
         //添加domain的注释
         topLevelClass.addJavaDocLine("/**");
-        topLevelClass.addJavaDocLine("* @author: " + USER);
-        topLevelClass.addJavaDocLine("* @date: " + DATE);
+        topLevelClass.addJavaDocLine("* @author " + USER);
+        topLevelClass.addJavaDocLine("* @date " + DATE);
         topLevelClass.addJavaDocLine("*/");
 
         return true;
@@ -51,8 +51,8 @@ public class LombokPlugin extends PluginAdapter {
                                    IntrospectedTable introspectedTable) {
         //Mapper文件的注释
         inter.addJavaDocLine("/**");
-        inter.addJavaDocLine("* @author: " + USER);
-        inter.addJavaDocLine("* @date: " + DATE);
+        inter.addJavaDocLine("* @author " + USER);
+        inter.addJavaDocLine("* @date " + DATE);
         inter.addJavaDocLine("*/");
         return true;
     }

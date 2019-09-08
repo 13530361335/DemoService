@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/6
+ * @author Joker Jing
+ * @date 2019/7/6
  */
 public class ExcelTest {
 

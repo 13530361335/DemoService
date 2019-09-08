@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/10
+ * @author Joker Jing
+ * @date 2019/8/10
  */
 @Slf4j
 @Service

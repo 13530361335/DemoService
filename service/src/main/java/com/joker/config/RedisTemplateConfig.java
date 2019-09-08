@@ -10,7 +10,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * @author Joker Jing
- * @date: 2019/7/29
+ * @date 2019/7/29
  */
 @Configuration
 public class RedisTemplateConfig {

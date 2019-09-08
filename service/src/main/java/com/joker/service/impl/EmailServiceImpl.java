@@ -16,8 +16,8 @@ import java.io.IOException;
 
 /**
  * @author Joker Jing
- * @date: 2019/7/29
- * @description:
+ * @date 2019/7/29
+ * @description
  */
 @Service
 public class EmailServiceImpl implements EmailService {

@@ -12,8 +12,8 @@ import java.io.PrintWriter;
 
 */
 /**
- * @author: Joker Jing
- * @date: 2019/7/14
+ * @author Joker Jing
+ * @date 2019/7/14
  *//*
 
 public class ORCTest {

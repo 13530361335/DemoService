@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/9
+ * @author Joker Jing
+ * @date 2019/7/9
  */
 public class EmailTest extends BaseTest {
 

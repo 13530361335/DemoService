@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/13
+ * @author Joker Jing
+ * @date 2019/8/13
  */
 public class ReverseChain {
     private static Node chain;

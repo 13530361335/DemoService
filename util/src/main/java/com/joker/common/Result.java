@@ -8,8 +8,8 @@ import lombok.ToString;
 import java.util.HashMap;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/29
+ * @author Joker Jing
+ * @date 2019/7/29
  */
 @Getter
 @Setter

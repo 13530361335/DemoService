@@ -6,8 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/24
+ * @author Joker Jing
+ * @date 2019/8/24
  */
 public class Java8Test {
 

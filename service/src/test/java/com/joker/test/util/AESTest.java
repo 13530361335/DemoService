@@ -6,8 +6,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/14
+ * @author Joker Jing
+ * @date 2019/7/14
  */
 @Slf4j
 public class AESTest {

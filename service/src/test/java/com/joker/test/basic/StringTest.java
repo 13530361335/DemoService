@@ -6,8 +6,8 @@ import java.nio.charset.Charset;
 import java.text.MessageFormat;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/24
+ * @author Joker Jing
+ * @date 2019/7/24
  */
 public class StringTest {
 

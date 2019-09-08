@@ -11,8 +11,8 @@ import com.jcraft.jsch.ChannelSftp.LsEntry;
 import org.apache.commons.io.IOUtils;
 
 /**
- * @author: Joker Jing
- * @date: 2019/7/29
+ * @author Administrator
+ * @date 2019/7/29
  */
 @Slf4j
 public class SshUtil {
@@ -95,7 +95,6 @@ public class SshUtil {
         String fileSeparator = sftp.getHome().indexOf("/") == 0 ? "/" : "\\";
         File localFile = new File(localPath);
         try {
-            // TODO 通过异常方式判断有无远程目录，没有则创建
             sftp.cd(remoteDir);
         } catch (SftpException e) {
             sftp.mkdir(remoteDir);

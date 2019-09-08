@@ -8,8 +8,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author: Joker Jing
- * @date: 2019/8/4
+ * @author Joker Jing
+ * @date 2019/8/4
  */
 public class RedisTest extends BaseTest {
 

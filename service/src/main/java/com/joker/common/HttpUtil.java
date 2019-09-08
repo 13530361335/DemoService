@@ -16,8 +16,8 @@ import java.util.Base64;
 
 /**
  * @author Joker Jing
- * @date: 2019/7/29
- * @description: 统一常量存放
+ * @date 2019/7/29
+ * @description 统一常量存放
  */
 @Slf4j
 public class HttpUtil {
