@@ -1,8 +1,8 @@
 简化实体： Lombok
 Mybatis 工具：Free Mybatis plugin
-快捷键提示工具：Key promoter X
 彩虹颜色的括号：Rainbow Brackets
 阿里代码规约检测：Alibaba Java Coding Guidelines
+JSON转领域对象工具：GsonFormat
 
 自动化高亮显示光标所在代码块对应的括号：HighlightBracketPair
 
@@ -13,8 +13,7 @@ Mybatis 工具：Free Mybatis plugin
 数据库代码生成工具： Easy code
 可以切换成多种格式的字符串或变量名 ：快捷键 shift+alt+u
 强大的字符串转换工具：String Manipulation   快捷键，Alt+m。
-代码生成工具：CodeMaker
-JSON转领域对象工具：GsonFormat
+
 
 
 
