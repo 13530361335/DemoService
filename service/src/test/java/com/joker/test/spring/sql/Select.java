@@ -23,7 +23,7 @@ public class Select extends BaseTest {
 
     @Test
     public void selectById() {
-        User user = userMapper.selectById(81);
+        User user = userMapper.selectById(6);
         System.out.println(user);
     }
 
