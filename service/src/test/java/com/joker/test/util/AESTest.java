@@ -14,7 +14,7 @@ public class AESTest {
 
     @Test
     public void encrypt() {
-        String plainText = "Jing#123";
+        String plainText = "root";
         String key = RandomStringUtils.randomAlphanumeric(16);
         log.info("密码：" + plainText);
         log.info("密钥：" + key);

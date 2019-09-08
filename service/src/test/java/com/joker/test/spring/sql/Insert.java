@@ -1,11 +1,9 @@
 package com.joker.test.spring.sql;
 
-import com.joker.sql.dao.UserMapper;
-import com.joker.sql.entity.User;
-import com.joker.sql.service.UserService;
+import com.joker.entity.User;
+import com.joker.mapper.UserMapper;
+import com.joker.service.UserService;
 import com.joker.test.spring.BaseTest;
-import com.joker.util.JsonUtil;
-import com.joker.util.LogUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

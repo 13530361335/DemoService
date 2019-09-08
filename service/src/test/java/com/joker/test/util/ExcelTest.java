@@ -1,6 +1,6 @@
 package com.joker.test.util;
 
-import com.joker.sql.entity.User;
+import com.joker.entity.User;
 import com.joker.util.ExcelUtil;
 import org.junit.Test;
 

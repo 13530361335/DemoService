@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * https://mp.baomidou.com/guide/
  */
 @EnableTransactionManagement
-@MapperScan("com.joker.sql.dao")
+@MapperScan("com.joker.mapper")
 @Configuration
 public class MybatisPlusConfig {
 
@@ -24,6 +24,7 @@ public class MybatisPlusConfig {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+        paginationInterceptor.setDialectType("mysql");
         return paginationInterceptor;
     }
 
