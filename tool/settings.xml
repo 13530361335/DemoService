@@ -4,8 +4,8 @@
 <localRepository>C:\Users\Administrator\.m2\repository</localRepository>
     <mirrors>
         <mirror>
-            <id>alimaven</id>
-            <name>aliyun maven</name>
+            <id>ali</id>
+            <name>ali-maven</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
             <mirrorOf>central</mirrorOf>
         </mirror>
