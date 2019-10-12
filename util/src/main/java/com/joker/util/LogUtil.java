@@ -17,10 +17,28 @@ import java.util.Date;
 @Slf4j
 public class LogUtil {
 
+    /**
+     * 日志格式
+     * 0：日志时间
+     * 1：日志级别
+     * 2：日志内容
+     */
+    private static final String LOG_PATTERN = "{0}  {1}  {2}";
+
+    /**
+     * 时间格式
+     */
+    private String timePattern = "yyyy-MM-dd HH:mm:ss";
+
     private final File logFile;
 
     public static LogUtil getInstance(String logPath) {
         return new LogUtil(logPath);
+    }
+
+    public LogUtil setTimePattern(String timePattern) {
+        this.timePattern = timePattern;
+        return this;
     }
 
     private LogUtil(String logPath) {
@@ -44,10 +62,8 @@ public class LogUtil {
     }
 
     private void log(String message, String level) {
-        // 日志格式
-        String pattern = "{0}  {1}  {2}";
-        String dateTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd hh:mm:ss");
-        String line = MessageFormat.format(pattern, dateTime, level, message);
+        String dateTime = DateFormatUtils.format(new Date(), timePattern);
+        String line = MessageFormat.format(LOG_PATTERN, dateTime, level, message);
         // FileUtils工具写入日志，日志路径自动创建
         try {
             FileUtils.writeLines(logFile, "utf-8", Arrays.asList(line), true);
