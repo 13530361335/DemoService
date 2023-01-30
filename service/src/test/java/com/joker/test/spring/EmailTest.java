@@ -48,7 +48,7 @@ public class EmailTest extends BaseTest {
         model.put("message", "您好，感谢您的注册，这是一封验证邮件，请点击下面的连接完成注册，感谢您的支持！");
         String text = emailService.getTextByTemplate("emailFreeMarker.ftl", model);
         System.out.println(text);
-//        emailService.sendEmail("761878367@qq.com", "测试", "哈哈123456");
+        emailService.sendEmail("761878367@qq.com", "测试", "哈哈123456");
     }
 
     @Test

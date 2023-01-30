@@ -29,7 +29,7 @@ public class ApplicationRunnerConfig implements ApplicationRunner {
     @Value("${spring.profiles.active}")
     private String active;
 
-    @Value("${admin.email}")
+    @Value("${spring.mail.username}")
     private String adminEmail;
 
     @Autowired
